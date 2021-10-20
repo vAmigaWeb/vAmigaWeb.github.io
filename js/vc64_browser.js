@@ -336,9 +336,13 @@ var collectors = {
                         var app_title=app_titles[t];
                         if(search_term == '' || app_title.toLowerCase().indexOf(search_term.toLowerCase()) >= 0)
                         {
-                            let app_snaps = await get_snapshots_for_app_title(app_title);
-                            get_data_collector('snapshots').total_count+=app_snaps.length;
-                            row_renderer(latest_load_query_context, app_title, app_snaps);
+                            try {
+                                let app_snaps = await get_snapshots_for_app_title(app_title);
+                                get_data_collector('snapshots').total_count+=app_snaps.length;
+                                row_renderer(latest_load_query_context, app_title, app_snaps);
+                            } catch (error) {
+                                console.error(error);    
+                            }
                         }
                     }
                     get_data_collector('snapshots').set_busy(false);
@@ -1184,7 +1188,7 @@ function set_take_auto_snapshots(on) {
                 //snapshot_buffer is only a typed array view therefore slice, which creates a new array with byteposition 0 ...
                 auto_snaps.push(snapshot_buffer.slice(0,snap_obj.size));
                 wasm_delete_user_snapshot();
-                
+
                 console.log(`auto_snaps count = ${auto_snaps.length}`);
             }
         }, 5000);

@@ -1183,7 +1183,8 @@ function set_take_auto_snapshots(on) {
         
                 //snapshot_buffer is only a typed array view therefore slice, which creates a new array with byteposition 0 ...
                 auto_snaps.push(snapshot_buffer.slice(0,snap_obj.size));
-
+                wasm_delete_user_snapshot();
+                
                 console.log(`auto_snaps count = ${auto_snaps.length}`);
             }
         }, 5000);

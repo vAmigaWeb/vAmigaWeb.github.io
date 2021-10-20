@@ -157,6 +157,9 @@ function get_snapshots_for_app_title(app_title)
       request.onsuccess = function() {
           resolve(request.result);
       };
+      req.onerror = function(e){ 
+        console.error("could not read snapshots: ",  req.error) 
+      };
     });
 }
 

@@ -341,7 +341,9 @@ var collectors = {
                                 get_data_collector('snapshots').total_count+=app_snaps.length;
                                 row_renderer(latest_load_query_context, app_title, app_snaps);
                             } catch (error) {
-                                console.error(error);    
+                                console.error(error);
+                                alert(error.message);    
+                                return;
                             }
                         }
                     }

@@ -159,6 +159,8 @@ function get_snapshots_for_app_title(app_title)
       };
       request.onerror = function(e){ 
         console.error("could not read snapshots: ",  request.error) 
+        //resolve([]);
+        reject(e.error);
       };
     });
 }

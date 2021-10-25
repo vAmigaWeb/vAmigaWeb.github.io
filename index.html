@@ -15,14 +15,14 @@
   <meta name="theme-color" content="#BBBBBB">
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/vc64.css">
+  <link rel="stylesheet" href="css/vAmiga.css">
   <script src="js/jquery-3.5.0.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="js/vc64_browser.js"></script>
-  <script src="js/vc64_ui.js"></script>
-  <script src="js/vc64_storage.js"></script>
-  <script src="js/vc64_keyboard.js"></script>
-  <script src="js/vc64_action_script.js"></script>
+  <script src="js/vAmiga_browser.js"></script>
+  <script src="js/vAmiga_ui.js"></script>
+  <script src="js/vAmiga_storage.js"></script>
+  <script src="js/vAmiga_keyboard.js"></script>
+  <script src="js/vAmiga_action_script.js"></script>
   <script src="js/virtualjoystick.js"></script>
   <script src="js/jszip.min.js"></script>
     <style>
@@ -149,7 +149,7 @@
         </svg>
       </button>
       <form id="theFileInput" style="display: inline-block;">
-        <div id="drop_zone" class="px-1 u-full-width mr-1" data-toggle="tooltip" data-placement="bottom" title="drop .adf or .zip files into here, or just click into the drop zone">
+        <div id="drop_zone" class="px-1 u-full-width mr-1" data-toggle="tooltip" data-placement="bottom" title="drop .adf, .dms, .exe or .zip files into here, or just click into the drop zone">
           file slot
         </div>
         <!-- iOS won't work with accept=".g64,.d64,.crt,.prg,.bin" on d64 files -->
@@ -212,7 +212,7 @@
                   <input type="radio" name="options" id="sel_browser_snapshots" checked> snapshots
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="sel_browser_csdb"> CSDb.dk
+                  <input type="radio" name="options" id="sel_browser_csdb"> pouet.net
                 </label>
               </div>
               <div class="col-sm mt-2 input-group">

@@ -1277,7 +1277,7 @@ function InitWrappers() {
     connect_audio_processor();
 
     document.addEventListener('click',connect_audio_processor, false);
-    document.addEventListener('touchstart',connect_audio_processor, false);
+//    document.addEventListener('touchstart',connect_audio_processor, false);
 
     get_audio_context=function() {
         if (typeof Module === 'undefined'

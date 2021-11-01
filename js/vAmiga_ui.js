@@ -13,7 +13,7 @@ let call_param_SID=null;
 
 let virtual_keyboard_clipping = true; //keyboard scrolls when it clips
 
-let audioContext =null;
+//let audioContext =null;
 let audio_connected=false;
 
 const load_script= (url) => {
@@ -1250,11 +1250,11 @@ function InitWrappers() {
     connect_audio_processor = async () => {     
         if(audio_connected==true)
             return; 
-        if(audioContext == null)
-        {
+//        if(audioContext == null)
+//        {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioContext = new AudioContext();
-        }
+            const audioContext = new AudioContext();
+//        }
         if(audioContext.state === 'suspended') {
             audioContext.resume();  
         }

@@ -12,7 +12,10 @@ let call_param_dialog_on_disk=null;
 let call_param_SID=null;
 
 let virtual_keyboard_clipping = true; //keyboard scrolls when it clips
+
+let audioContext =null;
 let audio_connected=false;
+
 const load_script= (url) => {
     return new Promise(resolve =>
     {
@@ -1245,14 +1248,17 @@ function InitWrappers() {
 
 
     connect_audio_processor = async () => {     
+        if(audioContext == null)
+        {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioContext = new AudioContext();
+        }
+        if(audioContext.state !== 'running') {
+            audioContext.resume();  
+        }
         if(audio_connected==true)
             return; 
         console.log("try connecting audioprocessor");           
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        const audioContext = new AudioContext();
-        if(audioContext.state === 'suspended') {
-            audioContext.resume();  
-        }
         await audioContext.audioWorklet.addModule('js/vAmiga_audioprocessor.js');
         worklet_node = new AudioWorkletNode(audioContext, 'vAmiga_audioprocessor', {
             outputChannelCount: [2],

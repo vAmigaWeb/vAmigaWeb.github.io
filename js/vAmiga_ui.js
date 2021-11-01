@@ -1248,6 +1248,8 @@ function InitWrappers() {
 
 
     connect_audio_processor = async () => {     
+        if(audio_connected==true)
+            return; 
         if(audioContext == null)
         {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1256,8 +1258,7 @@ function InitWrappers() {
         if(audioContext.state === 'suspended') {
             audioContext.resume();  
         }
-        if(audio_connected==true)
-            return; 
+
         console.log("try connecting audioprocessor");           
         await audioContext.audioWorklet.addModule('js/vAmiga_audioprocessor.js');
         worklet_node = new AudioWorkletNode(audioContext, 'vAmiga_audioprocessor', {

@@ -1253,7 +1253,7 @@ function InitWrappers() {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             audioContext = new AudioContext();
         }
-        if(audioContext.state !== 'running') {
+        if(audioContext.state === 'suspended') {
             audioContext.resume();  
         }
         if(audio_connected==true)

@@ -50,7 +50,7 @@ class vAmigaAudioProcessor extends AudioWorkletProcessor {
         this.fetch_data();
       }
     }
-    else
+    if(this.buffer != null)
     {
       const output = outputs[0];
 

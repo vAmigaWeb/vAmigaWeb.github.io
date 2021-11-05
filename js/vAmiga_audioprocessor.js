@@ -60,8 +60,8 @@ class vAmigaAudioProcessor extends AudioWorkletProcessor {
       output[1].set(this.buffer.subarray(4096+startpos,4096+endpos));
       this.buf_addr=endpos;
       
-      if(endpos>=2048 /*this.buffer.length/4*/)
-      {
+//      if(endpos>=2048 /*this.buffer.length/4*/)
+//      {
         if(endpos>=4096) //this.buffer.length/2
         {
   //        console.log("buffer empty. fetch_buffer ready="+(fetch_buffer!= null));
@@ -74,7 +74,7 @@ class vAmigaAudioProcessor extends AudioWorkletProcessor {
   //        console.log("buf address pointer="+ buf_addr)
           this.fetch_data();      
         }
-      }
+//      }
   
     }
 

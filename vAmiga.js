@@ -10098,7 +10098,10 @@ var _wasm_pull_user_snapshot_file = Module["_wasm_pull_user_snapshot_file"] = cr
 var _wasm_take_user_snapshot = Module["_wasm_take_user_snapshot"] = createExportWrapper("wasm_take_user_snapshot");
 
 /** @type {function(...*):?} */
-var _wasm_get_sound_buffer = Module["_wasm_get_sound_buffer"] = createExportWrapper("wasm_get_sound_buffer");
+var _wasm_get_sound_buffer_address = Module["_wasm_get_sound_buffer_address"] = createExportWrapper("wasm_get_sound_buffer_address");
+
+/** @type {function(...*):?} */
+var _wasm_copy_into_sound_buffer = Module["_wasm_copy_into_sound_buffer"] = createExportWrapper("wasm_copy_into_sound_buffer");
 
 /** @type {function(...*):?} */
 var _wasm_set_warp = Module["_wasm_set_warp"] = createExportWrapper("wasm_set_warp");

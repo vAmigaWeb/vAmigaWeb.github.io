@@ -9656,6 +9656,16 @@ var _wasm_press_play = Module["_wasm_press_play"] = function() {
 };
 
 /** @type {function(...*):?} */
+var _wasm_mouse = Module["_wasm_mouse"] = function() {
+  return (_wasm_mouse = Module["_wasm_mouse"] = Module["asm"]["wasm_mouse"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _wasm_mouse_button = Module["_wasm_mouse_button"] = function() {
+  return (_wasm_mouse_button = Module["_wasm_mouse_button"] = Module["asm"]["wasm_mouse_button"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
 var _wasm_joystick = Module["_wasm_joystick"] = function() {
   return (_wasm_joystick = Module["_wasm_joystick"] = Module["asm"]["wasm_joystick"]).apply(null, arguments);
 };

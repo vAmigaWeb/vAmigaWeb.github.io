@@ -919,7 +919,6 @@ function draw_one_frame()
 
     if(port1 == 'none' || port1 =='keys' || port1 == 'mouse')
     {
-        return;
     }
     else if(port1 == 'touch')
     {
@@ -939,7 +938,6 @@ function draw_one_frame()
 
     if(port2 == 'none' || port2 =='keys' || port2 == 'mouse')
     {
-        return;
     }
     else if(port2 == 'touch')
     {

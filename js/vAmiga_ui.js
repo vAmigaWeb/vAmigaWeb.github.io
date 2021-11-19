@@ -1515,13 +1515,13 @@ function InitWrappers() {
     }
     var mouse_port=1;
     function updatePosition(e) {
-        wasm_mouse(mouse_port,e.movementX,e.movementY);
+        Module._wasm_mouse(mouse_port,e.movementX,e.movementY);
     }
     function mouseDown(e) {
-        wasm_mouse_button(mouse_port,e.which, 1/* down */);
+        Module._wasm_mouse_button(mouse_port,e.which, 1/* down */);
     }
     function mouseUp(e) {
-        wasm_mouse_button(mouse_port,e.which, 0/* up */);
+        Module._wasm_mouse_button(mouse_port,e.which, 0/* up */);
     }
 
     //--

@@ -403,9 +403,9 @@ async function fetchOpenROMS(){
         }  
     }
     
-    let response = await fetch("/roms/aros.bin");
+    let response = await fetch("roms/aros.bin");
     await installer('.rom_file', response);
-    response = await fetch("/roms/aros_ext.bin");
+    response = await fetch("roms/aros_ext.bin");
     await installer('.rom_ext_file', response);   
 }
 
@@ -503,7 +503,7 @@ async function load_roms(install_to_core){
         let the_rom_ext=await loadStoredItem(selected_rom_ext,".rom_ext_file");
         if (the_rom_ext==null){
             $("#rom_kickstart_ext").attr("src", "img/rom_empty.png");
-            $("#kickstart_ext_title").text("empty socket");
+            $("#kickstart_ext_title").html("empty socket<br>(optional)");
 
             $("#button_delete_kickstart_ext").hide();
         }

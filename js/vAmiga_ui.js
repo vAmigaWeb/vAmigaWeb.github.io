@@ -403,9 +403,9 @@ async function fetchOpenROMS(){
         }  
     }
     
-    let response = await fetch("roms/aros.bin");
+    let response = await fetch("/aros.bin");
     await installer('.rom_file', response);
-    response = await fetch("roms/aros_ext.bin");
+    response = await fetch("/aros_ext.bin");
     await installer('.rom_ext_file', response);   
 }
 

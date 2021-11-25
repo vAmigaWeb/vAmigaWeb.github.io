@@ -460,7 +460,7 @@ async function load_roms(install_to_core){
         if (the_rom==null){
             all_fine=false;
             $("#rom_kickstart").attr("src", "img/rom_empty.png");
-            $("#kickstart_title").text("empty socket");
+            $("#kickstart_title").html("empty socket<br>(required)");
 
             $("#button_delete_kickstart").hide();
         }

@@ -82,13 +82,6 @@ function initDB() {
          var rom_store=_db.createObjectStore('roms', {keyPath: 'id', autoIncrement: false});
          rom_store.createIndex("type", "type", { unique: false });
       }
-      else
-      {
-        var txn = event.target.transaction;
-        var rom_store = txn.objectStore('roms');
-        rom_store.createIndex("type", "type", { unique: false });
-      }
-
   };
   openReq.onerror = function() { console.error("Error", openReq.error); alert('error while open db: '+openReq.error);}
   openReq.onsuccess = function() {

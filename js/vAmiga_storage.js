@@ -50,7 +50,7 @@ function initDB() {
   });
 
   
-  let openReq =  indexedDB.open('vcAmigaDB', 5);
+  let openReq =  indexedDB.open('vcAmigaDB', 7);
 
   openReq.onupgradeneeded = function (event){
       let _db = openReq.result;
@@ -79,8 +79,14 @@ function initDB() {
       }
       if(!_db.objectStoreNames.contains('roms'))
       {
-         var snapshot_store=_db.createObjectStore('roms', {keyPath: 'id', autoIncrement: false});
-         snapshot_store.createIndex("type", "type", { unique: false });
+         var rom_store=_db.createObjectStore('roms', {keyPath: 'id', autoIncrement: false});
+         rom_store.createIndex("type", "type", { unique: false });
+      }
+      else
+      {
+        var txn = event.target.transaction;
+        var rom_store = txn.objectStore('roms');
+        rom_store.createIndex("type", "type", { unique: false });
       }
 
   };
@@ -448,4 +454,23 @@ async function delete_rom(the_id)
       reject(request.error);
     };
   });
+}
+
+
+function list_rom_type_entries(rom_type)
+{
+    return new Promise(async (resolve, reject) => {
+      let transaction = (await db()).transaction("roms"); 
+      let roms = transaction.objectStore("roms");
+      let typeIndex = roms.index("type");
+      let request = typeIndex.getAll(rom_type);
+
+      request.onsuccess = function() {
+          resolve(request.result);
+      };
+      request.onerror = function(e){ 
+        console.error("could not read snapshots: ",  request.error) 
+        reject(request.error);
+      };
+    });
 }

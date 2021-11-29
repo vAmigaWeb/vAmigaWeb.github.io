@@ -162,16 +162,33 @@ symbolic_map = {
     '<': ['ShiftLeft','Comma'],
     '>': ['ShiftLeft','Period'],
     'shiftrunstop': ['ShiftLeft','runStop'],   //load from tape shortcut
-    'ArrowLeft': ['ShiftLeft','ArrowRight'],
-    'ArrowUp': ['ShiftLeft','ArrowDown'],
+//    'ArrowLeft': ['ShiftLeft','ArrowRight'],
+//    'ArrowUp': ['ShiftLeft','ArrowDown'],
     '\n': 'Enter',
     'Dead': 'upArrow', '^': 'upArrow' //^
 }
 
 key_translation_map =  
         {//https://github.com/dirkwhoffmann/vAmiga/blob/164c04d75f0ae739dd9f2ff2c28520db05e7c047/GUI/Peripherals/AmigaKey.swift
+    Grave:0,
+    Digit1:1,
+    Digit2:2, 
+    Digit3:3,
+    Digit4:4,
+    Digit5:5,
+    Digit6:6,
+    Digit7:7,
+    Digit8:8,
+    Digit9:9,
+    Digit0:10,
 
-    // First row
+Minus: 0x0B, 
+Equal: 0x0C, 
+Backslash: 0x0D, 
+
+
+Help: 0x5F,
+
     Backspace:0x41,
     Enter:0x44,
     ArrowLeft:0x4F,
@@ -184,82 +201,71 @@ key_translation_map =
     F4:0x53,
     F5:0x54,
     F6:0x55,
+    F7:0x56,
+    F8:0x57,
+    F9:0x58,
+    F10:0x59,
+
     ArrowUp:0x4C,
     ArrowDown:0x4D,
     
-    // Second row
-    Digit3: 3,
     KeyW:0x11,
     KeyA:0x20,
-    Digit4:4,
     KeyZ:0x31,
     KeyS:0x21,
     KeyE:0x12,
     ShiftRight:0x61,
     ShiftLeft:0x60,
-    
-    // Third row
-    Digit5:5,
+
     KeyR     :0x13,
     KeyD     :0x22,
-    Digit6:6,
+
     KeyC     :0x33,
     KeyF     :0x23,
     KeyT     :0x14,
     KeyX     :0x32,
     
-    // Fourth row
-    Digit7:7,
     KeyY     :0x15,
     KeyG     :0x24,
-    Digit8:8,
+
+
     KeyB     :0x35,
     KeyH     :0x25,
     KeyU     :0x16,
     KeyV     :0x34,
     
-    // Fifth row
-    Digit9:9,
+
+    
     KeyI     :0x17,
     KeyJ     :0x26,
-    Digit0:10,
     KeyM     :0x37,
     KeyK     :0x27,
     KeyO     :0x18,
     KeyN     :0x36,
     
-    // Sixth row
-    Minus:11,  //plus
     KeyP     :0x19,
     KeyL     :0x28,
-    Equal :12, //minus
     Period:59, 
     Semicolon :44, //colon
     BracketLeft :28, //@
     Comma :58,
     
-    // Seventh row
     pound :13,
     BracketRight:29, //asterisk
     Quote:45,  //semicolon
     home  :14,
     rightShift:61,
-    Backslash :46, //equal
     upArrow :30,
     Slash :60,
 
-    // Eights row
-    Digit1:1,
     Delete :0x46,   //left arrow
-    ControlLeft   :17,
-    Digit2:2,
+    ControlLeft   :0x63,
     Space :0x40,
     commodore :49,  //commodore
     commodore :49,  //commodore
     KeyQ     :18,
     runStop   :33,
     
-    // Restore key
     restore   :31
 
 }        
@@ -271,10 +277,10 @@ key_translation_map =
 
 function installKeyboard() {
     keymap= [ 
-    [{k:'hide', c:'hide_keyboard'},{style:'width:30px'},{k:'!',c:'exclama',sym:'!'},{k:'"',c:'quot',sym:'"'},{k:'#',c:'hash',sym:'#'},{k:'$',c:'dollar',sym:'$'},{style:'width:180px'},{k:'F1',c:'F1'}, {k:'F2',c:'F2'},{k:'F3',c:'F3'},{k:'F4',c:'F4'},{k:'F5',c:'F5'},{k:'F6',c:'F6'},{k:'F7',c:'F7'},{k:'F8',c:'F8'}],
-    [{k:'<-',c:'Delete'}, {k:'1',c:'Digit1'},{k:'2',c:'Digit2'},{k:'3',c:'Digit3'},{k:'4',c:'Digit4'},{k:'5',c:'Digit5'},{k:'6',c:'Digit6'},{k:'7',c:'Digit7'},{k:'8',c:'Digit8'},{k:'9',c:'Digit9'},{k:'0',c:'Digit0'},{k:'+', c:'Minus'},{k:'-', c:'Equal'},{k:'€', c:'pound'},{k:'CLR/Home', c:'home'},{k:'Inst/DEL',c:'Backspace'} ], 
+    [{k:'hide', c:'hide_keyboard'},{style:'width:30px'},{k:'!',c:'exclama',sym:'!'},{k:'"',c:'quot',sym:'"'},{k:'#',c:'hash',sym:'#'},{k:'$',c:'dollar',sym:'$'},{style:'width:180px'},{k:'F1',c:'F1'}, {k:'F2',c:'F2'},{k:'F3',c:'F3'},{k:'F4',c:'F4'},{k:'F5',c:'F5'},{k:'F6',c:'F6'},{k:'F7',c:'F7'},{k:'F8',c:'F8'},{k:'F9',c:'F9'},{k:'F10',c:'F10'}],
+    [{k:'`',c:'Grave'}, {k:'1',c:'Digit1'},{k:'2',c:'Digit2'},{k:'3',c:'Digit3'},{k:'4',c:'Digit4'},{k:'5',c:'Digit5'},{k:'6',c:'Digit6'},{k:'7',c:'Digit7'},{k:'8',c:'Digit8'},{k:'9',c:'Digit9'},{k:'0',c:'Digit0'},{k:'+', c:'Minus'},{k:'-', c:'Equal'},{k:'€', c:'pound'},{k:'\\', c:'Backslash'},{k:'Backspace',c:'Backspace'}, {k:'Del',c:'Delete'}, {k:'help',c:'Help'}, ], 
     [{k:'CTRL',c:'ControlLeft'}, {k:'Q'},{k:'W'},{k:'E'},{k:'R'},{k:'T'},{k:'Y'},{k:'U'},{k:'I'},{k:'O'},{k:'P'},{k:'@',c:'BracketLeft'},{k:'*', c:'BracketRight'},{k:'up',c:'upArrow'},{k:'RESTORE', c:'restore'}], 
-    [{k:'RunStop',c:'runStop'},{k:'ShftLock', c:'shiftlock'},{k:'A'},{k:'S'},{k:'D'},{k:'F'},{k:'G'},{k:'H'},{k:'J'},{k:'K'},{k:'L'},{k:':', c:'Semicolon'},{k:';', c:'Quote'},{k:'=', c:'Backslash'},{k:'RETURN',c:'Enter'}], 
+    [{k:'CapsLock', c:'CapsLock'},{k:'A'},{k:'S'},{k:'D'},{k:'F'},{k:'G'},{k:'H'},{k:'J'},{k:'K'},{k:'L'},{k:':', c:'Semicolon'},{k:';', c:'Quote'},{k:'=', c:'Backslash'},{k:'RETURN',c:'Enter'}], 
     [{k:'C=', c:'commodore'},{k:'SHIFT',c:'ShiftLeft'},{k:'Z'},{k:'X'},{k:'C'},{k:'V'},{k:'B'},{k:'N'},{k:'M'},{k:',',c:'Comma'},{k:'.',c:'Period'},{k:'/', c:'Slash'},{k:'SHIFT',c:'rightShift',style:"padding:0"}, {k:'UP',c:'UP',sym:'ArrowUp'}],
     [{style:'width:138px'},{k:'SPACE', c:'Space', style:'width:450px'},{style:'width:60px'}, {k:'LEFT',c:'left',sym:'ArrowLeft'},{k:'DOWN', c:'ArrowDown'},{k:'RIGHT', c:'ArrowRight'}]
     ];

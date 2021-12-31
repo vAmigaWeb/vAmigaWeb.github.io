@@ -1,7 +1,7 @@
 <span style="display: flex;justify-content: center;">example how to embed a c64 prg into an existing html page</span> 
 
 <!-- vc64web-block start -->
-<script src="js/vc64web_player.js"></script>
+<script src="js/vAmigaWeb_player.js"></script>
 
 <style>
 	body {
@@ -52,7 +52,7 @@
             let touch=(typeof touched!='undefined')?touched:false;touched=false;
             let config={
                 touch:touch,
-                openROMS:true,
+                AROS:true,
                 navbar:false,   //you can also enable this and disable the players toolbar (see styles section above)
                 wide:true,
                 border:0.3,
@@ -63,7 +63,7 @@
                 //dark: false,
                 //dialog_on_missing_roms: false,
                 //dialog_on_disk: false,
-                url:'doc/media/wolfling14.prg'
+                url:'doc/media/Rink_a_Dink-REDUX_by_Lemon-Point_(final).adf'
             }; 
             vc64web_player.load(this,encodeURIComponent(JSON.stringify(config)));
             return false;"		

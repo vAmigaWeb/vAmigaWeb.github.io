@@ -1437,7 +1437,7 @@ function InitWrappers() {
         }
         else if(event.data == "toggle_audio()")
         {
-            var context = get_audio_context();
+            var context = audioContext; //get_audio_context();
             if (context !=null)
             {
                 if(context.state == 'suspended') {

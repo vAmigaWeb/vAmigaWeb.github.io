@@ -1,4 +1,4 @@
-const cache_name = 'vAmiga_app_cache_v2022_01_03b';
+const cache_name = 'vAmiga_app_cache_v2022_01_05';
 
 // install event
 self.addEventListener('install', evt => {
@@ -27,9 +27,9 @@ self.addEventListener('fetch', function(event){
         ||
         event.request.url.startsWith('https://mega65.github.io/')
         ||
-        event.request.url.startsWith('https://vAmigaWeb.github.io/doc')
+        event.request.url.toLowerCase().startsWith('https://vAmigaWeb.github.io/doc')
         ||
-        event.request.url.endsWith('vAmigaWeb_player.js')
+        event.request.url.toLowerCase().endsWith('vAmigaWeb_player.js')
 	||
         event.request.url.endsWith('run.html')
 	||

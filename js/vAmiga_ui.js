@@ -1416,6 +1416,9 @@ function InitWrappers() {
     connect_audio_processor();
 
     document.addEventListener('click',connect_audio_processor, false);
+//test unlock audio
+try{document.querySelector('canvas').addEventListener('click',connect_audio_processor, false);}catch(err){}
+
 
     get_audio_context=function() {
         if (typeof Module === 'undefined'

@@ -1,0 +1,46 @@
+<html>
+<head>
+
+<script src="https://vAmigaWeb.github.io/js/vAmigaWeb_player.js"></script>
+
+<style>
+	body {
+            background-color: black;
+	    color: white;
+	}	
+        #player_container {
+            background-color: black;
+        }
+        #vAmigaWeb {
+            border:none;
+        }
+        .player_icon_btn {
+            background-color: transparent;
+            color: white;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .btn_play {
+            color: #2575ff;
+            cursor: pointer;
+        }
+</style>
+
+</head>
+
+<body>
+<div>
+<img 
+style="width:60vw" src="../images/traprunner.jpg" 
+ontouchstart="touched=true"
+onclick="let touch=(typeof touched!='undefined')?touched:false;touched=false;let config={touch:touch,openROMS:true,navbar:false,wide:true,port2:true}; vAmigaWeb_player.samesite_file={url:'https://vAmigaWeb.github.io/doc/media/traprunner.adf',name:'samesite_traprunner.adf'};vAmigaWeb_player.load(this,encodeURIComponent(JSON.stringify(config)));return false;"		
+/>
+</div>
+<br>
+example of embedding vAmigaWeb with the external vAmigaWeb_player.js and touchscreen detection
+<br><br>
+player loads from the address where this html page is loaded from. Opposed of loading from the emulators javascript which is belongs to another origin.
+<br>
+
+</body>
+</html>

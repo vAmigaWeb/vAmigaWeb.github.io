@@ -1,0 +1,41 @@
+<html>
+<head>
+
+<script src="https://vAmigaWeb.github.io/js/vAmigaWeb_player.js"></script>
+
+<style>
+	body {
+            background-color: black;
+	    color: white;
+	}	
+        #player_container {
+            background-color: black;
+        }
+        #vc64web {
+            border:none;
+        }
+        .player_icon_btn {
+            background-color: transparent;
+            color: white;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .btn_play {
+            color: #2575ff;
+            cursor: pointer;
+        }
+</style>
+</head>
+
+<body>
+<div>
+<img 
+style="width:60vw" src="../images/traprunner.jpg" 
+  onclick="vAmigaWeb_player.load(this, '#AROS=true#navbar=hidden#wide=true#port2=true', 'http://vamigaweb.github.io/doc/media/traprunner.adf');return false;" 
+/>
+</div>
+<br>
+example of embedding vAmigaWeb with an external vAmigaWeb_player.js file
+
+</body>
+</html>

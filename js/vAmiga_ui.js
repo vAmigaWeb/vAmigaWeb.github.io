@@ -239,9 +239,9 @@ function load_parameter_link()
     var parameter_link = get_parameter_link();
     if(parameter_link != null)
     {
-        setTimeout(() => {
-            get_data_collector("csdb").run_link("call_parameter", 0,parameter_link);            
-        }, 200);
+        //setTimeout(() => {
+        get_data_collector("csdb").run_link("call_parameter", 0,parameter_link);            
+        //}, 10);
     }
 }
 
@@ -317,18 +317,10 @@ function message_handler(msg, data)
     if(msg == "MSG_READY_TO_RUN")
     {
         //start it async
-        setTimeout(function() { try{wasm_first_run=Date.now(); wasm_run();}catch(e){}},10);
+        setTimeout(function() { try{wasm_first_run=Date.now(); wasm_run();}catch(e){}},100);
         setTimeout(function() { 
             try{
                 load_parameter_link();
-                if(call_param_2ndSID!=null)
-                {
-                    set_2nd_sid(call_param_2ndSID);
-                }
-                if(call_param_SID!=null)
-                {
-                    set_sid_model(call_param_SID);
-                }
                 if(call_param_navbar=='hidden')
                 {
                     setTimeout(function(){
@@ -347,9 +339,8 @@ function message_handler(msg, data)
                     wasm_set_borderless(use_borderless);
                     borderless_switch.prop('checked', use_borderless);
                 }
-
             }catch(e){}},
-        150);
+        0);
         if(call_param_warpto !=null){
              wasm_configure("warp_to_frame", `${call_param_warpto}`);
         }
@@ -2270,20 +2261,25 @@ $('.layer').change( function(event) {
         }
         else
         {
-            $('#alert_reset').show();
-            wasm_reset();
-
-            var intervall_id = setInterval(() => {  
+            setTimeout(async ()=> {
+                await execute_load();
+                wasm_reset();
+/*                $('#alert_reset').show();
+                setTimeout(()=>{
+                    $('#alert_reset').hide();
+                },150);*/
+            },0);
+            
+/*            var intervall_id = setInterval(() => {  
                 var cycles_now= wasm_get_cpu_cycles();
 //                console.log("cycles now ="+cycles_now+ " time_coldstart_to_ready_prompt"+time_coldstart_to_ready_prompt+ "  id="+intervall_id);
                 if(cycles_now > time_coldstart_to_ready_prompt)
                 {
                     clearInterval(intervall_id);
-                    execute_load();
                     $('#alert_reset').hide();
                     reset_before_load=false;
                 }
-            }, 50);
+            }, 50);*/
         }
     }
     $("#button_insert_file").click(insert_file);

@@ -12,6 +12,7 @@ let call_param_dialog_on_disk=null;
 let call_param_SID=null;
 let call_param_mouse=null;
 let call_param_warpto=null;
+let call_param_url=null;
 
 
 let virtual_keyboard_clipping = true; //keyboard scrolls when it clips
@@ -68,7 +69,6 @@ function get_parameter_link()
             return value;
         });
         parameter_link = call_obj.url;
-        
         call_param_openROMS=call_obj.AROS === undefined ? null : call_obj.AROS;
         call_param_dialog_on_missing_roms = call_obj.dialog_on_missing_roms === undefined ? null : call_obj.dialog_on_missing_roms;
         call_param_dialog_on_disk = call_obj.dialog_on_disk === undefined ? null : call_obj.dialog_on_disk;
@@ -219,6 +219,7 @@ function get_parameter_link()
             }
         }
     }
+    call_param_url=parameter_link === undefined ? null : parameter_link;
     return parameter_link;
 }
 
@@ -341,7 +342,7 @@ function message_handler(msg, data)
                 }
             }catch(e){}},
         0);
-        if(call_param_warpto !=null){
+        if(call_param_warpto !=null && call_param_url==null){
              wasm_configure("warp_to_frame", `${call_param_warpto}`);
         }
     }
@@ -2264,6 +2265,9 @@ $('.layer').change( function(event) {
             setTimeout(async ()=> {
                 await execute_load();
                 wasm_reset();
+                if(call_param_warpto !=null){
+                    wasm_configure("warp_to_frame", `${call_param_warpto}`);
+                }
 /*                $('#alert_reset').show();
                 setTimeout(()=>{
                     $('#alert_reset').hide();

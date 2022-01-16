@@ -84,8 +84,7 @@ function get_parameter_link()
 
         if(call_obj.touch)
         {
-            call_param_touch=true;
-            register_v_joystick();   
+            call_param_touch=true; 
         }
         if(call_obj.port1)
         {
@@ -163,7 +162,7 @@ function get_parameter_link()
                     else if(token.match(/touch=true/i))
                     {
                         call_param_touch=true;
-                        register_v_joystick();
+//                        register_v_joystick();
                     }
                     else if(token.match(/port1=true/i))
                     {
@@ -219,6 +218,11 @@ function get_parameter_link()
             }
         }
     }
+    if(port1 == "touch" || port2 == "touch")
+    {
+        register_v_joystick();
+    }
+
     call_param_url=parameter_link === undefined ? null : parameter_link;
     return parameter_link;
 }

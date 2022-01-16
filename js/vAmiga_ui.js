@@ -322,9 +322,9 @@ function message_handler(msg, data)
             try{
                 if(call_param_navbar=='hidden')
                 {
-                   // setTimeout(function(){
-                    $("#button_show_menu").click();
-                   // },100);
+                    setTimeout(function(){
+                        $("#button_show_menu").click();
+                    },500);
                 }
                 load_parameter_link();
                 if(call_param_wide != null)

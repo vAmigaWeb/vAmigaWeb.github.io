@@ -320,13 +320,13 @@ function message_handler(msg, data)
         setTimeout(function() { try{wasm_first_run=Date.now(); wasm_run();}catch(e){}},100);
         setTimeout(function() { 
             try{
-                load_parameter_link();
                 if(call_param_navbar=='hidden')
                 {
                     setTimeout(function(){
                     $("#button_show_menu").click();
                     },500);
                 }
+                load_parameter_link();
                 if(call_param_wide != null)
                 {
                     use_wide_screen = call_param_wide;

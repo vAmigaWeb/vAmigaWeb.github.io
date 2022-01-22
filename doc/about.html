@@ -68,7 +68,6 @@
 			100% {
 				color: #448DBC;
 			}
-			
 		}
 		@keyframes go_dark {
 			0% {
@@ -101,17 +100,14 @@
 				let player_on=false;
 				for(var mutation of mutations)
 				{
-					if(mutation.addedNodes.length)
+					for(var node of mutation.addedNodes)
 					{
-						for(var node of mutation.addedNodes)
+						if(node.id=="player_container")
 						{
-							console.log(node.id);
-							if(node.id=="player_container")
-							{
-								player_on=true;
-							}
-						};	
-					}
+							player_on=true;
+							break;
+						}
+					};	
 				}
 				document.body.setAttribute("player",player_on?"on":"off");
 			});

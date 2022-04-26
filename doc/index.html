@@ -71,12 +71,12 @@ vAmigaCore has been updated to latest beta4
 <br><br>
 regarding the automatic detection of the display area there is now a new <b>borderless</b> strategy available:
 <br><br>
-the already exiting auto strategy was renamed to <b>viewport tracking</b>: in fact what it does is to set the visible area to exactly the viewport coordinates which the amiga hardware was set to by the current running amiga software or game. Often amiga game designers opened a very large viewport but only were drawing to a much smaller area which resulted despite the enabled automatic viewport tracking into a screen with lot space wasted for borders. E.g. Monkey Island series, and others…
+the already existing auto strategy was renamed to <b>viewport tracking</b>: in fact what it does is to set the visible area to exactly the viewport coordinates which the amiga hardware was set to by the current running amiga software or game. Often amiga game designers opened a very large viewport but only were drawing to a much smaller area which resulted despite the enabled automatic viewport tracking into a screen with lot space wasted for borders. E.g. Monkey Island series, and others…
 <br>
 <br>
 
 to get also rid of these „inner viewport“ borders the new <b>borderless</b> strategy has been implemented:<br>
-it examines the screen buffer every 500ms and tries to detect borders by analysing the pixels of the current amiga screen from the edges onwards... it consequently cuts off all same color pixels … when it detects some bigger larger screens (during the calibration process) then it will retain these larger screen sizes ... until the game or software resets the viewport sizes in amiga hardware ... in other words it always looks for the largest drawn picture on the screen and will stick to this largest display area size ... resulting after a couple of seconds in an optimal screen size for devices with smaller screens (e.g. phones or small tablets) 
+it examines the screen buffer every 500ms and tries to detect borders by analysing the pixels of the current amiga screen from the edges onwards... it consequently cuts off all same color pixels … when it detects some bigger larger screens (during the calibration process) then it will retain these larger screen sizes ... until the game or software sets other viewport sizes in amiga hardware ... in other words it always looks for the largest drawn picture on the screen and will stick to this largest display area size ... resulting after a couple of seconds in an optimal screen size for devices with smaller screens (e.g. phones or small tablets) 
 <br>
 <br>
 

@@ -386,8 +386,8 @@ function installKeyboard() {
         let release_key = function (theModKey) {
             if(document.body.getAttribute(theModKey+'-key')=='pressed')
             {
-                let c64code = translateKey(theModKey, theModKey);
-                wasm_schedule_key(c64code[0], c64code[1], 0,1);
+                let key_code = translateKey(theModKey, theModKey);
+                wasm_schedule_key(key_code[0], key_code[1], 0,1);
                 $("#button_"+theModKey).attr("style", "");
                 document.body.setAttribute(theModKey+'-key','');
             }
@@ -401,10 +401,10 @@ function installKeyboard() {
 
         if(document.body.getAttribute('ShiftLeft-key')=='pressed')
         {
-            let c64code = translateKey('ShiftLeft', 'ShiftLeft');
+            let key_code = translateKey('ShiftLeft', 'ShiftLeft');
             
             if(document.body.getAttribute('CapsLock-key')!='pressed')
-                wasm_schedule_key(c64code[0], c64code[1], 0,1);
+                wasm_schedule_key(key_code[0], key_code[1], 0,1);
             
             document.body.setAttribute('ShiftLeft-key', '');
             shift_pressed_count--;
@@ -415,8 +415,8 @@ function installKeyboard() {
         }
         if(document.body.getAttribute('ShiftRight-key')=='pressed')
         {
-            let c64code = translateKey('ShiftRight', 'ShiftRight');
-            wasm_schedule_key(c64code[0], c64code[1], 0,1);
+            let key_code = translateKey('ShiftRight', 'ShiftRight');
+            wasm_schedule_key(key_code[0], key_code[1], 0,1);
             document.body.setAttribute('ShiftRight-key', '');
             shift_pressed_count--;
             if(shift_pressed_count==0)
@@ -433,7 +433,9 @@ function installKeyboard() {
             if(keydef.c === undefined)
               keydef.c = 'Key'+keydef.k;
 
-            $("#button_"+keydef.c).click(function() 
+            let the_key_element=document.getElementById("button_"+keydef.c);
+            
+            let key_down_handler=function() 
             {
                if(keydef.c == 'hide_keyboard')
                {
@@ -442,12 +444,12 @@ function installKeyboard() {
                }
                else if(keydef.c == 'CapsLock')
                {
-                   let c64code = translateKey(keydef.c, keydef.k);
-                   var c64code2 = translateKey('ShiftLeft', 'ShiftLeft');
+                   let key_code = translateKey(keydef.c, keydef.k);
+                   var key_code2 = translateKey('ShiftLeft', 'ShiftLeft');
                    if(keydef.locked === undefined || keydef.locked == 0)
                    {
-                     wasm_schedule_key(c64code[0], c64code[1], 1,0);                   
-                     wasm_schedule_key(c64code2[0], c64code2[1], 1,0);                   
+                     wasm_schedule_key(key_code[0], key_code[1], 1,0);                   
+                     wasm_schedule_key(key_code2[0], key_code2[1], 1,0);                   
 
                      keydef.locked = 1;
                      $("#button_"+keydef.c).attr("style", "background-color: var(--green) !important;"+keydef.style);
@@ -457,8 +459,8 @@ function installKeyboard() {
                    }
                    else
                    {
-                     wasm_schedule_key(c64code2[0], c64code2[1], 0, 0);                   
-                     wasm_schedule_key(c64code[0], c64code[1], 0, 0);                   
+                     wasm_schedule_key(key_code2[0], key_code2[1], 0, 0);                   
+                     wasm_schedule_key(key_code[0], key_code[1], 0, 0);                   
                      keydef.locked = 0;
                      $("#button_"+keydef.c).attr("style", "");
                      shift_pressed_count--;
@@ -474,9 +476,9 @@ function installKeyboard() {
                } 
                else
                {
-                var c64code = translateKey(keydef.c, keydef.k);
-                if(c64code !== undefined){
-                    wasm_schedule_key(c64code[0], c64code[1], 1,0);
+                var key_code = translateKey(keydef.c, keydef.k);
+                if(key_code !== undefined){
+                    wasm_schedule_key(key_code[0], key_code[1], 1,0);
 
                     if(keydef.c == 'ShiftLeft' ||keydef.c == 'ShiftRight')
                     {
@@ -489,7 +491,7 @@ function installKeyboard() {
                         else
                         {
                             document.body.setAttribute(keydef.c+'-key', '');
-                            wasm_schedule_key(c64code[0], c64code[1], 0,1);
+                            wasm_schedule_key(key_code[0], key_code[1], 0,1);
                             shift_pressed_count--;
                             if(shift_pressed_count==0)
                             {
@@ -497,43 +499,45 @@ function installKeyboard() {
                             }   
                         }
                     }
-/*                    else if(keydef.c == 'leftAmiga'||keydef.c == 'rightAmiga')
-                    {
-                        $("#button_"+keydef.c).attr("style", "background-color: var(--green) !important;"+keydef.style);
-                    
-                        setTimeout(() => {
-                            wasm_schedule_key(c64code[0], c64code[1], 0,1);
-                            $("#button_"+keydef.c).attr("style", "");
-                        }, 1000*4);
-                    
-                    }
-*/                    else if(keydef.c == 'ControlLeft' ||
+                    else if(keydef.c == 'ControlLeft' ||
                                 keydef.c == 'leftAmiga'||keydef.c == 'rightAmiga' ||
                                 keydef.c == 'AltLeft'||keydef.c == 'AltRight')
                     {
                         if(document.body.getAttribute(keydef.c+'-key')=='')
                         {
-//                            $("#button_"+keydef.c).attr("style", "background-color: var(--blue) !important");
                             document.body.setAttribute(keydef.c+'-key', 'pressed');
                         }
                         else
                         {
                             document.body.setAttribute(keydef.c+'-key', '');
-                            wasm_schedule_key(c64code[0], c64code[1], 0,1);
-//                            $("#button_"+keydef.c).attr("style", "");
+                            wasm_schedule_key(key_code[0], key_code[1], 0,1);
                         }                    
-                    }
-                    else
-                    {  
-                        release_modifiers();
-                        //release the key automatically after a short time ...
-                        setTimeout(() => {
-                            wasm_schedule_key(c64code[0], c64code[1], 0, 1);
-                        }, 100);
                     }
                 }
                }
-            });
+            }
+            let key_up_handler=function() 
+            {
+                if( keydef.c == 'CapsLock' ||
+                    keydef.c == 'ShiftLeft' || keydef.c == 'ShiftRight' ||
+                    keydef.c == 'ControlLeft' ||
+                    keydef.c == 'leftAmiga'||keydef.c == 'rightAmiga' ||
+                    keydef.c == 'AltLeft'||keydef.c == 'AltRight'
+                )
+                {}
+                else
+                {
+                    release_modifiers();
+                    let key_code = translateKey(keydef.c, keydef.k);
+                    wasm_schedule_key(key_code[0], key_code[1], 0, 1);
+                }
+            }
+
+            the_key_element.addEventListener("mousedown", key_down_handler);
+            the_key_element.addEventListener("mouseup", key_up_handler);
+
+            the_key_element.addEventListener("touchstart", key_down_handler);
+            the_key_element.addEventListener("touchend", key_up_handler);
         });
     });
 

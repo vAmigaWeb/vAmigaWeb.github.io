@@ -12389,10 +12389,10 @@ function invoke_viiii(index,a1,a2,a3,a4) {
   }
 }
 
-function invoke_iii(index,a1,a2) {
+function invoke_vii(index,a1,a2) {
   var sp = stackSave();
   try {
-    return getWasmTableEntry(index)(a1,a2);
+    getWasmTableEntry(index)(a1,a2);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0) throw e;
@@ -12404,17 +12404,6 @@ function invoke_viii(index,a1,a2,a3) {
   var sp = stackSave();
   try {
     getWasmTableEntry(index)(a1,a2,a3);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_vii(index,a1,a2) {
-  var sp = stackSave();
-  try {
-    getWasmTableEntry(index)(a1,a2);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0) throw e;
@@ -12437,6 +12426,17 @@ function invoke_v(index) {
   var sp = stackSave();
   try {
     getWasmTableEntry(index)();
+  } catch(e) {
+    stackRestore(sp);
+    if (e !== e+0) throw e;
+    _setThrew(1, 0);
+  }
+}
+
+function invoke_iii(index,a1,a2) {
+  var sp = stackSave();
+  try {
+    return getWasmTableEntry(index)(a1,a2);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0) throw e;

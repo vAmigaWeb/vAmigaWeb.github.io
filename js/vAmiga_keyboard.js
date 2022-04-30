@@ -536,8 +536,8 @@ function installKeyboard() {
             the_key_element.addEventListener("mousedown", key_down_handler);
             the_key_element.addEventListener("mouseup", key_up_handler);
 
-            the_key_element.addEventListener("touchstart", key_down_handler);
-            the_key_element.addEventListener("touchend", ()=>{ key_up_handler(); event.preventDefault();});
+            the_key_element.addEventListener("touchstart", ()=>{event.preventDefault(); key_down_handler()});
+            the_key_element.addEventListener("touchend", ()=>{ event.preventDefault(); key_up_handler(); });
         });
     });
 

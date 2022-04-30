@@ -527,9 +527,9 @@ function installKeyboard() {
                 {}
                 else
                 {
-                    release_modifiers();
                     let key_code = translateKey(keydef.c, keydef.k);
                     wasm_schedule_key(key_code[0], key_code[1], 0, 1);
+                    release_modifiers();
                 }
             }
 
@@ -537,7 +537,7 @@ function installKeyboard() {
             the_key_element.addEventListener("mouseup", key_up_handler);
 
             the_key_element.addEventListener("touchstart", key_down_handler);
-            the_key_element.addEventListener("touchend", ()=>{ event.preventDefault(); key_up_handler()});
+            the_key_element.addEventListener("touchend", ()=>{ key_up_handler(); event.preventDefault();});
         });
     });
 

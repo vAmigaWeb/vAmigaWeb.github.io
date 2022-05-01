@@ -513,6 +513,10 @@ function installKeyboard() {
                             wasm_schedule_key(key_code[0], key_code[1], 0,1);
                         }                    
                     }
+                    else
+                    {
+                        the_key_element.setAttribute('key-state', 'pressed');
+                    }
                 }
                }
             }
@@ -530,9 +534,11 @@ function installKeyboard() {
                     let key_code = translateKey(keydef.c, keydef.k);
                     wasm_schedule_key(key_code[0], key_code[1], 0, 1);
                     release_modifiers();
+                    the_key_element.setAttribute('key-state', '');
                 }
             }
 
+            the_key_element.addEventListener("focus", (event)=>{ event.preventDefault(); event.currentTarget.blur();})
             the_key_element.addEventListener("mousedown", key_down_handler);
             the_key_element.addEventListener("mouseup", key_up_handler);
 

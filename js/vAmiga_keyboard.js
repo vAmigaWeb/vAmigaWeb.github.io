@@ -538,7 +538,7 @@ function installKeyboard() {
                 }
             }
 
-            the_key_element.addEventListener("focus", (event)=>{ event.preventDefault(); event.currentTarget.blur();})
+            the_key_element.addEventListener("focus", (event)=>{ event.currentTarget.blur();})
             the_key_element.addEventListener("mousedown", key_down_handler);
             the_key_element.addEventListener("mouseup", key_up_handler);
 

@@ -515,7 +515,7 @@ function installKeyboard() {
                     }
                     else
                     {
-                        the_key_element.setAttribute('key-state', 'pressed');
+                      //  the_key_element.setAttribute('key-state', 'pressed');
                     }
                 }
                }
@@ -534,7 +534,7 @@ function installKeyboard() {
                     let key_code = translateKey(keydef.c, keydef.k);
                     wasm_schedule_key(key_code[0], key_code[1], 0, 1);
                     release_modifiers();
-                    the_key_element.setAttribute('key-state', '');
+                    //the_key_element.setAttribute('key-state', '');
                 }
             }
 

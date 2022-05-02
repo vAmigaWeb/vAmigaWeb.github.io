@@ -542,12 +542,16 @@ function installKeyboard() {
             the_key_element.addEventListener("mousedown", key_down_handler);
             the_key_element.addEventListener("mouseup", key_up_handler);
 
-            the_key_element.addEventListener("touchstart", (event)=>{event.preventDefault(); key_down_handler(); } );
+            the_key_element.addEventListener("touchstart", (event)=>{
+                event.preventDefault(); 
+                key_down_handler();
+                touch_start_x=event.changedTouches[0].clientX;
+            });
             the_key_element.addEventListener("touchend", (event)=>{event.preventDefault(); key_up_handler(); });
             the_key_element.addEventListener("touchmove", (event)=>{
                 event.preventDefault();
                 let scroll_area=document.getElementById("vbk_scroll_area");
-                let scroll_x = scroll_area.scrollWidth * (1-event.changedTouches[0].clientX/scroll_area.clientWidth);
+                let scroll_x = scroll_area.scrollLeft+ scroll_area.scrollWidth*(touch_start_x-event.changedTouches[0].clientX)/scroll_area.clientWidth;
                 scroll_area.scroll(scroll_x, 0); 
             });
 

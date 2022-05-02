@@ -538,12 +538,17 @@ function installKeyboard() {
                 }
             }
 
-            //the_key_element.addEventListener("focus", (event)=>{ event.preventDefault(); event.currentTarget.blur();})
+            the_key_element.addEventListener("focus", (event)=>{ event.preventDefault(); event.currentTarget.blur();})
             the_key_element.addEventListener("mousedown", key_down_handler);
             the_key_element.addEventListener("mouseup", key_up_handler);
 
-            the_key_element.addEventListener("touchstart", ()=>{/*event.preventDefault();*/ key_down_handler()});
-            the_key_element.addEventListener("touchend", ()=>{event.preventDefault(); key_up_handler(); });
+            the_key_element.addEventListener("touchstart", (event)=>{event.preventDefault(); key_down_handler(); } );
+            the_key_element.addEventListener("touchend", (event)=>{event.preventDefault(); key_up_handler(); });
+            the_key_element.addEventListener("touchmove", (event)=>{
+                event.preventDefault();
+                document.getElementById("vbk_scroll_area").scroll(event.changedTouches[0].clientX,0); 
+            });
+
         });
     });
 

@@ -546,7 +546,9 @@ function installKeyboard() {
             the_key_element.addEventListener("touchend", (event)=>{event.preventDefault(); key_up_handler(); });
             the_key_element.addEventListener("touchmove", (event)=>{
                 event.preventDefault();
-                document.getElementById("vbk_scroll_area").scroll(event.changedTouches[0].clientX,0); 
+                let scroll_area=document.getElementById("vbk_scroll_area");
+                let scroll_x = scroll_area.clientWidth-event.changedTouches[0].clientX;
+                scroll_area.scroll(scroll_x,0); 
             });
 
         });

@@ -551,7 +551,8 @@ function installKeyboard() {
             the_key_element.addEventListener("touchmove", (event)=>{
                 event.preventDefault();
                 let scroll_area=document.getElementById("vbk_scroll_area");
-                let scroll_x = scroll_area.scrollLeft+ scroll_area.scrollWidth*(touch_start_x-event.changedTouches[0].clientX)/scroll_area.clientWidth;
+        //        let scroll_x = scroll_area.scrollLeft+ scroll_area.scrollWidth*(touch_start_x-event.changedTouches[0].clientX)/scroll_area.clientWidth;
+                let scroll_x = scroll_area.scrollLeft+(touch_start_x-event.changedTouches[0].clientX)*scroll_area.clientWidth/scroll_area.scrollWidth;
                 scroll_area.scroll(scroll_x, 0); 
             });
 

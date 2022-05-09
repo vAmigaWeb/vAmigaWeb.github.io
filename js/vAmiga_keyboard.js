@@ -314,7 +314,7 @@ function installKeyboard() {
 
     var the_keyBoard='';
     keymap.forEach(row => {
-        the_keyBoard+='<div id="vbk_space" class="justify-content-center" style="display:flex">';
+        the_keyBoard+='<div class="justify-content-center" style="display:flex">';
         row.forEach(keydef => {
             if(keydef.k === undefined)
             {
@@ -426,34 +426,8 @@ function installKeyboard() {
         }
     }
 
-
-    document.getElementById("vbk_space").addEventListener("touchstart", (event)=>{
-        if(current_vbk_touch.startsWith("exact") || current_vbk_touch.startsWith("mix"))
-        {
-            event.preventDefault(); 
-            let scroll_area=document.getElementById("vbk_scroll_area");
-            touch_start_x=event.changedTouches[0].clientX;
-            touch_start_scrollLeft=scroll_area.scrollLeft;
-            touch_start_id=event.changedTouches[0].identifier;
-        }
-    });
-    document.getElementById("vbk_space").addEventListener("touchmove", (event)=>{
-        if(current_vbk_touch.startsWith("exact") || current_vbk_touch.startsWith("mix"))
-        {
-            let scroll_area=document.getElementById("vbk_scroll_area");
-            for(touch of event.changedTouches)
-            {
-                if(touch.identifier == touch_start_id)
-                {
-                    let scroll_x = touch_start_scrollLeft+(touch_start_x-touch.clientX);
-                    scroll_area.scroll(scroll_x, 0);
-                }
-            }
-        }
-    });
-
-    document.getElementById("vbk_space").addEventListener("touchend", (event)=>{
-        event.preventDefault(); 
+    document.getElementById("divKeyboardRows").addEventListener("contextmenu", (event)=>{
+        event.preventDefault();
     });
 
     keymap.forEach(row => {

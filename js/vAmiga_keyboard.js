@@ -449,7 +449,11 @@ function installKeyboard() {
                     scroll_area.scroll(scroll_x, 0);
                 }
             }
-        } 
+        }
+    });
+
+    document.getElementById("vbk_space").addEventListener("touchend", (event)=>{
+        event.preventDefault(); 
     });
 
     keymap.forEach(row => {
@@ -574,24 +578,37 @@ function installKeyboard() {
                     event.preventDefault(); 
                     key_down_handler();
                 }
-            });
-            the_key_element.addEventListener("touchmove", (event)=>{
-                if(current_vbk_touch.startsWith("exact"))
+                if(current_vbk_touch.startsWith("mix"))
                 {
-                    //when touching a keycap don't handle touchmove
-                    event.stopImmediatePropagation();
+                    let scroll_area=document.getElementById("vbk_scroll_area");
+                    touch_start_x=event.changedTouches[0].clientX;
+                    touch_start_scrollLeft=scroll_area.scrollLeft;
+                    touch_start_id=event.changedTouches[0].identifier;
                 }
             });
+            the_key_element.addEventListener("touchmove", (event)=>{
+                if(current_vbk_touch.startsWith("mix"))
+                {
+                    let scroll_area=document.getElementById("vbk_scroll_area");
+                    for(touch of event.changedTouches)
+                    {
+                        if(touch.identifier == touch_start_id)
+                        {
+                            let scroll_x = touch_start_scrollLeft+(touch_start_x-touch.clientX);
+                            scroll_area.scroll(scroll_x, 0);
+                        }
+                    }
+                } 
+            });
             the_key_element.addEventListener("touchend", (event)=>{
+                event.preventDefault(); 
                 if(current_vbk_touch.startsWith("smart"))
                 {
-                    event.preventDefault(); 
                     key_down_handler();
                     setTimeout(key_up_handler,100); 
                 }
                 else
                 {
-                    event.preventDefault(); 
                     key_up_handler(); 
                 }
             });

@@ -314,7 +314,7 @@ function installKeyboard() {
 
     var the_keyBoard='';
     keymap.forEach(row => {
-        the_keyBoard+='<div draggable="false" class="justify-content-center" style="display:flex">';
+        the_keyBoard+='<div draggable="false" class="justify-content-center" style="display:flex;user-select:none;">';
         row.forEach(keydef => {
             if(keydef.k === undefined)
             {
@@ -436,9 +436,14 @@ function installKeyboard() {
     document.getElementById("divKeyboardRows").addEventListener("drop", (event)=>{
         event.preventDefault();
     });
+    document.getElementById("divKeyboardRows").addEventListener("select", (event)=>{
+        event.preventDefault();
+    });
     
     
-
+    $('#divKeyboardRows').css("user-select","none");
+    
+    
     keymap.forEach(row => {
         row.forEach(keydef => {
             if(keydef.k === undefined)

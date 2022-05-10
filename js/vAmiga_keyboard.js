@@ -432,7 +432,7 @@ function installKeyboard() {
     divKeyboardRows.addEventListener("drop", (event)=>{event.preventDefault()});
     divKeyboardRows.addEventListener("select", (event)=>{event.preventDefault()});
     
-    $('#divKeyboardRows').css("user-select","none");
+    //$('#divKeyboardRows').css("user-select","none");
     
     
     keymap.forEach(row => {

@@ -426,23 +426,14 @@ function installKeyboard() {
         }
     }
 
-    document.getElementById("divKeyboardRows").addEventListener("contextmenu", (event)=>{
+    let divKeyboardRows = document.getElementById("divKeyboardRows"); 
+    let func_preventDefault=(event)=>{
         event.preventDefault();
-    });
-    
-    document.getElementById("divKeyboardRows").addEventListener("dragstart", (event)=>{
-        event.preventDefault();
-    });
-    document.getElementById("divKeyboardRows").addEventListener("drop", (event)=>{
-        event.preventDefault();
-    });
-    document.getElementById("divKeyboardRows").addEventListener("select", (event)=>{
-        event.preventDefault();
-    });
-    
-    
-    $('#divKeyboardRows').css("user-select","none");
-    
+    }
+    divKeyboardRows.addEventListener("contextmenu", func_preventDefault);
+    divKeyboardRows.addEventListener("dragstart", func_preventDefault);
+    divKeyboardRows.addEventListener("drop", func_preventDefault);
+    divKeyboardRows.addEventListener("select", func_preventDefault);
     
     keymap.forEach(row => {
         row.forEach(keydef => {

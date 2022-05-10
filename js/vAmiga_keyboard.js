@@ -426,20 +426,11 @@ function installKeyboard() {
         }
     }
 
-    document.getElementById("divKeyboardRows").addEventListener("contextmenu", (event)=>{
-        event.preventDefault();
-    });
-    
-    document.getElementById("divKeyboardRows").addEventListener("dragstart", (event)=>{
-        event.preventDefault();
-    });
-    document.getElementById("divKeyboardRows").addEventListener("drop", (event)=>{
-        event.preventDefault();
-    });
-    document.getElementById("divKeyboardRows").addEventListener("select", (event)=>{
-        event.preventDefault();
-    });
-    
+    let divKeyboardRows=document.getElementById("divKeyboardRows");
+    divKeyboardRows.addEventListener("contextmenu", (event)=>{event.preventDefault()});
+    divKeyboardRows.addEventListener("dragstart", (event)=>{event.preventDefault()});
+    divKeyboardRows.addEventListener("drop", (event)=>{event.preventDefault()});
+    divKeyboardRows.addEventListener("select", (event)=>{event.preventDefault()});
     
     $('#divKeyboardRows').css("user-select","none");
     

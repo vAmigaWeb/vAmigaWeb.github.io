@@ -432,7 +432,7 @@ function installKeyboard() {
     virtual_keyboard.addEventListener("drop", (event)=>{event.preventDefault();});
     virtual_keyboard.addEventListener("select", (event)=>{event.preventDefault();});
 
-//    $('#virtual_keyboard').css("user-select","none");
+    $('#virtual_keyboard').css("user-select","none");
     
     keymap.forEach(row => {
         row.forEach(keydef => {

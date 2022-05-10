@@ -426,7 +426,7 @@ function installKeyboard() {
         }
     }
 
-    let divKeyboardRows=document.getElementById("divKeyboardRows");
+    let divKeyboardRows=document.getElementById("virtual_keyboard");
     divKeyboardRows.addEventListener("contextmenu", (event)=>{event.preventDefault()});
     divKeyboardRows.addEventListener("dragstart", (event)=>{event.preventDefault()});
     divKeyboardRows.addEventListener("drop", (event)=>{event.preventDefault()});

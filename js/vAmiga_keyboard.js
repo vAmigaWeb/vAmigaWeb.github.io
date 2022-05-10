@@ -426,14 +426,13 @@ function installKeyboard() {
         }
     }
 
-    let divKeyboardRows=document.getElementById("virtual_keyboard");
-    divKeyboardRows.addEventListener("contextmenu", (event)=>{event.preventDefault()});
-    divKeyboardRows.addEventListener("dragstart", (event)=>{event.preventDefault()});
-    divKeyboardRows.addEventListener("drop", (event)=>{event.preventDefault()});
-    divKeyboardRows.addEventListener("select", (event)=>{event.preventDefault()});
-    
-    $('#virtual_keyboard').css("user-select","none");
-    
+    let virtual_keyboard = document.getElementById("virtual_keyboard");
+    virtual_keyboard.addEventListener("contextmenu", (event)=>{event.preventDefault();});
+    virtual_keyboard.addEventListener("dragstart", (event)=>{event.preventDefault();});
+    virtual_keyboard.addEventListener("drop", (event)=>{event.preventDefault();});
+    virtual_keyboard.addEventListener("select", (event)=>{event.preventDefault();});
+
+//    $('#virtual_keyboard').css("user-select","none");
     
     keymap.forEach(row => {
         row.forEach(keydef => {
@@ -596,3 +595,5 @@ function installKeyboard() {
     });
 
 }
+
+

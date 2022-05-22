@@ -16,6 +16,7 @@ let call_param_url=null;
 let call_param_display=null;
 
 let virtual_keyboard_clipping = true; //keyboard scrolls when it clips
+let use_wide_screen=false;
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
@@ -3398,6 +3399,7 @@ function scaleVMCanvas() {
         let the_canvas = document.getElementById("canvas");
         var src_width=the_canvas.width;
         var src_height=the_canvas.height; 
+
         var src_ratio = src_width/src_height; //1.25
         if(src_ratio>1.6)
         {//some browsers don't give the double size

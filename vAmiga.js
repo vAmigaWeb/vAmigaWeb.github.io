@@ -12063,6 +12063,26 @@ var _main = Module["_main"] = function() {
 };
 
 /** @type {function(...*):?} */
+var _wasm_get_renderer = Module["_wasm_get_renderer"] = function() {
+  return (_wasm_get_renderer = Module["_wasm_get_renderer"] = Module["asm"]["wasm_get_renderer"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _wasm_get_render_width = Module["_wasm_get_render_width"] = function() {
+  return (_wasm_get_render_width = Module["_wasm_get_render_width"] = Module["asm"]["wasm_get_render_width"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _wasm_get_render_height = Module["_wasm_get_render_height"] = function() {
+  return (_wasm_get_render_height = Module["_wasm_get_render_height"] = Module["asm"]["wasm_get_render_height"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _wasm_set_target_fps = Module["_wasm_set_target_fps"] = function() {
+  return (_wasm_set_target_fps = Module["_wasm_set_target_fps"] = Module["asm"]["wasm_set_target_fps"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
 var _wasm_create_renderer = Module["_wasm_create_renderer"] = function() {
   return (_wasm_create_renderer = Module["_wasm_create_renderer"] = Module["asm"]["wasm_create_renderer"]).apply(null, arguments);
 };

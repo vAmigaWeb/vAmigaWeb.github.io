@@ -12238,6 +12238,11 @@ var _wasm_set_sample_rate = Module["_wasm_set_sample_rate"] = function() {
 };
 
 /** @type {function(...*):?} */
+var _wasm_get_config_item = Module["_wasm_get_config_item"] = function() {
+  return (_wasm_get_config_item = Module["_wasm_get_config_item"] = Module["asm"]["wasm_get_config_item"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
 var _wasm_configure = Module["_wasm_configure"] = function() {
   return (_wasm_configure = Module["_wasm_configure"] = Module["asm"]["wasm_configure"]).apply(null, arguments);
 };
@@ -12318,6 +12323,11 @@ var dynCall_viiij = Module["dynCall_viiij"] = function() {
 };
 
 /** @type {function(...*):?} */
+var dynCall_jii = Module["dynCall_jii"] = function() {
+  return (dynCall_jii = Module["dynCall_jii"] = Module["asm"]["dynCall_jii"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
 var dynCall_viij = Module["dynCall_viij"] = function() {
   return (dynCall_viij = Module["dynCall_viij"] = Module["asm"]["dynCall_viij"]).apply(null, arguments);
 };
@@ -12335,11 +12345,6 @@ var dynCall_jiii = Module["dynCall_jiii"] = function() {
 /** @type {function(...*):?} */
 var dynCall_vij = Module["dynCall_vij"] = function() {
   return (dynCall_vij = Module["dynCall_vij"] = Module["asm"]["dynCall_vij"]).apply(null, arguments);
-};
-
-/** @type {function(...*):?} */
-var dynCall_jii = Module["dynCall_jii"] = function() {
-  return (dynCall_jii = Module["dynCall_jii"] = Module["asm"]["dynCall_jii"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
@@ -12675,6 +12680,17 @@ function invoke_viiij(index,a1,a2,a3,a4,a5) {
   }
 }
 
+function invoke_jii(index,a1,a2) {
+  var sp = stackSave();
+  try {
+    return dynCall_jii(index,a1,a2);
+  } catch(e) {
+    stackRestore(sp);
+    if (e !== e+0) throw e;
+    _setThrew(1, 0);
+  }
+}
+
 function invoke_viij(index,a1,a2,a3,a4) {
   var sp = stackSave();
   try {
@@ -12701,17 +12717,6 @@ function invoke_vij(index,a1,a2,a3) {
   var sp = stackSave();
   try {
     dynCall_vij(index,a1,a2,a3);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_jii(index,a1,a2) {
-  var sp = stackSave();
-  try {
-    return dynCall_jii(index,a1,a2);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0) throw e;

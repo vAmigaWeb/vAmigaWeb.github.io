@@ -12203,6 +12203,11 @@ var _wasm_rom_info = Module["_wasm_rom_info"] = function() {
 };
 
 /** @type {function(...*):?} */
+var _wasm_get_core_version = Module["_wasm_get_core_version"] = function() {
+  return (_wasm_get_core_version = Module["_wasm_get_core_version"] = Module["asm"]["wasm_get_core_version"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
 var _wasm_set_color_palette = Module["_wasm_set_color_palette"] = function() {
   return (_wasm_set_color_palette = Module["_wasm_set_color_palette"] = Module["asm"]["wasm_set_color_palette"]).apply(null, arguments);
 };

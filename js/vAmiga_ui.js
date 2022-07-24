@@ -2538,7 +2538,15 @@ $('.layer').change( function(event) {
             let selected=c_name==current_version?"selected":"";
             if(c_name.includes('@'))
             {
-                version_selector+=`<option ${selected} value="${c_name}">core ${core_name}, ui ${ui_name}</option>`;
+                if(//uat version should not show regular versions and vice versa
+                    location.pathname.startsWith("/uat") ?
+                        ui_name.endsWith("uat")
+                    :
+                        !ui_name.endsWith("uat")
+                )
+                {
+                    version_selector+=`<option ${selected} value="${c_name}">core ${core_name}, ui ${ui_name}</option>`;
+                }
             }
         }
         version_selector+=

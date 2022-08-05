@@ -12389,11 +12389,6 @@ var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = function() {
 };
 
 /** @type {function(...*):?} */
-var dynCall_viiij = Module["dynCall_viiij"] = function() {
-  return (dynCall_viiij = Module["dynCall_viiij"] = Module["asm"]["dynCall_viiij"]).apply(null, arguments);
-};
-
-/** @type {function(...*):?} */
 var dynCall_jii = Module["dynCall_jii"] = function() {
   return (dynCall_jii = Module["dynCall_jii"] = Module["asm"]["dynCall_jii"]).apply(null, arguments);
 };
@@ -12416,6 +12411,11 @@ var dynCall_jiii = Module["dynCall_jiii"] = function() {
 /** @type {function(...*):?} */
 var dynCall_vij = Module["dynCall_vij"] = function() {
   return (dynCall_vij = Module["dynCall_vij"] = Module["asm"]["dynCall_vij"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var dynCall_viiij = Module["dynCall_viiij"] = function() {
+  return (dynCall_viiij = Module["dynCall_viiij"] = Module["asm"]["dynCall_viiij"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
@@ -12740,17 +12740,6 @@ function invoke_viiiii(index,a1,a2,a3,a4,a5) {
   }
 }
 
-function invoke_viiij(index,a1,a2,a3,a4,a5) {
-  var sp = stackSave();
-  try {
-    dynCall_viiij(index,a1,a2,a3,a4,a5);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
 function invoke_jii(index,a1,a2) {
   var sp = stackSave();
   try {
@@ -12788,6 +12777,17 @@ function invoke_vij(index,a1,a2,a3) {
   var sp = stackSave();
   try {
     dynCall_vij(index,a1,a2,a3);
+  } catch(e) {
+    stackRestore(sp);
+    if (e !== e+0) throw e;
+    _setThrew(1, 0);
+  }
+}
+
+function invoke_viiij(index,a1,a2,a3,a4,a5) {
+  var sp = stackSave();
+  try {
+    dynCall_viiij(index,a1,a2,a3,a4,a5);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0) throw e;

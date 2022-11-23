@@ -2433,6 +2433,7 @@ $('.layer').change( function(event) {
 
     $('#modal_file_slot').on('hidden.bs.modal', function () {
         $("#filedialog").val(''); //clear file slot after file has been loaded
+        document.getElementById('modal_file_slot').blur(); //needed for safari issue#136
     });
 
     $( "#modal_file_slot" ).keydown(event => {

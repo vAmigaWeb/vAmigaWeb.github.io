@@ -2691,11 +2691,17 @@ $('.layer').change( function(event) {
     }
     get_settings_cache_value= async function (key)
     {
-        let settings = await caches.open('settings');
-        let response=await settings.match(key)
-        if(response==undefined)
-            return null;
-        return await response.text();
+        try {
+            let settings = await caches.open('settings');
+            let response=await settings.match(key)
+            if(response==undefined)
+                return null;
+            return await response.text();    
+        }
+        catch(e){
+            console.error(e);
+            return "can't read version";
+        }
     }
 
     execute_update = async function() 

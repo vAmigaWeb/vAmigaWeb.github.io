@@ -2750,7 +2750,15 @@ $('.layer').change( function(event) {
         //when the serviceworker talks with us ...  
         navigator.serviceWorker.addEventListener("message", async (evt) => {
             await get_current_ui_version();
-            let cache_names=await caches.keys();
+            let cache_names=null;            
+            try{
+                cache_names=await caches.keys();
+            }
+            catch(e)
+            {
+                console.error(e);
+                return;
+            }
             let version_selector = `
             manage already installed versions:
             <br>

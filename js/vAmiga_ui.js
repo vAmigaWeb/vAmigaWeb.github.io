@@ -2750,7 +2750,7 @@ $('.layer').change( function(event) {
         //when the serviceworker talks with us ...  
         navigator.serviceWorker.addEventListener("message", async (evt) => {
             await get_current_ui_version();
-            let cache_names=[];            
+            let cache_names=[];
             try{
                 cache_names=await caches.keys();
             }
@@ -2796,14 +2796,20 @@ $('.layer').change( function(event) {
             sw_version=evt.data;
             if(sw_version.cache_name != current_version)
             {
-                let new_version_already_installed=await has_installed_version(sw_version.cache_name);
-                let new_version_installed_or_not = new_version_already_installed ?
+                let new_version_already_installed=null;
+                try {
+                    new_version_already_installed=await has_installed_version(sw_version.cache_name);
+                } catch(e) { 
+                    console.error(e);
+                }
+
+                let new_version_installed_or_not = new_version_already_installed==true ?
                 `newest version (already installed)`:
                 `new version available`;
 
                 let activate_or_install = `
-                <button type="button" id="activate_or_install" class="btn btn-${new_version_already_installed ?"primary":"success"} btn-sm px-1 mx-1">${
-                    new_version_already_installed ? "activate": "install"
+                <button type="button" id="activate_or_install" class="btn btn-${new_version_already_installed==true ?"primary":"success"} btn-sm px-1 mx-1">${
+                    new_version_already_installed==true ? "activate": "install"
                 }</button>`;
 
 
@@ -2827,7 +2833,7 @@ $('.layer').change( function(event) {
                 $('#version_display').html(`${upgrade_info} 
                 <br>
                 ${version_selector}`);
-                if(!new_version_already_installed)
+                if(new_version_already_installed != null && new_version_already_installed==false)
                 {
                     show_new_version_toast();
                 }

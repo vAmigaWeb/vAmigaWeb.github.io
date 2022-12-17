@@ -2420,12 +2420,12 @@ $('.layer').change( function(event) {
     reset_before_load=false;
     insert_file = function(drive=0) 
     {   
-        if($('#div_zip_content').is(':visible'))
+/*        if($('#div_zip_content').is(':visible'))
         {
             configure_file_dialog(reset_before_load);
             return;
         }
-        
+*/        
         $('#modal_file_slot').modal('hide');
 
         var execute_load = async function(drive){

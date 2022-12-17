@@ -388,7 +388,9 @@
 									</header>
 	
 									<p>
-										This awesome demo released december 2022 on two disks.<br> (this is real rendering! ... no streaming)
+										This awesome demo released december 2022 on two disks. this is real rendering! ... no streaming<br>
+										<br>disk1 is mounted to df0: and disk2 is mounted to df1:<br>
+										<br>gpu shader rendering is turned on (flicker fixer) 
 									</p>
 	
 								</article>
@@ -405,6 +407,7 @@
 											AROS:true,warpto:250,
 											navbar:false,
 											wide:true,
+											gpu:true,
 											display:'standard',
 											buttons: [
 		     									{run: true, script: `wasm_configure('EMULATE_MECHANICS', 'false');df_mount_list=['Batman_Rises_disk1.adf','Batman_Rises_disk2.adf'];`}],

@@ -772,12 +772,7 @@ function configure_file_dialog(reset=false)
         else
         {
             $("#file_slot_dialog_label").html(" "+file_slot_file_name);
-            //configure file_slot
-
-            var auto_load = false;
-            var auto_press_play = false;
-            var auto_run = false;
-            
+            //configure file_slot  
             $("#button_insert_file").removeAttr("disabled");
             $("#div_zip_content").hide();
             $("#button_eject_zip").hide();
@@ -889,7 +884,7 @@ function configure_file_dialog(reset=false)
                                 {
                                     let drive_number= df_mount_list.indexOf(path);
                                     if(drive_number<0)
-                                        hd_mount_list.indexOf(path);
+                                        drive_number=hd_mount_list.indexOf(path);
                                     file_slot_file_name=path;
                                     file_slot_file = await zip.file(path).async("uint8array");
                                     insert_file(drive_number);
@@ -906,11 +901,7 @@ function configure_file_dialog(reset=false)
                 $("#button_insert_file").html("mount file"+return_icon);
                 $("#button_insert_file").attr("disabled", true);
             }
-
-            $("#auto_load").prop('checked', auto_load);
-            $("#auto_press_play").prop('checked', auto_press_play);
-            $("#auto_run").prop('checked', auto_run);    
-
+            else
             if(file_slot_file_name.match(/[.](adf|hdf|dms|exe|vAmiga)$/i))
             {
                 insert_file();

@@ -388,10 +388,7 @@
 									</header>
 	
 									<p>
-										This awesome demo released december 2022 shows as a side effect the multi-disk and zip file support of vAmigaWeb.<br>
-										<br>Instructions:<br>
-										Select disk1 and <strong>hit enter</strong> or <strong>click mount</strong>.
-										When demo asks for disk2 click the <strong>folder icon</strong> in the bottom player icon bar. 
+										This awesome demo released december 2022 on two disks.<br> (this is real rendering! ... no streaming)
 									</p>
 	
 								</article>
@@ -404,15 +401,13 @@
 									<div id="emuview3" class="emulator_view"><a href="#"
 										ontouchstart="touched=true"
 										onclick="
-										let touch=(typeof touched!='undefined')?touched:false;touched=false;
 										let config={
-											touch:touch,
-											AROS:true,warpto:500,
+											AROS:true,warpto:250,
 											navbar:false,
 											wide:true,
 											display:'standard',
 											buttons: [
-		     									{run: true, script: `wasm_configure('DRIVE_SPEED', '8');wasm_configure('EMULATE_MECHANICS', 'false');`}],
+		     									{run: true, script: `wasm_configure('EMULATE_MECHANICS', 'false');df_mount_list=['Batman_Rises_disk1.adf','Batman_Rises_disk2.adf'];`}],
 											url:'/doc/media/batman_rises.zip'
 										}; 
 										vAmigaWeb_player.load(this,encodeURIComponent(JSON.stringify(config)));

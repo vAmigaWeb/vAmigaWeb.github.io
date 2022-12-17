@@ -2479,7 +2479,7 @@ $('.layer').change( function(event) {
         else
         {
             setTimeout(async ()=> {
-                await execute_load();
+                await execute_load(drive);
                 wasm_reset();
                 if(call_param_warpto !=null){
                     wasm_configure("warp_to_frame", `${call_param_warpto}`);

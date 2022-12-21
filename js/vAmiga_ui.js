@@ -401,9 +401,13 @@ function message_handler(msg, data, data2)
     }
     else if(msg == "MSG_DRIVE_STEP" || msg == "MSG_DRIVE_POLL")
     {
-        play_sound(audio_df_step);   
-        if(wasm_has_disk("df0")){
+        if(wasm_has_disk("df"+data)){
+            play_sound(audio_df_step);
             $("#drop_zone").html(`df${data} ${data2.toString().padStart(2, '0')}`);
+        }
+        else if (data==0)
+        {//only for df0: play stepper sound in case of no disk
+            play_sound(audio_df_step);
         }
     }
     else if(msg == "MSG_DISK_INSERT")
@@ -901,8 +905,7 @@ function configure_file_dialog(reset=false)
                 $("#button_insert_file").html("mount file"+return_icon);
                 $("#button_insert_file").attr("disabled", true);
             }
-            else
-            if(file_slot_file_name.match(/[.](adf|hdf|dms|exe|vAmiga)$/i))
+            else if(file_slot_file_name.match(/[.](adf|hdf|dms|exe|vAmiga)$/i))
             {
                 insert_file();
             }
@@ -2420,12 +2423,6 @@ $('.layer').change( function(event) {
     reset_before_load=false;
     insert_file = function(drive=0) 
     {   
-/*        if($('#div_zip_content').is(':visible'))
-        {
-            configure_file_dialog(reset_before_load);
-            return;
-        }
-*/        
         $('#modal_file_slot').modal('hide');
 
         var execute_load = async function(drive){

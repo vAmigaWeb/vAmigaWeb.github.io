@@ -893,11 +893,13 @@ function configure_file_dialog(reset=false)
                                     insert_file(drive_number);
                                 } 
                             }
-                            df_mount_list=[];//reset the direct call lists
+                            if(df_mount_list.length == 0 && hd_mount_list.length==0)
+                            {//when there is no auto mount list let the user decide
+                                $("#modal_file_slot").modal();
+                            }
+                            df_mount_list=[];//only do automount once
                             hd_mount_list=[];
                         })();
-
-                        $("#modal_file_slot").modal();
                     }
                 });
 

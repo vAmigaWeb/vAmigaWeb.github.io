@@ -1644,13 +1644,13 @@ function InitWrappers() {
     }
 
     click_unlock_WebAudio=async function() {
-        await connect_audio_processor();
+        try { await connect_audio_processor(); } catch(e){ console.error(e);}
         if(audioContext.state === 'running') {
             document.removeEventListener('click',click_unlock_WebAudio);
         }
     }
     touch_unlock_WebAudio=async function() {
-        await connect_audio_processor();
+        try { await connect_audio_processor(); } catch(e){ console.error(e);}
         if(audioContext.state === 'running') {
             document.getElementById('canvas').removeEventListener('touchstart',touch_unlock_WebAudio);
         }
@@ -2764,7 +2764,7 @@ $('.layer').change( function(event) {
         {
             set_settings_cache_value('active_version', sw_version.cache_name);        
         }
-        try{window.location.reload();} catch(e){console.error(e)}
+        window.location.reload();
     }
     
     $("#div_toast").hide();
@@ -2935,7 +2935,7 @@ $('.layer').change( function(event) {
             document.getElementById('activate_version').onclick = function() {
                 let cache_name = document.getElementById('version_selector').value; 
                 set_settings_cache_value("active_version",cache_name);
-                try{window.location.reload();} catch(e){console.error(e)}
+                window.location.reload();
             }
             let activate_or_install_btn = document.getElementById('activate_or_install');
             if(activate_or_install_btn != null)
@@ -2946,7 +2946,7 @@ $('.layer').change( function(event) {
                         if(new_version_already_installed)
                         {
                             set_settings_cache_value("active_version",sw_version.cache_name);
-                            try{window.location.reload();} catch(e){console.error(e)}
+                            window.location.reload();
                         }
                         else
                         {

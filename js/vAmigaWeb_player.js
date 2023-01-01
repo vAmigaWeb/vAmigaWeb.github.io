@@ -238,7 +238,7 @@ ${this.overlay_on_icon}
         {
             this.is_overlay=false;
             $('#btn_overlay').html(this.overlay_on_icon);
-            $('#player_container').css({"position": "", "top": "", "left": "", "width": this.preview_pic_width, "z-index": ""});
+            container.css({"position": "", "top": "", "left": "", "width": this.preview_pic_width, "z-index": ""});
         }
         else
         {
@@ -246,6 +246,7 @@ ${this.overlay_on_icon}
             this.scale_overlay();
             this.is_overlay=true;
         }
+        document.body.setAttribute("player_expanded",this.is_overlay);
         $vAmigaWeb.height($vAmigaWeb.width() * 212/320);
         
         let vAmigaWeb=document.getElementById("vAmigaWeb");

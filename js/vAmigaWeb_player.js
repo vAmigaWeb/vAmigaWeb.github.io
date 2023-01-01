@@ -246,7 +246,7 @@ ${this.overlay_on_icon}
             this.scale_overlay();
             this.is_overlay=true;
         }
-        document.body.setAttribute("player_expanded",this.is_overlay);
+        document.body.setAttribute("player_expanded",this.is_overlay?"on":"off");
         $vAmigaWeb.height($vAmigaWeb.width() * 212/320);
         
         let vAmigaWeb=document.getElementById("vAmigaWeb");
@@ -324,6 +324,7 @@ ${this.overlay_on_icon}
         this.last_audio_state=null;
 
         document.removeEventListener("click", this.grab_focus);
+        document.body.removeAttribute("player_expanded");
     },
     send_script: function(the_script) { 
         let vAmigaWeb = document.getElementById("vAmigaWeb").contentWindow;

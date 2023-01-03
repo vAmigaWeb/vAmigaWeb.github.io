@@ -1661,6 +1661,14 @@ function InitWrappers() {
         }
     }
 
+    //when app is going to background
+    //window.addEventListener('blur', pause);
+
+    //when app is coming to foreground again, reconnect audio if it has been 'suspended' in the meantime
+    window.addEventListener('focus', async ()=>{ 
+        try { await connect_audio_processor(); } catch(e){ console.error(e);}
+    });
+
     document.addEventListener('click',click_unlock_WebAudio, false);
 
     //iOS safari does not bubble click events on canvas so we add this extra event handler here

@@ -3124,6 +3124,7 @@ $('.layer').change( function(event) {
             canvas.removeEventListener('touchmove',emulate_mouse_touchpad_move, false);
             canvas.removeEventListener('touchend',emulate_mouse_touchpad_end, false);
         }
+        this.blur();
     }
     document.getElementById('port2').onchange = function() {
         port2 = document.getElementById('port2').value;
@@ -3168,7 +3169,7 @@ $('.layer').change( function(event) {
             canvas.removeEventListener('touchmove',emulate_mouse_touchpad_move, false);
             canvas.removeEventListener('touchend',emulate_mouse_touchpad_end, false);
         }
-
+        this.blur();
     }
 
 

@@ -62,17 +62,12 @@
 									<h2>News</h2>
 								</header>
 
-							<h3><em>09.07.2023 &nbsp;</em>larger .hdf and increased .adf compatibility, borderless bug fix </h3>
+							<h3><em>09.07.2023 &nbsp;</em>increased .adf compatibility, borderless bug fix </h3>
 							<p style="margin-bottom:0px">
 								<li>more ADF files are recognized now </li>
 								<br>
 								<li>when going borderless one vertical pixel was missing when it was an odd number of pixel lines. We fixed that.</li>
 								<br>
-								<li>until now we had memory autogrowth turned on, starting with a very small memory footprint of the app and growing larger as you mount more files into it.<br><br>
-								When using large HDF files it turned out that iOS/iPadOS denied growing the memory space even when it had still plenty of ram left (e.g. on a 8GB iPad Pro). This as a known bug in Safari 15 and 16 for more details <a href="https://github.com/vAmigaWeb/vAmigaWeb/issues/174">issue #174</a><br>
-								<br>For this reason we switched for the time being to a fixed memory model. When the app starts we try to reserve a large 
-								 1.2GB of RAM en block which is to our tests the largest piece of contiguous memory iOS/iPadOS 16 is willing to grant. If you spot problems with this change on your device please create a <a href="https://github.com/vAmigaWeb/vAmigaWeb/issues/new">new issue</a>.
-								</li>
 							</p>
 
 

@@ -2790,7 +2790,7 @@ $('.layer').change( function(event) {
         {
             $("#button_run").click();
         }
-        $("#modal_reset").modal('hide');
+        $("#modal_reset").modal('hide').blur();
     }
     running=true;
     emulator_currently_runs=false;

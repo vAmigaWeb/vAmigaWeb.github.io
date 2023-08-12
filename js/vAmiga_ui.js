@@ -3662,6 +3662,14 @@ $('.layer').change( function(event) {
                 e.stopPropagation();
             }
         );        
+        short_cut_input.addEventListener(
+            'blur',
+            (e)=>{
+                e.preventDefault();
+                e.stopPropagation();
+                short_cut_input.value=short_cut_input.value.replace('^','').replace('^','');
+            }
+        );
         button_delete_shortcut.click(()=>{
 
             short_cut_input.value='';

@@ -1,7 +1,5 @@
 var VirtualJoystick	= function(opts)
 {
-	this._android_z3_fix = navigator.userAgent.includes("Android");
-
 	opts			= opts			|| {};
 	this._container		= opts.container	|| document.body;
 	this._strokeStyle	= opts.strokeStyle	|| 'cyan';
@@ -467,14 +465,5 @@ VirtualJoystick.prototype._buildJoystickStick	= function()
 
 VirtualJoystick.prototype._move = function(style, x, y)
 {
-	if(this._android_z3_fix === true)
-	{
-		//fix for the fold z3 android phone
-		//which stretches the screen if fire canvas goes right into the offscreen
-		if(x+this._baseEl.clientWidth > document.body.clientWidth)
-		{	
-			x=document.body.clientWidth-this._baseEl.clientWidth;
-		}
-	}
 	style["transform"] = 'translate3d(' + x + 'px,' + y + 'px, 0)';
 }

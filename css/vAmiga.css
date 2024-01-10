@@ -193,6 +193,7 @@ color: #aaa !important;
     z-index:999;
     width:100%;
     background-color: var(--lightbg);
+    opacity: var(--keyboard_opacity);
 }
 
 [data-theme="dark"] #virtual_keyboard {

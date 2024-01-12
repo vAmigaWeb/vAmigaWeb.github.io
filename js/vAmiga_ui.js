@@ -3578,9 +3578,9 @@ $('.layer').change( function(event) {
         }
         else if(!port2.startsWith('mouse touch'))
         {
-            canvas.removeEventListener('touchstart',emulate_mouse_touchpad_start, false);
-            canvas.removeEventListener('touchmove',emulate_mouse_touchpad_move, false);
-            canvas.removeEventListener('touchend',emulate_mouse_touchpad_end, false);
+            document.removeEventListener('touchstart',emulate_mouse_touchpad_start, false);
+            document.removeEventListener('touchmove',emulate_mouse_touchpad_move, false);
+            document.removeEventListener('touchend',emulate_mouse_touchpad_end, false);
         }
         this.blur();
     }
@@ -3624,9 +3624,9 @@ $('.layer').change( function(event) {
         }
         else if(!port1.startsWith('mouse touch'))
         {
-            canvas.removeEventListener('touchstart',emulate_mouse_touchpad_start, false);
-            canvas.removeEventListener('touchmove',emulate_mouse_touchpad_move, false);
-            canvas.removeEventListener('touchend',emulate_mouse_touchpad_end, false);
+            document.removeEventListener('touchstart',emulate_mouse_touchpad_start, false);
+            document.removeEventListener('touchmove',emulate_mouse_touchpad_move, false);
+            document.removeEventListener('touchend',emulate_mouse_touchpad_end, false);
         }
         this.blur();
     }

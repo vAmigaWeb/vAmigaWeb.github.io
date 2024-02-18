@@ -8,22 +8,6 @@
   "theme_color": "black",
   "icons": [
     {
-      "src": "img/icon_128x128.png",
-      "type": "image/png",
-      "sizes": "128x128"
-    },
-    {
-      "src": "img/icon_256x256.png",
-      "type": "image/png",
-      "sizes": "256x256"
-    },
-    {
-      "src": "img/icon_maskable_x512.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "maskable"
-    },
-    {
       "src": "img/icon_512x512.png",
       "type": "image/png",
       "sizes": "512x512"

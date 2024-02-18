@@ -8,7 +8,7 @@
   "theme_color": "black",
   "icons": [
     {
-      "src": "img/icon_413x413.png",
+      "src": "img/icon_borderless_x413.png",
       "type": "image/png",
       "sizes": "413x413"
     },

@@ -9,9 +9,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             vAmigaWeb_player.setup('teaser_pic', 
             {
-                kickstart_rom_required:  [3.1],
+                kickstart_rom_required:  [1.3],
                 samesite_file: {
-                    url:'./doc/media/tbl_eon_party.zip',name:'tbl.zip'
+                    url:'./doc/media/tbl_eon_party.zip',name:'tbl.zip',
+                    //url:'./tbl_eon_party.zip',name:'tbl.zip',
+                    mount_kickstart_in_dfn: 1
                 },
                 config:{
                     AROS:false,

@@ -2028,6 +2028,11 @@ function InitWrappers() {
                 {
                     wasm_loadfile("kick.rom_ext_file", event.data.kickstart_ext);
                 }
+                if(event.data.mount_kickstart_in_dfn &&
+                    event.data.mount_kickstart_in_dfn >=0 )
+                {
+                    wasm_loadfile("kick-rom.disk", event.data.kickstart_rom, event.data.mount_kickstart_in_dfn);
+                }
                 with_reset=true;
             }
             if(with_reset){

@@ -22,9 +22,8 @@
         function FromBase64(str) {
                 return atob(str).split('').map(function (c) { return c.charCodeAt(0); });
         }
-        let file_descriptor={
-                cmd: "load"
-        }
+        let file_descriptor=ssfile;
+        file_descriptor.cmd="load";
         if(ssfile.kickstart_rom_base64 !== undefined)
         {
             file_descriptor.kickstart_rom = Uint8Array.from(FromBase64(ssfile.kickstart_rom_base64));

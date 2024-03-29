@@ -424,8 +424,14 @@ ${this.overlay_on_icon}
                 >${the_play}</div>
                 <div style="grid-column: 2/2"></div>
                 `;
-                setup_config.samesite_file.kickstart_rom = ks[0].rom;
-
+                if(setup_config.samesite_file.mount_kickstart_in_dfn)
+                {
+                    setup_config.samesite_file.kickemu_rom = ks[0].rom;
+                }
+                else
+                {
+                    setup_config.samesite_file.kickstart_rom = ks[0].rom;
+                }
             }
         });
     },

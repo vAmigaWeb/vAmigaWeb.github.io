@@ -15,6 +15,11 @@
 	<link rel="icon" href="/img/favicon.ico">
 	<link rel="stylesheet" href="assets/css/main.css" />
 
+
+	<style>
+	 h2 { margin-bottom: 0.3em; }
+	</style>
+
 	<!-- web emulator view stuff start-->
 	<style>
 		.emulator_view {
@@ -159,8 +164,7 @@
 				navbar:false,
 				wide:true,
 				startup_script: `
-				df_mount_list=['tbl_eon_party_ver_disk1.adf'];
-				on_ready_to_run= ()=>wasm_configure('CPU_REVISION', '2');
+				df_mount_list=['tbl_eon_party_ver_disk1.adf']
 				`
 			}
 		});
@@ -819,15 +823,15 @@
 										<header>
 											<h2> Eon - the black lotus </h2>
 										</header>
-											needs original commodore kickstart to unlock ... <span style="font-size:small;">commodore kickstarts are still under copyright 🙄 we can not provide them.</span>
-											<br>Instructions:<ul style="font-style: italic;">
+											needs original commodore kickstart to unlock ... 
+											
+											<div style="margin-top: 0.5em;">Instructions:<ul style="font-style: italic;">
 												<li>select a kickstart file on your local device by clicking on the lock symbol or dragging the file into it</li>
 												<li>a play symbol appears when unlocked... click it</li>
-												<li>demo starts from disk1</li>
 												<li>when demo prompts for disk2, click on bottom bar folder icon and select disk2</li>
-												<li>enjoy!</li>
 											</ul>
-		
+											</div>
+											<span style="font-size:small;font-style: italic;">sidenote: commodore kickstarts are still under copyright 🙄 we can not provide them.</span>
 									</article>
 								</div>
 							</div>

@@ -159,7 +159,8 @@
 				navbar:false,
 				wide:true,
 				startup_script: `
-				df_mount_list=['tbl_eon_party_ver_disk1.adf']
+				df_mount_list=['tbl_eon_party_ver_disk1.adf'];
+				on_ready_to_run= ()=>wasm_configure('CPU_REVISION', '2');
 				`
 			}
 		});
@@ -818,7 +819,7 @@
 										<header>
 											<h2> Eon - the black lotus </h2>
 										</header>
-											needs original commodore kickstart to unlock ... <span style="font-size:small;">since commodore kickstarts are still under copyright 🙄 we can not provide them to you.</span>
+											needs original commodore kickstart to unlock ... <span style="font-size:small;">commodore kickstarts are still under copyright 🙄 we can not provide them.</span>
 											<br>Instructions:<ul style="font-style: italic;">
 												<li>select a kickstart file on your local device by clicking on the lock symbol or dragging the file into it</li>
 												<li>a play symbol appears when unlocked... click it</li>

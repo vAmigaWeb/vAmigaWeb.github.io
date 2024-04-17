@@ -418,7 +418,7 @@ function message_handler(msg, data, data2)
                 wasm_loadfile("kick.rom_file", byteArray);
                 if(call_param_kickstart_ext_url != null)
                 {
-                    wasm_loadfile("kick.rom_ext_file", new Uint8Array(await (await fetch(call_param_kickstart_rom_url)).arrayBuffer()));
+                    wasm_loadfile("kick.rom_ext_file", new Uint8Array(await (await fetch(call_param_kickstart_ext_url)).arrayBuffer()));
                 }
                 wasm_reset();
             }

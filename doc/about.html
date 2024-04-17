@@ -415,7 +415,9 @@
 
 								<p>
 									This demo is absolutely cool stuff in just every aspect  ...
-									We use here the fixed version for hard disk and kickstart replacement  (<a href="https://whdload.de/demos/TBL_Eon.html">whdload slave created by paraj</a>). 
+									We use here the version for hard disk which also works with a kickstart replacement  (<a href="https://whdload.de/demos/TBL_Eon.html">whdload slave created by paraj</a>). 
+									The disk loader still has some problems which results in some hickups during play. 
+									You find the original disk based version at the bottom of this page (last demo entry) 
 								</p>
 							</article>
 						</div>
@@ -428,7 +430,8 @@
 									ontouchstart="touched=true"
 									onclick="
 									let config={
-										AROS:true,
+										kickstart_rom_url: '/roms/aros.bin',
+										kickstart_ext_url: '/roms/aros_ext.bin',
 										navbar:false,
 										wide:true,
 										gpu:true,

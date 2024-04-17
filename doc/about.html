@@ -165,6 +165,10 @@
 				wide:true,
 				startup_script: `
 				df_mount_list=['tbl_eon_party_ver_disk1.adf']
+				on_ready_to_run=()=>{
+					wasm_configure('CPU_OVERCLOCKING','1');
+					wasm_configure('CPU_REVISION','0');
+				}
 				`
 			}
 		});

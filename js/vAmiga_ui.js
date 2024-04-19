@@ -396,7 +396,7 @@ function message_handler(msg, data, data2)
                 }
                 let url = await load_parameter_link();
 
-                if(url == null)
+                if(url == null && hd_mount_list.length==0 && df_mount_list.length==0)
                 { //when there is no media url to load, power on the Amiga directly here
                   //otherwise it will be started after media is inserted 
                   setTimeout(function(){

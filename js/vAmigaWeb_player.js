@@ -82,7 +82,7 @@
                 if(event.data.msg == "render_run_state")
                 {
                     this.render_run_state(event.data.value);
-                    if(event.data.value == true && this.samesite_file != null)
+                    if(this.samesite_file != null)
                     {
                         this.inject_samesite_app_into_iframe();
                     }

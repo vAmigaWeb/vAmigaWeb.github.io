@@ -450,7 +450,7 @@
 											wasm_configure('SLOW_RAM','0');
 											wasm_configure('FAST_RAM','8192');
 											wasm_configure('floppy_drive_count','1');
-											setTimeout(() => wasm_configure('WARP_MODE','WARP_ALWAYS'), 300);
+											wasm_configure('WARP_MODE','WARP_ALWAYS');
 										}
 										on_hdr_step=(drive_number,cylinder)=>{
 											on_power_led_dim=()=>{

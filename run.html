@@ -91,19 +91,19 @@ function send_hello_to_ser(){
             onclick="
             vAmigaWeb_player.samesite_file={
 //                kickstart_rom_url:'./roms/kick2.rom',
-//                url:'./test2.adf',name:'my_demo.adf'
+                url:'/doc/media/knightmare.adf',name:'my_demo.adf'
             };
-            vAmigaWeb_player.vAmigaWeb_url='./';  //the emulator files are in the same folder as the run.html
+            //vAmigaWeb_player.vAmigaWeb_url='./';  //the emulator files are in the same folder as the run.html
             let touch=(typeof touched!='undefined')?touched:false;touched=false;
             let config={
                 touch:touch,
-                AROS:false,
-                x_wait_for_kickstart_injection:true,
+                AROS:true,
+                wait_for_kickstart_injection:false,
                 navbar:false,   //you can also enable this and disable the players toolbar (see styles section above)
                 wide:true,
                 border:0.3,
                 port2:true,
-                url:'./test2.adf',
+                //url:'./test2.adf',
                 //kickstart_rom_url:'./roms/kick2.rom'
             }; 
             vAmigaWeb_player.load(this,encodeURIComponent(JSON.stringify(config)));

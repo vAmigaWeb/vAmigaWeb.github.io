@@ -2123,7 +2123,6 @@ function InitWrappers() {
             if(!has_pointer_lock_fallback)
             {
                 add_pointer_lock_fallback();      
-                has_pointer_lock_fallback=true;
             }
             return;
         }
@@ -2131,7 +2130,8 @@ function InitWrappers() {
         {
             try_to_lock_pointer++;
             try {
-                await canvas.requestPointerLock();           
+                if(has_pointer_lock_fallback) {remove_pointer_lock_fallback();}
+                await canvas.requestPointerLock();
                 try_to_lock_pointer=0;
             } catch (error) {
                 await sleep(100);
@@ -2144,6 +2144,7 @@ function InitWrappers() {
         document.addEventListener("mousemove", updatePosition_fallback, false); 
         document.addEventListener("mousedown", mouseDown, false);
         document.addEventListener("mouseup", mouseUp, false);
+        has_pointer_lock_fallback=true;
     };
     window.remove_pointer_lock_fallback=()=>{
         document.removeEventListener("mousemove", updatePosition_fallback, false); 
@@ -2151,6 +2152,7 @@ function InitWrappers() {
         document.removeEventListener("mouseup", mouseUp, false);
         has_pointer_lock_fallback=false;
     };
+    document.addEventListener('pointerlockerror', add_pointer_lock_fallback, false);
 
     // Hook pointer lock state change events for different browsers
     document.addEventListener('pointerlockchange', lockChangeAlert, false);

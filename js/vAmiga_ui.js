@@ -35,7 +35,7 @@ let fixed_touch_joystick_base=false;
 let stationaryBase = false;
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioContext = new AudioContext();
+let audioContext = new AudioContext();
 let audio_connected=false;
 
 let load_sound = async function(url){
@@ -1953,18 +1953,6 @@ function InitWrappers() {
 
     add_unlock_user_action();
     
-    get_audio_context=function() {
-        if (typeof Module === 'undefined'
-        || typeof Module.SDL2 == 'undefined'
-        || typeof Module.SDL2.audioContext == 'undefined')
-        {
-            return null;
-        }
-        else
-        {
-            return Module.SDL2.audioContext;
-        }
-    }
     window.addEventListener('message', event => {
         if(event.data == "poll_state")
         {
@@ -1982,15 +1970,14 @@ function InitWrappers() {
         }
         else if(event.data == "toggle_audio()")
         {
-            var context = audioContext; //get_audio_context();
-            if (context !=null)
+            if (audioContext !=null)
             {
-                if(context.state == 'suspended') {
-                    context.resume();
+                if(audioContext.state == 'suspended') {
+                    audioContext.resume();
                 }
-                else if (context.state == 'running')
+                else if (audioContext.state == 'running')
                 {
-                    context.suspend();
+                    audioContext.suspend();
                 }
             }
             window.parent.postMessage({ msg: 'render_current_audio_state', 

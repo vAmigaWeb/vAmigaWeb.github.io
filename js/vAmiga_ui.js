@@ -1746,9 +1746,28 @@ function InitWrappers() {
     wasm_get_config_item = Module.cwrap('wasm_get_config_item', 'number', ['string']);
     wasm_get_core_version = Module.cwrap('wasm_get_core_version', 'string');
 
+
+    resume_audio=async ()=>{
+        try {
+            await audioContext.resume();  
+        }
+        catch(e) {
+            console.error(e); console.error("try to setup audio from scratch...");
+            try {
+                await audioContext.close();
+            }
+            finally
+            {
+                audio_connected=false; 
+                audioContext=new AudioContext();
+            }
+        }
+    }
+
+
     connect_audio_processor_standard = async () => {
         if(audioContext.state !== 'running') {
-            await audioContext.resume();  
+            await resume_audio();
         }
         if(audio_connected==true)
             return; 
@@ -1829,7 +1848,7 @@ function InitWrappers() {
 
     connect_audio_processor_shared_memory= async ()=>{
         if(audioContext.state !== 'running') {
-            await audioContext.resume();  
+            await resume_audio();
         }
         if(audio_connected==true)
             return; 

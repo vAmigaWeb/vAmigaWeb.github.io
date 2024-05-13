@@ -61,6 +61,14 @@
 								<header>
 									<h2>News</h2>
 								</header>
+								<h3><em>13.05.2024 &nbsp;</em>iOS/iPadOS - reconnect sound context after longer suspension</h3>
+								<ul>
+								<li style="margin-top:1em">
+									after reviving from longer app background suspension AudioContext got stuck on resuming and reported <i>"Failed to start the audio device" </i><br>
+									when this happens we now close the broken AudioContext and create a new one, which brings audio back :-)
+								</li>
+								</ul>
+
 								<h3><em>12.02.2024 &nbsp;</em>vAmigaWeb v2.6, improved file usage</h3>
 									<ul>
 									<li style="margin-top:1em">

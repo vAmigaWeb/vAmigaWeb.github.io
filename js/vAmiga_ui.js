@@ -1746,7 +1746,6 @@ function InitWrappers() {
     wasm_get_config_item = Module.cwrap('wasm_get_config_item', 'number', ['string']);
     wasm_get_core_version = Module.cwrap('wasm_get_core_version', 'string');
 
-
     resume_audio=async ()=>{
         try {
             await audioContext.resume();  
@@ -1763,8 +1762,7 @@ function InitWrappers() {
             }
         }
     }
-
-
+    
     connect_audio_processor_standard = async () => {
         if(audioContext.state !== 'running') {
             await resume_audio();

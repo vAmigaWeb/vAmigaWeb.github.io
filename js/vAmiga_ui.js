@@ -1041,7 +1041,7 @@ function prompt_for_drive()
         if(show)
         {
             $("#div_drive_select").show();
-            add_pencil_support_to_childs(document.getElementById("div_drive_select"));
+            add_pencil_support_to_childs(document.getElementById("drive_select_choice"));
             add_pencil_support(document.getElementById("prompt_drive_cancel"));
         }
         else

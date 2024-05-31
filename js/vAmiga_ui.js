@@ -5038,6 +5038,8 @@ function add_monitor(id, label)
             if(!running) return;
             
             for(id in dma_channels){
+                if(dma_channel_history[id]===undefined)
+                    continue;
                 let value=_wasm_activity(activity_id[id]);
 
                 value = (Math.log(1+19*value) / Math.log(20)) * 100;
@@ -5103,13 +5105,13 @@ bottom: 0;left: 0;background-color: rgba(200, 200, 200, 0.0)">
 
 
     dma_channel_history = [];
-
+/*
     add_monitor("blitter", "Blitter DMA");
     add_monitor("copper", "Copper DMA");
     add_monitor("disk", "Disk DMA");
     add_monitor("audio", "Audio DMA");
     add_monitor("sprite", "Sprite DMA");
-    add_monitor("bitplane", "Bitplane DMA");
+    add_monitor("bitplane", "Bitplane DMA");*/
     add_monitor("chipRam", "CPU (chipRam)");
 
  }

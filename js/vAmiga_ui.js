@@ -5105,13 +5105,13 @@ bottom: 0;left: 0;background-color: rgba(200, 200, 200, 0.0)">
 
 
     dma_channel_history = [];
-/*
+
     add_monitor("blitter", "Blitter DMA");
     add_monitor("copper", "Copper DMA");
     add_monitor("disk", "Disk DMA");
     add_monitor("audio", "Audio DMA");
     add_monitor("sprite", "Sprite DMA");
-    add_monitor("bitplane", "Bitplane DMA");*/
+    add_monitor("bitplane", "Bitplane DMA");
     add_monitor("chipRam", "CPU (chipRam)");
 
  }

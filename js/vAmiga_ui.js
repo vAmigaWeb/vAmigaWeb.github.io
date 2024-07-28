@@ -2444,12 +2444,14 @@ function InitWrappers() {
     //----
     lock_action_button_switch = $('#lock_action_button_switch');
     lock_action_button=load_setting('lock_action_button', false);
-    lock_action_button_switch.prop('checked', lock_action_button);
+ 
+    lock_action_button_switch.prop('checked', !lock_action_button);
     lock_action_button_switch.change( function() {
-        lock_action_button=this.checked;
+        lock_action_button=!this.checked;
         install_custom_keys();
         save_setting('lock_action_button', lock_action_button);
         $('#move_action_buttons_switch').prop('checked',!lock_action_button);
+        set_move_action_buttons_label();
     });
 
     $('#move_action_buttons_switch').prop('checked',!lock_action_button);
@@ -2461,6 +2463,12 @@ function InitWrappers() {
             :
             `Once created, you can <span>move any 'action button' by dragging</span>… A <span>long press will enter 'edit mode'</span>… While 'moveable action buttons' is switched on, <span>scripts can not detect release</span> state (to allow this, you must disable the long press gesture by turning 'moveable action buttons' off)`
         );
+        $('#move_action_buttons_label_settings').html(
+            lock_action_button ? 
+            `action button positions are locked. action button scripts can detect release state.`
+            :
+            `long press to enter edit mode. movable by dragging. scripts are unable to detect buttons release state.`
+        );
     }
     set_move_action_buttons_label();
     $('#move_action_buttons_switch').change( 
@@ -2468,7 +2476,8 @@ function InitWrappers() {
                 lock_action_button=!lock_action_button;
                 set_move_action_buttons_label();
                 install_custom_keys();
-                lock_action_button_switch.prop('checked', lock_action_button);
+                lock_action_button_switch.prop('checked', !lock_action_button);
+                save_setting('lock_action_button', lock_action_button);
             }
     ); 
 
@@ -3310,7 +3319,7 @@ $('.layer').change( function(event) {
                 wasm_eject_disk("dh"+this.id.at(-1));
                 $("#button_eject_hd"+this.id.at(-1)).hide();
             });
-        }   
+        }
     });
 
     document.getElementById('button_take_snapshot').onclick = function() 

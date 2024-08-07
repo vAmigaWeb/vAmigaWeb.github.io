@@ -424,7 +424,7 @@ ${this.overlay_on_icon}
                 >${the_play}</div>
                 <div style="grid-column: 2/2"></div>
                 `;
-                if(setup_config.samesite_file.mount_kickstart_in_dfn)
+                if(setup_config.samesite_file.mount_kickstart_in_dfn !== undefined)
                 {
                     setup_config.samesite_file.kickemu_rom = ks[0].rom;
                 }

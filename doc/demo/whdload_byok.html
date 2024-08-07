@@ -1,0 +1,227 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>WHDLoad Install for Test Drive (High Quality Crackings)</TITLE>
+<style>#iconpic:hover { transform: scale(2,2); }</style>
+<meta name="DC.Language" content="en">
+<meta http-equiv="content-language" content="en">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../basic.css" title="style1">
+<link rel="SHORTCUT ICON" href="/favicon.ico">
+</head>
+<BODY TEXT="#F0F000" BGCOLOR="#282810" LINK="#F0F0F0" VLINK="#F05050" BACKGROUND="../pic/wood_bark2.jpeg"><HR><CENTER>
+<A HREF="../index.html">[Main]</A>
+<A HREF="../docs/WHDLoad.html">[Docs]</A>
+<A HREF="../download.html">[Installs]</A>
+<A HREF="../search.html">[Search]</A>
+<A HREF="../team.html">[Team]</A>
+<A HREF="../guestbook.html">[Guestbook]</A>
+<A HREF="../links.html">[Links]</A>
+</CENTER><HR>
+<script src="https://vAmigaWeb.github.io/js/vAmigaWeb_player.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		vAmigaWeb_player.setup('HighQualityCrackings_TD', 
+		{
+			kickstart_rom_required:  [1.3],
+			samesite_file: {
+				kickstart_rom_url:'https://whdload.de/va/roms/aros-rom-20240313.bin',
+				kickstart_ext_url:'https://whdload.de/va/roms/aros-ext-20240313.bin',
+				url:'https://whdload.de/va/ctros/HighQualityCrackings_TD.zip',
+				name:'HighQualityCrackings_TD.zip',
+				mount_kickstart_in_dfn: 1
+			},
+			config:{
+				AROS:false,
+				wait_for_kickstart_injection:true,
+				navbar:false,
+				wide:true,
+				startup_script: `
+				hd_mount_list=['HighQualityCrackings_TD.hdf'];
+				on_ready_to_run=()=>{
+					wasm_configure('CPU_OVERCLOCKING','2');
+					wasm_configure('CPU_REVISION','0');
+					wasm_configure('AGNUS_REVISION','OCS');
+					wasm_configure('DENISE_REVISION','OCS');
+					wasm_configure('CHIP_RAM','512');
+					wasm_configure('SLOW_RAM','0');
+					wasm_configure('FAST_RAM','8192');
+					wasm_configure('floppy_drive_count','1');
+					wasm_configure('WARP_MODE','WARP_ALWAYS');
+				}
+				on_hdr_step=(drive_number,cylinder)=>{
+					on_power_led_dim=()=>{
+						wasm_configure('WARP_MODE','WARP_NEVER'); 
+						on_power_led_dim=()=>{}; 
+					}
+					on_hdr_step=()=>{};
+				}
+				`
+			}
+		});
+	});
+</script>
+<center>
+<table cellpadding=2 cellspacing=2>
+<colgroup><col width="48%"><col width="4%"><col width="48%"></colgroup>
+<tr><td align=right><a href="../ctros/BlackMonks_TestDrive2.html">Test Drive 2</a></td><td align=center>&lt; &gt;</td><td><a href="../ctros/Tristar_Tetris.html">Tetris</a></td></tr>
+</table>
+<hr>
+<h3>Test Drive (High Quality Crackings)</h3>
+<table cellpadding=2 cellspacing=2>
+<colgroup><col width="50%"><col width="50%"></colgroup>
+<tr><td align=right>download the install package</td><td><a href="HighQualityCrackings_TD.lha">HighQualityCrackings_TD.lha</a></td></tr>
+<tr><td align=right>created at</td><td>2014-11-18</td></tr>
+<tr><td align=right>size of install package</td><td>15817 Bytes</td></tr>
+<tr><td align=right>Author/Contact<br>(use it to report problems with that install)</td><td><A HREF="/cgi-bin/wbug.php?name=HighQualityCrackings_TD">StingRay</A></td></tr>
+<tr><td align=right>Hall Of Light</td><td><A HREF="http://hol.abime.net/1348">1348</A></td></tr>
+<tr><td align=right>Lemon Amiga</td><td><A HREF="https://www.lemonamiga.com/games/details.php?id=1211">1211</A></td></tr>
+<tr><td align=right>BitWorld</td><td><A HREF="http://janeway.exotica.org.uk/release.php?id=1560">1560</A></td></tr>
+<tr><td align=right>Pouët</td><td><A HREF="http://www.pouet.net/prod.php?which=4443">4443</A></td></tr>
+</table><p>
+<hr>
+<p><table><tr><td align=left><pre> THIS PACKAGE COMES WITH ABSOLUTELY NO WARRANTY OF ANY KIND, EITHER EXPRESS OR
+ IMPLIED, STATUTORY OR OTHERWISE. THE ENTIRE RISK AS TO USE, RESULTS AND
+ PERFORMANCE OF THE PACKAGE IS ASSUMED BY YOU AND IF THE PACKAGE SHOULD PROVE
+ TO BE DEFECTIVE, YOU ASSUME THE ENTIRE COST OF ALL NECESSARY SERVICING,
+ REPAIR OR OTHER REMEDIATION.
+ UNDER NO CIRCUMSTANCES, CAN THE AUTHOR BE HELD RESPONSIBLE FOR ANY DAMAGE
+ CAUSED IN ANY USUAL, SPECIAL, OR ACCIDENTAL WAY, ALSO IF THE OWNER OR A THIRD
+ PARTY HAS BEEN POINTED AT SUCH POSSIBILITIES OF DAMAGE.
+
+ This install applies to "Test Drive Crack Intro" © 1987 High Quality Crackings.
+
+ Requirements:
+ -------------
+ This install requires WHDLoad to be in the path.
+ It can be found in the WHDLoad package.
+ To install from a different drive than DF0: select installation mode Expert.
+
+ The installed intro requires 0.5 MB ChipMem (+0.1 MB OtherMem for <a href="/docs/en/opt.html#Preload">preload</a>).
+ It can be quit by pressing F10 (key can be changed with Tooltype "<a href="/docs/en/opt.html#QuitKey">QuitKey</a>=").
+
+ The intro requires an installed A500 Kickstart 1.3 image.
+ The kickstart image must be located in the directory "Devs:Kickstarts" and
+ must be named "kick34005.A500". The image can be extracted from a A500 with
+ tools like 'GrabKick' or similar which can be found on aminet.
+ If the image is of wrong version or altered in any way WHDLoad will quit with
+ an appropriate message.
+ Additionally the file "kick34005.A500.RTB" must be installed in the same
+ directory as the kickstart image. It can be found in the archive
+ "util/boot/skick346.lha" on aminet.
+
+
+ Features:
+ ---------
+ - Full load from HD
+ - Sprite problems fixed
+ - Decruncher (PowerPacker) relocated to fast memory
+ - NewIcon (created by me)
+ - Source code included as usual
+ - Quit option that works on 68000 machines (default key is 'F10')
+
+ And another HQC classic has been patched. Always loved this intro
+ and always will, specially the tune (a cover of David Whittaker's
+ "Storm" tune) is great.
+
+ The intro uses a few graphics.library routines
+ (ScrollRaster, Rectfill etc.) which I didn't feel like recoding hence
+ the patch needs a Kickstart 1.3 ROM.
+
+ The intro has also been protected from decrunching just like the
+ Silent Service intro. :)
+ 
+
+ Enjoy this classic intro, those were the days! HQC sure ruled, German
+ pioneers of the early Amiga days! :)
+
+
+ Sting, 18-Nov-2014
+
+
+
+ Greetings to all in Scarab and Scoopex, the WHDLoad team, PMC,
+ Musashi5150, Skan, Slummy, Loaderror, Frequent, Wayne Kerr, Mr.Spiv,
+ Alpha One, CFou!, Paradroid and all the other usual suspects. :)
+
+ Special greetings to all Golf MK1 fans worldwide and all classic
+ car owners/drivers. :)
+
+ Extra greetings to the usual suspects on #amigascne, see you all at
+ Revision 2015! :)
+
+
+
+ History:
+ --------
+
+ version 1.00 (18.11.2014) done by StingRay:
+ - initial release
+ - source code included
+
+
+ Contact:
+ --------
+ If you have problems with this installation please try and get a newer
+ version of this package from the WHDLoad WWW-Page. If that doesn't help try
+ some Tooltypes like <a href="/docs/en/opt.html#NoCache">NOCACHE</a>, <a href="/docs/en/opt.html#NoAutoVec">NOAUTOVEC</a>, <a href="/docs/en/opt.html#Exp">EXPCHIP</a>, <a href="/docs/en/opt.html#NoMMU">NOMMU</a>, <a href="/docs/en/opt.html#PAL">PAL</a> or <a href="/docs/en/opt.html#NTSC">NTSC</a>. If
+ that also fails, please inform the author via the Bug-Report-Form which
+ can be accessed on the WHDLoad WWW-Page.
+
+ For the full WHDLoad package, other installs and updates refer to:
+	<a href="http://www.whdload.de/">http://www.whdload.de/</a>
+ or	aminet:dev/misc/whdload#?
+ and	aminet:game/patch/</pre></td></tr></table>
+
+<hr>
+<b>Run emulated</b><br>
+<div id="container" class="emulator_view" style="position: relative;width:50vw;aspect-ratio: 4 / 3;">
+	<div id="HighQualityCrackings_TD" style="width:100%;"></div>
+	<div id="HighQualityCrackings_TD_overlay" style="position: absolute;top:0;left:0;width:100%;height:100%;color:#eeeeee"></div>	
+</div>	
+<br>
+Browser Amiga emulation thanks to <a href="https://vamigaweb.github.io/doc/about.html">vAmigaWeb</a><br>
+HDF creation thanks to <a href="https://github.com/cnvogelg/amitools">amitools</a>
+<hr><p><table cellspacing=5>
+<tr><th>Icons contained in install package</th></tr>
+<tr><td align=center><img id="iconpic" src="ico/HighQualityCrackings_TD.png"></td></tr>
+</table>
+<hr><p><table cellspacing=5 class='TT'>
+<colgroup><col width="45%"><col width="45%"></colgroup>
+<tr><th colspan=2>WHDLoad Slave information</th></tr>
+<tr><td colspan=2 align=center><b>TestDrive.slave</b> - 18.11.2014 20:53:12 - 4516 bytes</td></tr>
+<tr><td valign=top align=right>required WHDLoad version</td><td>17</td></tr>
+<tr><td valign=top align=right>flags</td><td>NoError EmulTrap EmulPriv Examine</td></tr>
+<tr><td valign=top align=right>required Chip Memory</td><td>512 KiB ($80000)</td></tr>
+<tr><td valign=top align=right>required Expansion Memory</td><td>256 KiB ($40000)</td></tr>
+<tr><td valign=top align=right>info name</td><td>Test Drive Crack Intro</td></tr>
+<tr><td valign=top align=right>info copy</td><td>1987 High Quality Crackings</td></tr>
+<tr><td valign=top align=right>info install</td><td>installed by StingRay/[S]carab^Scoopex<br>Version 1.00 (18.11.2014)</td></tr>
+<tr><td valign=top align=right>Kickstart name</td><td>34005.a500</td></tr>
+<tr><td valign=top align=right>Kickstart size</td><td>256 KiB ($40000)</td></tr>
+<tr><td valign=top align=right>Kickstart checksum</td><td>$f9e3</td></tr>
+<tr><td valign=top align=right>Configuration</td><td></td></tr>
+</table>
+<hr><p><table cellspacing=5>
+<tr><th colspan=7>Install Archive Content Listing</th></tr>
+<tr><th title="uncompressed length">Unpacked</th><th title="header level">Lvl</th><th title="compression method">Method</th><th title="compressed length">Packed</th><th title="operating system where created">OS</th><th>Date/Time</th><th>Name</th></tr><tr><td align=right>1584</td><td align=center>1</td><td align=center>lh5</td><td align=right>1046</td><td>Amiga</td><td align=center>2007-09-05 22:15:12</td><td>TestDriveIntro.info</td></tr>
+<tr><td align=right>4288</td><td align=center>1</td><td align=center>lh5</td><td align=right>3985</td><td>Amiga</td><td align=center>2003-03-06 08:23:04</td><td>TestDriveIntro/Intro</td></tr>
+<tr><td align=right>3339</td><td align=center>1</td><td align=center>lh5</td><td align=right>1827</td><td>Amiga</td><td align=center>2014-11-18 21:05:04</td><td>TestDriveIntro/ReadMe</td></tr>
+<tr><td align=right>1406</td><td align=center>1</td><td align=center>lh5</td><td align=right>899</td><td>Amiga</td><td align=center>2013-12-30 18:19:20</td><td>TestDriveIntro/ReadMe.info</td></tr>
+<tr><td align=right>5238</td><td align=center>1</td><td align=center>lh5</td><td align=right>1886</td><td>Amiga</td><td align=center>2014-11-18 20:58:22</td><td>TestDriveIntro/Source/TestDriveOS_WHD.s</td></tr>
+<tr><td align=right>13537</td><td align=center>1</td><td align=center>lh5</td><td align=right>2564</td><td>Amiga</td><td align=center>2014-11-18 20:58:08</td><td>TestDriveIntro/TestDrive.info</td></tr>
+<tr><td align=right>4516</td><td align=center>1</td><td align=center>lh5</td><td align=right>3188</td><td>Amiga</td><td align=center>2014-11-18 20:53:12</td><td>TestDriveIntro/TestDrive.slave</td></tr>
+</table>
+</center>
+<HR><CENTER>
+<A HREF="../index.html">[Main]</A>
+<A HREF="../docs/WHDLoad.html">[Docs]</A>
+<A HREF="../download.html">[Installs]</A>
+<A HREF="../search.html">[Search]</A>
+<A HREF="../team.html">[Team]</A>
+<A HREF="../guestbook.html">[Guestbook]</A>
+<A HREF="../links.html">[Links]</A>
+</CENTER><HR><center><h6>last change : <!--CIS-->2024-08-06<!--CIE--><br>&copy; 1996-<!--CIS-->2024<!--CIE--> Bert Jahn, All Rights Reserved</h6></center>
+</BODY></HTML>

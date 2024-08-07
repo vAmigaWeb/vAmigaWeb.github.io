@@ -4,15 +4,18 @@
 <script src="js/vAmigaWeb_player.js"></script>
 
 <script>
-        //vAmigaWeb_player.vAmigaWeb_url='./';  //the emulator files are in the same folder as the run.html
+        vAmigaWeb_player.vAmigaWeb_url='./';  //the emulator files are in the same folder as the run.html
 
         document.addEventListener('DOMContentLoaded', function() {
             vAmigaWeb_player.setup('teaser_pic', 
             {
                 kickstart_rom_required:  [1.3],
                 samesite_file: {
-                    url:'./doc/media/tbl_eon_party.zip',name:'tbl.zip',
-                    //url:'./tbl_eon_party.zip',name:'tbl.zip',
+                    //kickstart_rom_url:'./roms/aros-rom-20240313.bin',
+			        //kickstart_ext_url:'./roms/aros-ext-20240313.bin',
+                    //url:'./doc/media/tbl_eon_party.zip',name:'tbl.zip',
+                    url:'./tbl_eon_party.zip',name:'tbl.zip',
+                    //url:'./wb3.hdf',name:'wb3.hdf',
                     //mount_kickstart_in_dfn: 1
                 },
                 config:{
@@ -20,7 +23,10 @@
                     wait_for_kickstart_injection:true,
                     navbar:false,   //you can also enable this and disable the players toolbar (see styles section above)
                     wide:true,
-                    startup_script: `df_mount_list=['tbl_eon_party_ver_disk1.adf']`
+                    startup_script: `
+				    xhd_mount_list=['wb3.hdf'];
+                    df_mount_list=['tbl_eon_party_ver_disk1.adf']
+                    `
                 }
             });
         });

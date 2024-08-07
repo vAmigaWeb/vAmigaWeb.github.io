@@ -2055,7 +2055,7 @@ function InitWrappers() {
 
             let with_reset=false;
             //put whdload kickemu into disk drive
-            if(event.data.mount_kickstart_in_dfn &&
+            if(event.data.mount_kickstart_in_dfn !==undefined &&
                 event.data.mount_kickstart_in_dfn >=0 )
             {
                 wasm_loadfile("kick-rom.disk", event.data.kickemu_rom, event.data.mount_kickstart_in_dfn);

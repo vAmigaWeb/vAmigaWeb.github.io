@@ -31,7 +31,8 @@
 				kickstart_ext_url:'/roms/aros_ext.bin',
 				url:'./HighQualityCrackings_TD.zip',
 				name:'HighQualityCrackings_TD.zip',
-				mount_kickstart_in_dfn: 1
+				patch_kickstart_into_address: 0x00980000,
+				//mount_kickstart_in_dfn: 1
 			},
 			config:{
 				AROS:false,
@@ -177,7 +178,7 @@
 
 <hr>
 <b>Run emulated</b><br>
-<div id="container" class="emulator_view" style="position: relative;width:50vw;aspect-ratio: 4 / 3;">
+<div id="container" class="emulator_view" style="position: relative;width:50vw;aspect-ratio: 4 / 3;background-color: black;border-radius: 15px;padding: 15px;">
 	<div id="HighQualityCrackings_TD" style="width:100%;"></div>
 	<div id="HighQualityCrackings_TD_overlay" style="position: absolute;top:0;left:0;width:100%;height:100%;color:#eeeeee"></div>	
 </div>	

@@ -18,6 +18,9 @@ let call_param_wait_for_kickstart_injection=null;
 let call_param_kickstart_rom_url=null;
 let call_param_kickstart_ext_url=null;
 
+let patch_kickemu_address=null;
+let patch_kickemu_rom=null;
+
 let startup_script_executed=false;
 let on_ready_to_run=()=>{};
 let on_hdr_step=(drive_number, cylinder)=>{};
@@ -501,6 +504,16 @@ function message_handler_queue_worker(msg, data, data2)
     else if(msg == "MSG_POWER_LED_DIM")
     {
         on_power_led_dim();
+    }
+    else if(msg == "MSG_POWER")
+    {
+        if(data==1)
+        {
+            if(patch_kickemu_address && patch_kickemu_rom)
+            {
+                wasm_mem_patch(patch_kickemu_address, patch_kickemu_rom);
+            }
+        }
     }
     else if(msg == "MSG_SNAPSHOT_RESTORED")
     {
@@ -2083,7 +2096,10 @@ function InitWrappers() {
             }
             if(event.data.patch_kickstart_into_address !==undefined)
             {
-                wasm_mem_patch(event.data.patch_kickstart_into_address, event.data.kickemu_rom);
+                patch_kickemu_address=event.data.patch_kickstart_into_address;
+                patch_kickemu_rom=event.data.kickemu_rom;
+                wasm_mem_patch(patch_kickemu_address, patch_kickemu_rom); 
+                //wasm_mem_patch(event.data.patch_kickstart_into_address, event.data.kickemu_rom);
             }
 
             if(event.data.file_name !== undefined && event.data.file !== undefined)

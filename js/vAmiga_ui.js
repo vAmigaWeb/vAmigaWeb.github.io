@@ -2067,10 +2067,6 @@ function InitWrappers() {
             {
                 wasm_loadfile("kick-rom.disk", event.data.kickemu_rom, event.data.mount_kickstart_in_dfn);
             }
-            if(event.data.patch_kickstart_into_address !==undefined)
-            {
-                wasm_mem_patch(event.data.patch_kickstart_into_address, event.data.kickemu_rom);
-            }
             //check if any roms should be preloaded first... 
             if(event.data.kickstart_rom !== undefined)
             {
@@ -2085,6 +2081,11 @@ function InitWrappers() {
             if(with_reset){
                 wasm_reset();
             }
+            if(event.data.patch_kickstart_into_address !==undefined)
+            {
+                wasm_mem_patch(event.data.patch_kickstart_into_address, event.data.kickemu_rom);
+            }
+
             if(event.data.file_name !== undefined && event.data.file !== undefined)
             {
                 file_slot_file_name = event.data.file_name;

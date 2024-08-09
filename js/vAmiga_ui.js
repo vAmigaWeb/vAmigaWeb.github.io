@@ -500,6 +500,12 @@ function message_handler_queue_worker(msg, data, data2)
         play_sound(audio_hd_step);
         $("#drop_zone").html(`dh${data} ${data2}`);
         on_hdr_step(data, data2);
+        if(patch_kickemu_address && patch_kickemu_rom)
+        {
+            wasm_mem_patch(patch_kickemu_address, patch_kickemu_rom);
+            patch_kickemu_address=null;
+            patch_kickemu_rom=null;
+        }
     }
     else if(msg == "MSG_POWER_LED_DIM")
     {

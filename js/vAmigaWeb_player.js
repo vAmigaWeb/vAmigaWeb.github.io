@@ -356,9 +356,7 @@ ${this.overlay_on_icon}
         {
             overlay.innerHTML=`
             <div style="display:grid;grid-template-columns: repeat(3, 1fr); width:100%;height:100%">
-            <div style="grid-column:1/span3;text-align:end;" >
-              <span>runs on AROS</span>
-            </div>
+            <div style="grid-column:1/span3;text-align:end;"></div>
             <div id="play_button" style="grid-column: 2/2;cursor:pointer"
                 ontouchstart="touched=true"
                 onclick="let touch=(typeof touched!='undefined')?touched:false;touched=false;vAmigaWeb_player.load_setup('${id}', {touch:touch})"

@@ -511,16 +511,6 @@ function message_handler_queue_worker(msg, data, data2)
     {
         on_power_led_dim();
     }
-    else if(msg == "MSG_POWER")
-    {
-        if(data==1)
-        {
-            if(patch_kickemu_address && patch_kickemu_rom)
-            {
-                wasm_mem_patch(patch_kickemu_address, patch_kickemu_rom);
-            }
-        }
-    }
     else if(msg == "MSG_SNAPSHOT_RESTORED")
     {
         let v=wasm_get_config_item("BLITTER_ACCURACY");
@@ -2104,10 +2094,7 @@ function InitWrappers() {
             {
                 patch_kickemu_address=event.data.patch_kickstart_into_address;
                 patch_kickemu_rom=event.data.kickemu_rom;
-                wasm_mem_patch(patch_kickemu_address, patch_kickemu_rom); 
-                //wasm_mem_patch(event.data.patch_kickstart_into_address, event.data.kickemu_rom);
             }
-
             if(event.data.file_name !== undefined && event.data.file !== undefined)
             {
                 file_slot_file_name = event.data.file_name;

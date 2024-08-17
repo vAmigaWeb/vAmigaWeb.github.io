@@ -335,7 +335,7 @@ async function load_parameter_link()
     var parameter_link = get_parameter_link();
     if(parameter_link != null)
     {
-        parameter_link_mount_in_df0=parameter_link.match(/[.](adf|hdf|dms|exe)$/i);
+        parameter_link_mount_in_df0=parameter_link.match(/[.](adf|hdf|dms|exe|st)$/i);
         //get_data_collector("csdb").run_link("call_parameter", 0,parameter_link);            
         let response = await fetch(parameter_link);
         file_slot_file_name = decodeURIComponent(response.url.match(".*/(.*)$")[1]);
@@ -548,7 +548,7 @@ function message_handler_queue_worker(msg, data, data2)
     }
 }
 
-async function fetchOpenROMS(){
+async function fetchOpenROMS(osname='aros'){
     var installer = async function(suffix, response) {
         try{
             var arrayBuffer = await response.arrayBuffer();
@@ -569,11 +569,18 @@ async function fetchOpenROMS(){
             fill_ext_icons();
         }  
     }
-    
-    let response = await fetch("roms/aros.bin");
-    await installer('.rom_file', response);
-    response = await fetch("roms/aros_ext.bin");
-    await installer('.rom_ext_file', response);   
+    if(osname=='aros')
+    {
+        let response = await fetch("roms/aros.bin");
+        await installer('.rom_file', response);
+        response = await fetch("roms/aros_ext.bin");
+        await installer('.rom_ext_file', response);   
+    }
+    else if(osname=='emutos')
+    {
+        let response = await fetch("roms/emutos-amiga.bin");
+        await installer('.rom_file', response);
+    }
 }
 
 
@@ -600,6 +607,10 @@ function fill_rom_icons(){
     {
         icon="img/rom_hyperion.png";
     }
+    else if(rom_infos.romTitle.toLowerCase().indexOf("emutos")>=0)
+    {   
+        icon="img/rom_emutos.png";
+    }    
     else
     {
         icon="img/rom_original.png";
@@ -940,7 +951,7 @@ function configure_file_dialog(reset=false)
                                 }
                             }).then(function (u8) {
                                 file_slot_file_name=path;
-                                if(!path.toLowerCase().match(/[.](zip|adf|hdf|dms|exe|vAmiga)$/i))
+                                if(!path.toLowerCase().match(/[.](zip|adf|hdf|dms|exe|vAmiga|st)$/i))
                                 {
                                     file_slot_file_name+=".disk";
                                 }
@@ -1009,7 +1020,7 @@ function configure_file_dialog(reset=false)
                 $("#button_insert_file").html("mount file"+return_icon);
                 $("#button_insert_file").attr("disabled", true);
             }
-            else if(file_slot_file_name.match(/[.](adf|hdf|dms|exe|vAmiga|disk)$/i))
+            else if(file_slot_file_name.match(/[.](adf|hdf|dms|exe|vAmiga|st|disk)$/i))
             {
                 if(df_mount_list.includes(file_slot_file_name) || hd_mount_list.includes(file_slot_file_name))
                 {
@@ -1066,7 +1077,7 @@ function prompt_for_drive()
         }
     }
 
-    if(file_slot_file_name.match(/[.](adf|dms|exe|disk)$/i))
+    if(file_slot_file_name.match(/[.](adf|dms|exe|st|disk)$/i))
     {
         let df_count=0;
         for(let i = 0; i<4;i++)
@@ -3878,9 +3889,20 @@ $('.layer').change( function(event) {
    }, false);
 
 
-   document.getElementById('button_fetch_open_roms').addEventListener("click", function(e) {
-       fetchOpenROMS();
-   }, false);
+
+   $(`#button_fetch_open_roms > div`).click(function (event) 
+   {
+       let choice=$(this).html();
+       if(choice.includes("AROS"))
+       {
+        fetchOpenROMS("aros");
+       }
+       else if(choice.includes("emutos"))       
+       {
+        fetchOpenROMS("emutos");
+       }
+   });
+
 
    
    var bindROMUI = function (id_dropzone, id_delete, id_local_storage) 

@@ -470,6 +470,10 @@ function message_handler_queue_worker(msg, data, data2)
     {
         emulator_currently_runs=false;
     }
+    else if(msg === "MSG_WARP")
+    {
+        window.parent.postMessage({ msg: 'render_run_state', value: is_running(), is_warping:  Module._wasm_is_warping() },"*");
+    }
     else if(msg == "MSG_VIDEO_FORMAT")
     {
         $('#ntsc_pixel_ratio_switch').prop('checked', data==1);  

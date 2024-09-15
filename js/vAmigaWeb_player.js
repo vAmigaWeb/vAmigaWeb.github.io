@@ -170,6 +170,10 @@ if(address.toLowerCase().indexOf(".zip")>0 || this.samesite_file != null && this
 }
 emuview_html += 
 `
+<svg id="btn_warp" class="player_icon_btn" style="margin-top:4px;margin-left:auto" onpointerdown="vAmigaWeb_player.set_warp(true);return false;" onpointerup="vAmigaWeb_player.set_warp(false);return false;" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-pause-btn" viewBox="0 0 16 16">
+${this.warp_icon}
+</svg>
+
 <svg id="btn_activity_monitor" class="player_icon_btn" style="margin-top:4px;margin-left:auto" onclick="vAmigaWeb_player.toggle_activity_monitor();return false;" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-pause-btn" viewBox="0 0 16 16">
 ${this.activity_icon}
 </svg>
@@ -250,6 +254,9 @@ ${this.overlay_on_icon}
     activity_icon: `
   <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5z"/>
   <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1"/>`,
+    warp_icon: `
+  <path d="M8.79 5.093A.5.5 0 0 0 8 5.5v1.886L4.79 5.093A.5.5 0 0 0 4 5.5v5a.5.5 0 0 0 .79.407L8 8.614V10.5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
+  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>`,
     is_overlay: false,
     toggle_overlay: function () {
         var container = $('#player_container');
@@ -313,6 +320,11 @@ ${this.overlay_on_icon}
     {
         var vAmigaWeb = document.getElementById("vAmigaWeb").contentWindow;
         vAmigaWeb.postMessage({cmd:"script", script:"action('activity_monitor')"}, "*");
+    },
+    set_warp: function(on=false)
+    {
+        var vAmigaWeb = document.getElementById("vAmigaWeb").contentWindow;
+        vAmigaWeb.postMessage({cmd:"script", script:`action('warp_${on ? 'always':'never'}')`}, "*");
     },
     toggle_audio: function()
     {			

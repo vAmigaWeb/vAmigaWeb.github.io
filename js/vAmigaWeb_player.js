@@ -338,7 +338,7 @@ ${this.overlay_on_icon}
     toggle_warp: function()
     {
         var vAmigaWeb = document.getElementById("vAmigaWeb").contentWindow;
-        vAmigaWeb.postMessage({cmd:"script", script:`action('toggle_warp'})`}, "*");
+        vAmigaWeb.postMessage({cmd:"script", script:"action('toggle_warp')"}, "*");
     },
     toggle_audio: function()
     {			

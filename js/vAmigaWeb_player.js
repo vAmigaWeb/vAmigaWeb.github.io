@@ -92,6 +92,10 @@
                 {
                     this.render_current_audio_state(event.data.value);
                 }
+                else if(event.data.msg == "hide_zip_folder")
+                {
+                    $("#btn_zip").hide();
+                }
             });
             this.listens=true;
         }

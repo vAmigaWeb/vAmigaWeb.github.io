@@ -963,6 +963,7 @@ function configure_file_dialog(reset=false)
                                 if(mountable_count==1)
                                 {//in case that there was only one mountable file in the zip, auto mount it
                                     configure_file_dialog(false);
+                                    window.parent.postMessage({ msg: 'hide_zip_folder'},"*");
                                 }
                                 else
                                 {//file is ready to insert

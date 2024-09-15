@@ -82,6 +82,7 @@
                 if(event.data.msg == "render_run_state")
                 {
                     this.render_run_state(event.data.value);
+                    this.render_warp_state(event.data.is_warping);
                     if(this.samesite_file != null)
                     {
                         this.inject_samesite_app_into_iframe();
@@ -170,7 +171,7 @@ if(address.toLowerCase().indexOf(".zip")>0 || this.samesite_file != null && this
 }
 emuview_html += 
 `
-<svg id="btn_warp" class="player_icon_btn" style="margin-top:4px;margin-left:auto" onpointerdown="vAmigaWeb_player.set_warp(true);return false;" onpointerup="vAmigaWeb_player.set_warp(false);return false;" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-pause-btn" viewBox="0 0 16 16">
+<svg id="btn_toggle_warp" class="player_icon_btn" style="margin-top:4px;margin-left:auto" onclick="vAmigaWeb_player.toggle_warp();return false;" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-pause-btn" viewBox="0 0 16 16">
 ${this.warp_icon}
 </svg>
 
@@ -257,6 +258,8 @@ ${this.overlay_on_icon}
     warp_icon: `
   <path d="M8.79 5.093A.5.5 0 0 0 8 5.5v1.886L4.79 5.093A.5.5 0 0 0 4 5.5v5a.5.5 0 0 0 .79.407L8 8.614V10.5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
   <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>`,
+    warp_active_icon: `
+  <path d="M0 4v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2m4.271 1.055a.5.5 0 0 1 .52.038L8 7.386V5.5a.5.5 0 0 1 .79-.407l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 8 10.5V8.614l-3.21 2.293A.5.5 0 0 1 4 10.5v-5a.5.5 0 0 1 .271-.445"/>`,
     is_overlay: false,
     toggle_overlay: function () {
         var container = $('#player_container');
@@ -301,6 +304,7 @@ ${this.overlay_on_icon}
         vAmigaWeb.postMessage("button_run()", "*");
     },
     last_run_state:null,
+    last_warp_state:null,
     render_run_state: function (is_running)
     {
         if(this.last_run_state == is_running)
@@ -310,6 +314,16 @@ ${this.overlay_on_icon}
             is_running ? this.pause_icon : this.run_icon
         );
         this.last_run_state = is_running;
+    },
+    render_warp_state: function (is_warping)
+    {
+        if(this.last_warp_state == is_warping)
+            return;
+
+        $("#btn_toggle_warp").html(
+            is_warping ? this.warp_active_icon: this.warp_icon 
+        );
+        this.last_warp_state = is_warping;
     },
     toggle_keyboard: function()
     {			
@@ -321,10 +335,10 @@ ${this.overlay_on_icon}
         var vAmigaWeb = document.getElementById("vAmigaWeb").contentWindow;
         vAmigaWeb.postMessage({cmd:"script", script:"action('activity_monitor')"}, "*");
     },
-    set_warp: function(on=false)
+    toggle_warp: function()
     {
         var vAmigaWeb = document.getElementById("vAmigaWeb").contentWindow;
-        vAmigaWeb.postMessage({cmd:"script", script:`action('warp_${on ? 'always':'never'}')`}, "*");
+        vAmigaWeb.postMessage({cmd:"script", script:`action('toggle_warp'}')`}, "*");
     },
     toggle_audio: function()
     {			

@@ -2010,7 +2010,7 @@ function InitWrappers() {
     window.addEventListener('message', event => {
         if(event.data == "poll_state")
         {
-            window.parent.postMessage({ msg: 'render_run_state', value: is_running()},"*");
+            window.parent.postMessage({ msg: 'render_run_state', value: is_running(), is_warping:  Module._wasm_is_warping() },"*");
             window.parent.postMessage({ msg: 'render_current_audio_state', 
                 value: audioContext == null ? 'suspended' : audioContext.state},"*"); 
         }

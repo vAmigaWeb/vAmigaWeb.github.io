@@ -673,14 +673,3 @@ button[id^="detail_run"] {
     border-radius: 1px 1px 0 0;
     background: linear-gradient(to top, rgba(150,0,0,0.4), rgba(255,0,0,0.4));
 }
-
-
-
-@media (max-width: 511px) {
-    #button_ff {
-        display: none;
-    }
-
-}
-
-

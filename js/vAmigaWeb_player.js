@@ -494,6 +494,17 @@ ${this.overlay_on_icon}
         });
     },
     load_setup(setup_name, optional_params={touch:false}){
+        if(window.location.protocol === 'http:')
+        {
+            if (window.confirm(
+`Sound is only played by the browser when this page is loaded from a secure https connection.
+\nWould you like me to reload this page now from secure connection ?`
+            )) 
+            {
+                window.location.replace('https://' + window.location.host + window.location.pathname + window.location.search);
+            }
+        }
+
         let element = document.getElementById(setup_name);
         vAmigaWeb_player.samesite_file=this.registered_setups[setup_name].samesite_file;
         let config=this.registered_setups[setup_name].config;

@@ -498,7 +498,7 @@ ${this.overlay_on_icon}
         {
             if (window.confirm(
 `Sound will only play if this page is loaded over a secure HTTPS connection.
-\nWould you like me to reload this page now from secure connection ?`
+\nWould you like me to reload the page using a secure connection now ?`
             )) 
             {
                 window.location.replace('https://' + window.location.host + window.location.pathname + window.location.search);

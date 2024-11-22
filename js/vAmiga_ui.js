@@ -3227,8 +3227,7 @@ $('.layer').change( function(event) {
     
     $("#button_ff").click(()=> {
         action('toggle_warp'); 
-        hide_all_tooltips();  
-        play_sound(audio_key_standard,keyboard_sound_volumne);
+        hide_all_tooltips();
     });
 
     $('#modal_file_slot').on('hidden.bs.modal', function () {

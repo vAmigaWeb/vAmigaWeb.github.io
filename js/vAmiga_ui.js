@@ -465,32 +465,17 @@ function message_handler_queue_worker(msg, data, data2)
     {
         required_roms_loaded=true;
         emulator_currently_runs=true;
+        document.body.setAttribute('warpstate',Module._wasm_is_warping());
     }
     else if(msg == "MSG_PAUSE")
     {
         emulator_currently_runs=false;
+        document.body.setAttribute('warpstate', 0);
     }
     else if(msg === "MSG_WARP")
     {
         let is_warping = Module._wasm_is_warping();
-        $("#button_ff").html(
-            is_warping ?
-            `
-<svg xmlns="http://www.w3.org/2000/svg"  width="1.6em" height="1.6em" fill="currentColor" class="bi bi-fast-forward-fill" viewBox="0 0 16 16">
-  <path d="M7.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
-  <path d="M15.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
-</svg>
-<div style="position:absolute;bottom:-1px;font-size:x-small;
-animation: blink 1s infinite">warp</div>
-`
-:
-`
-<svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1.6em" fill="currentColor" class="bi bi-fast-forward" viewBox="0 0 16 16">
-          <path d="M6.804 8 1 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
-          <path d="M14.804 8 9 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
-</svg>
-`
-);
+        document.body.setAttribute('warpstate', is_warping);
         window.parent.postMessage({ msg: 'render_run_state', value: is_running(), is_warping:  is_warping },"*");
     }
     else if(msg == "MSG_VIDEO_FORMAT")
@@ -2404,6 +2389,7 @@ function InitWrappers() {
     installKeyboard();
     $("#button_keyboard").click(function(){
         setTimeout( scaleVMCanvas, 500);
+        setTimeout( hide_all_tooltips, 1000);
     });
 
 
@@ -3239,7 +3225,11 @@ $('.layer').change( function(event) {
         //document.getElementById('canvas').focus();
     });
     
-    $("#button_ff").click(()=> action('toggle_warp'));
+    $("#button_ff").click(()=> {
+        action('toggle_warp'); 
+        hide_all_tooltips();  
+        play_sound(audio_key_standard,keyboard_sound_volumne);
+    });
 
     $('#modal_file_slot').on('hidden.bs.modal', function () {
         $("#filedialog").val(''); //clear file slot after file has been loaded
@@ -3523,6 +3513,7 @@ $('.layer').change( function(event) {
     
     $('#button_speed_toggle').click(function () 
     {
+        hide_all_tooltips();
         if(current_speed==100)
             current_speed=selected_speed;    
         else

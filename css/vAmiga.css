@@ -726,3 +726,9 @@ button[id^="detail_run"] {
         opacity: 0.4;
     }
 }
+[warpstate="1"] #no_warping {
+    display: none
+}
+[warpstate="0"] #warping {
+    display: none
+}

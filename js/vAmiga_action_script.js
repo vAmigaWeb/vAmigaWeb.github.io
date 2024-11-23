@@ -230,7 +230,7 @@ async function execute_single_action(cmd, execute=true, execution_id=-1)
         {//0==auto, 1==never, 2==always
             let mode = wasm_get_config_item("WARP_MODE");
             if(mode <= 1) auto_or_never_warp_mode = mode ==0 ?"WARP_AUTO":"WARP_NEVER";
-            wasm_configure('WARP_MODE', mode<=1 ? 'WARP_ALWAYS': auto_or_never_warp_mode);            
+            wasm_configure('WARP_MODE', mode<=1 ? 'WARP_ALWAYS': auto_or_never_warp_mode);
         }
     }
     else if(cmd == 'warp_always')

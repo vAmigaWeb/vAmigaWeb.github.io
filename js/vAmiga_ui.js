@@ -48,8 +48,8 @@ let load_sound = async function(url){
     return audio_buffer;
 } 
 let parallel_playing=0;
-let keyboard_sound_volumne=0.04;
-let play_sound = function(audio_buffer, sound_volumne=0.1){
+let keyboard_sound_volume=0.04;
+let play_sound = function(audio_buffer, sound_volume=0.1){
         if(audio_buffer== null)
         {                 
             load_all_sounds();
@@ -63,7 +63,7 @@ let play_sound = function(audio_buffer, sound_volumne=0.1){
         source.buffer = audio_buffer;
 
         let gain_node = audioContext.createGain();
-        gain_node.gain.value = sound_volumne; 
+        gain_node.gain.value = sound_volume; 
         gain_node.connect(audioContext.destination);
 
         source.addEventListener('ended', () => {
@@ -2650,16 +2650,16 @@ $('#choose_keyboard_bottom_margin a').click(function ()
     $("#modal_settings").focus();
 });
 //----
-set_keyboard_sound_volumne(load_setting('keyboard_sound_volumne', '50'));
-function set_keyboard_sound_volumne(volumne) {
-    keyboard_sound_volumne = 0.01 * volumne;
-    $("#button_keyboard_sound_volumne").text(`key press sound volumne=${volumne}%`);
+set_keyboard_sound_volume(load_setting('keyboard_sound_volume', '50'));
+function set_keyboard_sound_volume(volume) {
+    keyboard_sound_volume = 0.01 * volume;
+    $("#button_keyboard_sound_volume").text(`key press sound volume=${volume}%`);
 }
-$('#choose_keyboard_sound_volumne a').click(function () 
+$('#choose_keyboard_sound_volume a').click(function () 
 {
-    var sound_volumne=$(this).text();
-    set_keyboard_sound_volumne(sound_volumne);
-    save_setting('keyboard_sound_volumne',sound_volumne);
+    var sound_volume=$(this).text();
+    set_keyboard_sound_volume(sound_volume);
+    save_setting('keyboard_sound_volume',sound_volume);
     $("#modal_settings").focus();
 });
 //----

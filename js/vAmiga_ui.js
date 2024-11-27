@@ -1809,7 +1809,7 @@ function InitWrappers() {
         set_volume(event.target.value);
     });
  
-    let loaded_vol=load_setting('master_sound_volume', 0.4);
+    let loaded_vol=load_setting('master_sound_volume', 0.5);
     set_volume(loaded_vol);
     $("#volume-slider").val(loaded_vol);
 

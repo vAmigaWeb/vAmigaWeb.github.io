@@ -531,7 +531,7 @@ function message_handler_queue_worker(msg, data, data2)
         if(v<=2)
             $(`#button_OPT_CPU_REVISION`).text(`CPU=680${v}0 (snapshot)`);
         else
-            $(`#button_OPT_CPU_REVISION`).text(`CPU=fake 030 for settler map size 8`);
+            $(`#button_OPT_CPU_REVISION`).text(`CPU=fake 030 for Settlers map size 8`);
         
         v=wasm_get_config_item("CPU.OVERCLOCKING");
         $(`#button_OPT_CPU_OVERCLOCKING`).text(`${Math.round((v==0?1:v)*7.09)} MHz (snapshot)`);
@@ -2972,9 +2972,9 @@ bind_config_choice("OPT_FAST_RAM", "fast ram",['0', '256', '512','1024', '2048',
 
 $('#hardware_settings').append("<div id='divCPU' style='display:flex;flex-direction:row'></div>");
 bind_config_choice("OPT_CPU_REVISION", "CPU",[0,1,2,4], 0, 
-(v)=>{ return  v==4 ?`fake 030 for settler map size 8`:(68000+v*10)},
+(v)=>{ return  v==4 ?`fake 030 for Settlers map size 8`:(68000+v*10)},
 (t)=>{
-    let val = t.toString().replace("fake 030 for settler map size 8","68030");
+    let val = t.toString().replace("fake 030 for Settlers map size 8","68030");
     val = (val-68000)/10;
     return val==3 ?4: val;
 }, "#divCPU");

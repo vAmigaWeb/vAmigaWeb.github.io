@@ -3722,6 +3722,13 @@ $('.layer').change( function(event) {
         });
         $('#button_export_hd'+dn).click(function() 
         {
+/*            if(dn== 4 && confirm("export to folder?"))
+            {
+                wasm_export_disk("dh0tofs")
+                zip_and_download_folder("dh0.zip","/vamiga_workspaces/hd0")
+                return;
+            }
+*/            
             let d64_json = wasm_export_disk("dh"+this.id.at(-1));
             let d64_obj = JSON.parse(d64_json);
             let d64_buffer = new Uint8Array(Module.HEAPU8.buffer, d64_obj.address, d64_obj.size);

@@ -65,6 +65,7 @@ function zip_and_download_folder(zip_filename, fs_path) {
             link.download = zip_filename;
             link.click();
             URL.revokeObjectURL(url);
+            deleteAllFiles(fs_path); // clean up
         });
 }
 
@@ -704,7 +705,7 @@ var collectors = {
                 this.all_items= [];
                 this.loaded_feeds = [];
 
-                await mount_workspaces();
+                await mount_folder(workspace_path);
  
                 let dirs = FS.readdir(workspace_path);
                 console.log(dirs)

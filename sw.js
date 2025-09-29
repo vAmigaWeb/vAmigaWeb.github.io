@@ -25,6 +25,13 @@ async function get_active_cache_name()
     return v!=null ? v:cache_name;
 }
 
+var bypass_cache=false;
+try {
+    var is_safari_26=self.navigator.userAgent.toLowerCase().includes("version/26.0 safari");
+    bypass_cache=is_safari_26 && (await get_active_cache_name() < "4.3.1@2025_09_29");
+}
+catch {}
+
 //get messages from the web app
 self.addEventListener("message", async evt => {
   const client = evt.source;
@@ -82,7 +89,7 @@ self.addEventListener('activate', evt => {
 self.addEventListener('fetch', function(event){
   event.respondWith(async function () {
       //is this url one that should not be cached at all ? 
-      if(
+      if(!bypass_cache&&(
         event.request.url.toLowerCase().startsWith('https://vamigaweb.github.io/doc')
         ||
         !(event.request.url.toLowerCase().startsWith('https://vamigaweb.github.io')
@@ -94,7 +101,7 @@ self.addEventListener('fetch', function(event){
         event.request.url.endsWith('run.html')
 	||
         event.request.url.endsWith('cache_me=false')
-      )
+      ))
       {
         console.log('sw: do not cache fetched resource: '+event.request.url);
         return fetch(event.request);

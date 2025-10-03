@@ -61,6 +61,15 @@
 								<header>
 									<h2>News</h2>
 								</header>
+								<h3><em>03.10.2025 &nbsp;</em>automatic healing of broken Safari26 apps</h3>
+								<ul>
+									<li style="margin-top:1em">
+									We identified the issue as being related to the LinkerFlags used in the vAmigaCore builds.<br><br> Specifically, the -O3 optimization flag was interfering with exception handling in Safari 26.0, leading to unexpected behavior. <a href="https://github.com/vAmigaWeb/vAmigaWeb/issues/307" target="_blank">learn more</a>.<br><br>
+To resolve this, we’ve downgraded the optimization level to -O2, which maintains a high level of performance while ensuring compatibility with Safari 26.0.<br><br>
+To restore functionality for broken vAmigaWeb apps, we’ve implemented an automatic upgrade mechanism. When an app starts up and detects that it was built with a version older than 4.3.1 (the first version using -O2), it will trigger an update automatically to fix the issue.</li>
+									
+								</ul>
+
 								<h3><em>23.09.2025 &nbsp;</em>Apples latest Safari 26.0 crashes vAmigaWeb</h3>
 								<ul>
 									<li style="margin-top:1em">
@@ -73,6 +82,7 @@
 											<li>You have to open a private safari tab and add the app to the dock again or in case of iPadOS add it to the home screen again</li>
 											<li>when apple bug fixes its Safari in version 26.1 then the previous broken vAmigaWeb apps should work again and you get access to your saved snapshot and workspace data</li>
 										</ul>
+									</li>
 								</ul>
 
 								<h3><em>08.08.2025 &nbsp;</em>upgraded to vAmigaCore 4.3</h3>

@@ -1,6 +1,6 @@
 const url_root_path= self.location.pathname.replace("/sw.js","");
 const core_version  = '4.3.1'; //has to be the same as the version in Emulator/config.h and vAmiga_browser.js
-const ui_version = '2025_09_30'+url_root_path.replace("/","_"); 
+const ui_version = '2025_10_01'+url_root_path.replace("/","_"); 
 const needs_shared_array_buffer=false; //true when vAmiga runs in separat worker thread
 const cache_name = `${core_version}@${ui_version}`;
 const settings_cache = 'settings';
@@ -82,20 +82,27 @@ self.addEventListener('activate', evt => {
 self.addEventListener('fetch', function(event){
   event.respondWith(async function () {
 
-      const userAgent = event.request.headers.get('user-agent')?.toLowerCase() || '';
-      const isSafari26 = userAgent.includes('version/26.0 safari');
-
-      let bypass_cache = false;
       try {
-          const activeCacheName = await get_active_cache_name();
-          bypass_cache = isSafari26 && (activeCacheName < "4.3.1@2025_09_29");
+        let force_upgrade = false;
+        let caches_keys = await caches.keys();
+        
+        //is already a version without the safari26 bug ?
+        force_upgrade = caches_keys.every(
+          c =>  
+            (
+              url_root_path.includes("uat")? c.includes('uat'): !c.includes('uat')
+            )
+            && c.includes('@') && c < "4.3.1@2025_10_01"
+        );
+        if(force_upgrade)
+          await set_settings_cache_value("active_version", cache_name);
       } catch (err) {
           // Optional: handle errors in version comparison or cache retrieval
           console.error("Error checking cache version:", err);
       }
 
       //is this url one that should not be cached at all ? 
-      if(!bypass_cache&&(
+      if(
         event.request.url.toLowerCase().startsWith('https://vamigaweb.github.io/doc')
         ||
         !(event.request.url.toLowerCase().startsWith('https://vamigaweb.github.io')
@@ -107,7 +114,7 @@ self.addEventListener('fetch', function(event){
         event.request.url.endsWith('run.html')
 	||
         event.request.url.endsWith('cache_me=false')
-      ))
+      )
       {
         console.log('sw: do not cache fetched resource: '+event.request.url);
         return fetch(event.request);

@@ -83,17 +83,22 @@ self.addEventListener('fetch', function(event){
   event.respondWith(async function () {
 
       try {
-        let force_upgrade = false;
         let caches_keys = await caches.keys();
         
-        //is already a version without the safari26 bug ?
-        let installed_versions = caches_keys.filter(
-          c => c.includes('@') && url_root_path.includes("uatn") ? c.includes('uat') : !c.includes('uat')
-        )
-        console.log("installed_versions:", installed_versions);
-        force_upgrade = installed_versions.some(c >= "4.3.1@2025_10_01");
+        let installed_versions = caches_keys.filter(c => c.includes('@'));
+        
+        if(url_root_path.includes("uat"))
+          installed_versions = installed_versions.filter(c => c.includes('uat'));
+        else
+          installed_versions = installed_versions.filter(c => !c.includes('uat'));
 
-        console.log("force upgrade=", force_upgrade);
+        console.log("installed_versions:");
+        console.log(installed_versions);
+
+        //is already a version without the safari26 bug ? No? Force upgrade
+        let force_upgrade = installed_versions.every(c=> c < "4.3.1@2025_10_01");
+
+        console.log("force upgrade="+force_upgrade);
 
         if(force_upgrade)
           await set_settings_cache_value("active_version", cache_name);

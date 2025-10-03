@@ -87,7 +87,7 @@ self.addEventListener('fetch', function(event){
         let caches_keys = await caches.keys();
         
         //is already a version without the safari26 bug ?
-        force_upgrade = caches_keys.any(
+        force_upgrade = caches_keys.some(
           c =>  
             (
               url_root_path.includes("uat")? c.includes('uat'): !c.includes('uat')

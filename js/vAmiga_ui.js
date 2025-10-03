@@ -4033,8 +4033,8 @@ $('.layer').change( function(event) {
                     {
                         const userAgent = navigator.userAgent?.toLowerCase() || '';
                         const isSafari26 = userAgent.includes('safari') && userAgent.includes('version/26');
-                        if(isSafari26)
-                            continue; //safari 26 does not work with LF=-O3 anymore
+                        if(isSafari26 && c_name < '4.3.1@2025_10_01')
+                            continue; //safari 26 does not work with LF=-O3 builds anymore
                         version_selector+=`<option ${selected} value="${c_name}">core ${core_name}, ui ${ui_name}</option>`;
                     }
                 }

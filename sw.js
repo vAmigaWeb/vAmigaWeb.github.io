@@ -87,13 +87,14 @@ self.addEventListener('fetch', function(event){
         let caches_keys = await caches.keys();
         
         //is already a version without the safari26 bug ?
-        force_upgrade = caches_keys.some(
-          c =>  
-            (
-              url_root_path.includes("uat")? c.includes('uat'): !c.includes('uat')
-            )
-            && c.includes('@') && c >= "4.3.1@2025_10_01"
-        );
+        let installed_versions = caches_keys.filter(
+          c => c.includes('@') && url_root_path.includes("uatn") ? c.includes('uat') : !c.includes('uat')
+        )
+        console.log("installed_versions:", installed_versions);
+        force_upgrade = installed_versions.some(c >= "4.3.1@2025_10_01");
+
+        console.log("force upgrade=", force_upgrade);
+
         if(force_upgrade)
           await set_settings_cache_value("active_version", cache_name);
       } catch (err) {

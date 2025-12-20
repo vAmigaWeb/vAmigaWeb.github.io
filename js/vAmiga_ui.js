@@ -1892,7 +1892,6 @@ function restore_manual_state(port)
 
 
 function InitWrappers() {
-    try{add_pencil_support_for_elements_which_need_it();} catch(e) {console.error(e)}
     wasm_loadfile = function (file_name, file_buffer, drv_number=0) {
         let file_slot_wasmbuf = Module._malloc(file_buffer.byteLength);
         Module.HEAPU8.set(file_buffer, file_slot_wasmbuf);
@@ -5636,17 +5635,6 @@ function add_pencil_support_to_childs(element) {
         if (child.nodeType === Node.ELEMENT_NODE)
           add_pencil_support(child);
     });  
-}
-function add_pencil_support_for_elements_which_need_it()
-{
-    let elements_which_need_pencil_support=
-        ["button_show_menu","button_run", "button_reset", "button_take_snapshot",
-        "button_snapshots", "button_keyboard", "button_custom_key", "drop_zone",
-        "button_fullscreen", "button_settings", "port1", "port2" ]
-    for(let element_id of elements_which_need_pencil_support)
-    {
-        add_pencil_support(document.getElementById(element_id));
-    }
 }
 
 function copy_to_clipboard(element) {

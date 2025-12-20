@@ -182,6 +182,7 @@ function setup_browser_interface()
     //button in navbar menu
     add_click('button_snapshots', async function() 
     {
+        $('#snapshotModal').modal('show');
         await load_browser(current_browser_datasource);
         if(snapshot_browser_first_click)
         {//if there are no taken snapshots -> select workspace_db

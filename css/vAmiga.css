@@ -280,7 +280,6 @@ color: #aaa !important;
     align-items: center;
     justify-content: center;
     height: 45px;
-    margin-right: calc(env(safe-area-inset-right) / 2);
 }
 #theFileInput {
     grid-column: span 2;
@@ -292,6 +291,7 @@ color: #aaa !important;
     gap: 1px;
     justify-content: end;
     padding-right: 2px;
+    margin-right: calc(env(safe-area-inset-right) / 2);
 }
 
 @media (max-width: 600px) {

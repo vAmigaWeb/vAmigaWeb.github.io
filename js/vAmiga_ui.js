@@ -383,9 +383,9 @@ async function load_parameter_link()
         //get_data_collector("csdb").run_link("call_parameter", 0,parameter_link);            
         $('#alert_wait').show();
         let response = await fetch(parameter_link);
-        $('#alert_wait').hide();
         file_slot_file_name = decodeURIComponent(response.url.match(".*/(.*)$")[1]);
         file_slot_file = new Uint8Array( await response.arrayBuffer());
+        $('#alert_wait').hide();
 
         configure_file_dialog(reset=true);
     }

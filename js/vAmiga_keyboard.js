@@ -667,7 +667,9 @@ draggable="false">
             }
         });
         the_key_element.addEventListener("lostpointercapture", (event)=>{
-                key_up_handler(event);
+            if(current_vbk_touch.startsWith("smart"))
+                return;
+            key_up_handler(event);
         });
 
 

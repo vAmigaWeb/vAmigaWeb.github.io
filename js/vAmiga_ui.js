@@ -2568,6 +2568,8 @@ function InitWrappers() {
     }
 
     function emulate_mouse_pencil_move(e) {
+        if (e.pointerType === "pen" && e.buttons === 0) 
+            return; // Ignore move events when no buttons are pressed (hovering)
 
         // Calculate movement
         let movementX = e.clientX - pencil_last_x;

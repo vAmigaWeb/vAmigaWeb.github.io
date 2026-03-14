@@ -2568,8 +2568,10 @@ function InitWrappers() {
     }
 
     function emulate_mouse_pencil_move(e) {
-        if (e.pointerType === "pen" && e.buttons === 0) 
+        if (e.pointerType === "pen" && e.buttons === 0 
+            || e.pointerType==="mouse" && e.buttons === 0)
             return; // Ignore move events when no buttons are pressed (hovering)
+
 
         // Calculate movement
         let movementX = e.clientX - pencil_last_x;
@@ -2606,15 +2608,11 @@ function InitWrappers() {
         
         if (pencil_left_button_pressed) {
             // Release long-press button
-            console.log("long click release="+pencil_mouse_button);
-
             Module._wasm_mouse_button(pencil_port, pencil_mouse_button, 0/* up */);
             pencil_left_button_pressed = false;
         }
         else if(!pencil_moved)
         {
-            console.log("single click="+pencil_mouse_button);
-
             // Short tap: send single click
             Module._wasm_mouse_button(pencil_port, pencil_mouse_button, 1/* down */);
             setTimeout(() => {

@@ -68,11 +68,11 @@
 									<ul>
 										<li style="margin-top:1em">
 											vAmigaWeb now supports ADZ and HDZ disk image formats, which are gzip compressed versions of ADF and HDF files. 
-											They can be used just like regular ADF and HDF files, and they offer the advantage of significantly reduced file sizes due to compression. 
-											
-											When saving workspaces, the app now compresses connected disks into ADZ and HDZ formats respectively, resulting in smaller file sizes of exported workspaces.
-											
-											With gzip support enabled, workspaces are now fully interchangeable between vAmigaWeb and the original vAmiga.app for macOS. When dragging a workspace exported from vAmiga.app into vAmigaWeb, make sure it is zipped into a single file beforehand. Conversely, workspaces exported from vAmigaWeb should be unzipped before being opened in vAmiga.app.
+											They can be used just like regular ADF and HDF files. 
+											<br><br>
+											When saving workspaces, vAmigaWeb now takes advantage of gzip to compress connected disks into ADZ and HDZ formats respectively, resulting in smaller file sizes of exported workspaces. Older workspaces that were exported with uncompressed ADF and HDF files remain fully compatible.
+											<br><br>
+											Workspaces are now fully interchangeable between vAmigaWeb and the original vAmiga.app for macOS. When dragging a workspace exported from vAmiga.app into vAmigaWeb, make sure it is zipped into a single file beforehand. Conversely, workspaces exported from vAmigaWeb should be unzipped before being opened in vAmiga.app.
 										</li>
 										<li style="margin-top:1em">
 											The wake lock feature, which prevents the device from sleeping while using vAmigaWeb, has been fixed. On a cold start, the wake lock is now correctly enabled if requested.

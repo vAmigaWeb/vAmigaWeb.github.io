@@ -256,6 +256,10 @@ function memview_init() {
     if (infoClose && infoPop) {
         infoClose.addEventListener("click", function() { infoPop.style.display = "none"; });
     }
+    let infoCloseBottom = document.getElementById("memview_info_close_bottom");
+    if (infoCloseBottom && infoPop) {
+        infoCloseBottom.addEventListener("click", function() { infoPop.style.display = "none"; });
+    }
     // start interacting with the memory canvas -> get the overlay out of the way
     if (infoPop) {
         canvas.addEventListener("pointerdown", function() { infoPop.style.display = "none"; });

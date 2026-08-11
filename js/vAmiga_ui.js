@@ -3471,6 +3471,8 @@ function format_ram(kb) {
     return (v >= 1024 && v % 1024 === 0) ? `${v / 1024} MB` : `${v} KB`;
 }
 
+window.format_ram = format_ram;
+
 function parse_ram(text) {
     let v = parseFloat(text);
     if (isNaN(v)) return text;
@@ -3505,6 +3507,8 @@ function chip_desc_display(t) {
     if (bracket > 0) tail = `${tail.substring(0, bracket).trim()}<br>${tail.substring(bracket)}`;
     return `${parts[0].trim()} <span style="font-size: x-small;vertical-align: top;display: inline-block;line-height: 1.2;text-align: left;">${tail}</span>`;
 }
+
+window.chip_desc_display = chip_desc_display;
 
 function chip_desc_lookup(map, t) {
     let found = map.filter(e => String(t).indexOf(e.t.split('|')[0].trim()) === 0);

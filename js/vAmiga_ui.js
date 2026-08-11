@@ -635,13 +635,13 @@ function message_handler_queue_worker(msg, data, data2)
         $(`#button_OPT_CPU_OVERCLOCKING`).text(`${Math.round((v==0?1:v)*7.09)} MHz ${cause}`);
         v=wasm_get_config_item("AGNUS.REVISION");
         let agnus_description = agnus_map.filter((e) => e.v == agnus_revs[v]);
-        agnus_description= agnus_description.length>0 ? agnus_description[0].t : agnus_revs[v];
+        agnus_description= agnus_description.length>0 ? chip_desc_display(agnus_description[0].t) : agnus_revs[v];
         $(`#button_OPT_AGNUS_REVISION`).html(`agnus revision=${agnus_description} ${cause}`);
 
         v=wasm_get_config_item("DENISE.REVISION");
         let denise_description = denise_map.filter((e) => e.v == denise_revs[v]);
-        denise_description= denise_description.length>0 ? denise_description[0].t : denise_revs[v];
-        $(`#button_OPT_DENISE_REVISION`).text(`denise revision=${denise_description} ${cause}`);
+        denise_description= denise_description.length>0 ? chip_desc_display(denise_description[0].t) : denise_revs[v];
+        $(`#button_OPT_DENISE_REVISION`).html(`denise revision=${denise_description} ${cause}`);
       
         $(`#button_${"OPT_CHIP_RAM"}`).text(`chip ram=${format_ram(wasm_get_config_item('CHIP_RAM'))} ${cause}`);
         $(`#button_${"OPT_SLOW_RAM"}`).text(`slow ram=${format_ram(wasm_get_config_item('SLOW_RAM'))} ${cause}`);
@@ -3494,17 +3494,31 @@ function model_cpu_display(m) {
 function model_display(key) {
     let m = amiga_models[key];
     if (!m) return key;
-    return `${m.name} (${m.chipset}) - ${model_cpu_display(m)} - ${model_ram_display(m)}`;
+    return `${m.name} (${m.chipset}) <span style="font-size: x-small;vertical-align: top;display: inline-block;line-height: 1.2;text-align: left;">${model_cpu_display(m)}<br>${model_ram_display(m)}</span>`;
+}
+
+function chip_desc_display(t) {
+    let parts = String(t).split('|');
+    if (parts.length < 2) return t;
+    let tail = parts.slice(1).join('|').trim();
+    let bracket = tail.lastIndexOf('(');
+    if (bracket > 0) tail = `${tail.substring(0, bracket).trim()}<br>${tail.substring(bracket)}`;
+    return `${parts[0].trim()} <span style="font-size: x-small;vertical-align: top;display: inline-block;line-height: 1.2;text-align: left;">${tail}</span>`;
+}
+
+function chip_desc_lookup(map, t) {
+    let found = map.filter(e => String(t).indexOf(e.t.split('|')[0].trim()) === 0);
+    return found.length > 0 ? found[0].v : t;
 }
 
 function get_hardware_display(key, value) {
     if (key == 'OPT_AGNUS_REVISION') {
         let found = agnus_map.filter(e => e.v === value);
-        return found.length > 0 ? found[0].t : value;
+        return found.length > 0 ? chip_desc_display(found[0].t) : value;
     }
     if (key == 'OPT_DENISE_REVISION') {
         let found = denise_map.filter(e => e.v === value);
-        return found.length > 0 ? found[0].t : value;
+        return found.length > 0 ? chip_desc_display(found[0].t) : value;
     }
     if (key == 'OPT_CHIP_RAM' || key == 'OPT_SLOW_RAM' || key == 'OPT_FAST_RAM') {
         return format_ram(value);
@@ -3689,40 +3703,27 @@ bind_config_choice("OPT_AGNUS_REVISION", "agnus revision",['OCS_OLD','OCS','ECS_
     (v)=> {
         let found = agnus_map.filter(e=>e.v === v);
         if(found.length>0)
-            return found[0].t;
+            return chip_desc_display(found[0].t);
         else
             return v;
     }
-    , t=>
-    {
-        let found = agnus_map.filter(e=>e.t.split('|')[0] === t.split('|')[0]);
-        if(found.length>0)
-            return found[0].v;
-        else
-            return t;
-    },
+    , t=> chip_desc_lookup(agnus_map, t),
     null,
     ()=>update_model_from_hardware()
 );
 
 denise_map = [ {v: "OCS", t:"OCS | A500, A1000, A2000 (MOS8362R8)"},
     {v: "ECS", t:"ECS | A500+, A600 (MOS8373R4)"},
-    {v: "AGA", t:"AGA | A1200, A4000 (MOS8364)"}];
+    {v: "AGA", t:"AGA | A1200, A4000 (Lisa)"}];
 bind_config_choice("OPT_DENISE_REVISION", "denise revision",['OCS','ECS','AGA'],'OCS',(v)=> {
     let found = denise_map.filter(e=>e.v==v);
     if(found.length>0)
-        return found[0].t;
+        return chip_desc_display(found[0].t);
     else
         return v;
 }
-, t=>
-{
-    let found = denise_map.filter(e=>e.t==t);
-    if(found.length>0)
-        return found[0].v;
-    else
-        return t;
-},null,()=>update_model_from_hardware());
+, t=> chip_desc_lookup(denise_map, t)
+,null,()=>update_model_from_hardware());
 bind_config_choice("OPT_CHIP_RAM", "chip ram",['256', '512', '1024', '2048'],'2048', (v)=>format_ram(v), t=>parse_ram(t), null, ()=>update_model_from_hardware());
 bind_config_choice("OPT_SLOW_RAM", "slow ram",['0', '256', '512'],'0', (v)=>format_ram(v), t=>parse_ram(t), null, ()=>update_model_from_hardware());
 bind_config_choice("OPT_FAST_RAM", "fast ram",['0', '256', '512','1024', '2048', '8192'],'2048', (v)=>format_ram(v), t=>parse_ram(t), null, ()=>update_model_from_hardware());

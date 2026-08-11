@@ -643,9 +643,9 @@ function message_handler_queue_worker(msg, data, data2)
         denise_description= denise_description.length>0 ? denise_description[0].t : denise_revs[v];
         $(`#button_OPT_DENISE_REVISION`).text(`denise revision=${denise_description} ${cause}`);
       
-        $(`#button_${"OPT_CHIP_RAM"}`).text(`chip ram=${wasm_get_config_item('CHIP_RAM')} KB ${cause}`);
-        $(`#button_${"OPT_SLOW_RAM"}`).text(`slow ram=${wasm_get_config_item('SLOW_RAM')} KB ${cause}`);
-        $(`#button_${"OPT_FAST_RAM"}`).text(`fast ram=${wasm_get_config_item('FAST_RAM')} KB ${cause}`);
+        $(`#button_${"OPT_CHIP_RAM"}`).text(`chip ram=${format_ram(wasm_get_config_item('CHIP_RAM'))} ${cause}`);
+        $(`#button_${"OPT_SLOW_RAM"}`).text(`slow ram=${format_ram(wasm_get_config_item('SLOW_RAM'))} ${cause}`);
+        $(`#button_${"OPT_FAST_RAM"}`).text(`fast ram=${format_ram(wasm_get_config_item('FAST_RAM'))} ${cause}`);
     
         update_model_from_hardware();
 
@@ -2088,6 +2088,7 @@ function InitWrappers() {
     wasm_export_disk = Module.cwrap('wasm_export_disk', 'string', ['string', 'number', 'string']);
     wasm_export_as_folder = Module.cwrap('wasm_export_as_folder', 'string', ['string', 'string']);
     wasm_configure = Module.cwrap('wasm_configure', 'string', ['string', 'string']);
+    wasm_configure_multi = Module.cwrap('wasm_configure_multi', 'string', ['string']);
     wasm_configure_key = Module.cwrap('wasm_configure_key', 'string', ['string', 'string', 'string']);
     wasm_write_string_to_ser = Module.cwrap('wasm_write_string_to_ser', 'undefined', ['string']);
     wasm_print_error = Module.cwrap('wasm_print_error', 'undefined', ['number']);
@@ -3352,13 +3353,13 @@ function validate_hardware()
     {
         alert(`${agnes_desc} agnus can address max. 512KB of chip ram. Correcting to highest possible setting.`);
         set_hardware("OPT_CHIP_RAM", '512');
-        $(`#button_${"OPT_CHIP_RAM"}`).text("chip ram"+'='+'512 KB (corrected)');
+        $(`#button_${"OPT_CHIP_RAM"}`).text("chip ram"+'='+format_ram(512)+' (corrected)');
     }
     else if(agnes== "ECS_1MB" && chip_ram > 1024)
     {
         alert(`${agnes_desc} agnus can address max. 1024KB of chip ram. Correcting to highest possible setting.`);
         set_hardware("OPT_CHIP_RAM", '1024');
-        $(`#button_${"OPT_CHIP_RAM"}`).text("chip ram"+'='+'1024 KB (corrected)');
+        $(`#button_${"OPT_CHIP_RAM"}`).text("chip ram"+'='+format_ram(1024)+' (corrected)');
     }
 }
 
@@ -3388,8 +3389,11 @@ function bind_config_choice(key, name, values, default_value, value2text=null, t
     </div>
     `);
 
+    let show_choice = function (text) {
+        $(`#button_${key}`).html(`${name}${name.length>0?'=':''}${text}`);
+    }
     let set_choice = function (choice) {
-        $(`#button_${key}`).html(`${name}${name.length>0?'=':''}${choice}`);
+        let previous = load_setting(key, default_value);
         save_setting(key, text2value(choice));
         validate_hardware(); 
 
@@ -3397,10 +3401,15 @@ function bind_config_choice(key, name, values, default_value, value2text=null, t
         if(result.length>0)
         {
             alert(result);
+            save_setting(key, previous);
+            show_choice(value2text(previous));
             validate_hardware();
             wasm_power_on(1);
+            if(updated_func!=null)
+                updated_func(value2text(previous));
             return;
         }
+        show_choice(choice);
         if(updated_func!=null)
             updated_func(choice);
     }
@@ -3444,17 +3453,48 @@ $("#cb_df0_poll_sound").change( function() {
 
 bind_config_choice("OPT_DRIVE_SPEED", "floppy drive speed",['-1', '1', '2', '4', '8'],'1');
 
+const CUSTOM_MODEL_KEY = 'CUSTOM';
+
 var amiga_models = {
-    "A1000": { name: "Amiga 1000", chipset: "OCS early revision", agnus: "OCS_OLD", denise: "OCS", chip: "512", slow: "0", fast: "512", cpu: "0", clock: "0" },
-    "A500":  { name: "Amiga 500",  chipset: "OCS", agnus: "OCS",     denise: "OCS", chip: "512", slow: "512", fast: "0", cpu: "0", clock: "0" },
-    "A500+": { name: "Amiga 500+", chipset: "ECS", agnus: "ECS_1MB", denise: "ECS", chip: "1024", slow: "0", fast: "0", cpu: "0", clock: "0" },
-    "A600":  { name: "Amiga 600",  chipset: "ECS", agnus: "ECS_2MB", denise: "ECS", chip: "1024", slow: "0", fast: "0", cpu: "0", clock: "0" },
-    "A1200": { name: "Amiga 1200", chipset: "AGA", agnus: "AGA",     denise: "AGA", chip: "2048", slow: "0", fast: "2048", cpu: "2", clock: "2" },
+    "A1000": { name: "A1000", chipset: "OCS early revision", agnus: "OCS_OLD", denise: "OCS", chip: "512", slow: "0", fast: "512", cpu: "0", clock: "0" },
+    "A500_UNEXPANDED": { name: "A500", chipset: "OCS", agnus: "OCS", denise: "OCS", chip: "512", slow: "0", fast: "0", cpu: "0", clock: "0" },
+    "A500_VANILLA": { name: "A500", chipset: "OCS", agnus: "OCS", denise: "OCS", chip: "512", slow: "512", fast: "0", cpu: "0", clock: "0" },
+    "A500+_STOCK": { name: "A500+", chipset: "ECS", agnus: "ECS_1MB", denise: "ECS", chip: "1024", slow: "0", fast: "0", cpu: "0", clock: "0" },
+    "A500+_BOOST": { name: "A500+", chipset: "ECS", agnus: "ECS_2MB", denise: "ECS", chip: "2048", slow: "0", fast: "8192", cpu: "0", clock: "0" },
+    "A1200_STOCK": { name: "A1200", chipset: "AGA", agnus: "AGA", denise: "AGA", chip: "2048", slow: "0", fast: "0", cpu: "2", clock: "2" },
+    "A1200_BOOST": { name: "A1200", chipset: "AGA", agnus: "AGA", denise: "AGA", chip: "2048", slow: "0", fast: "8192", cpu: "2", clock: "4" }
 };
 
+function format_ram(kb) {
+    let v = parseInt(kb);
+    if (isNaN(v)) return `${kb}`;
+    return (v >= 1024 && v % 1024 === 0) ? `${v / 1024} MB` : `${v} KB`;
+}
+
+function parse_ram(text) {
+    let v = parseFloat(text);
+    if (isNaN(v)) return text;
+    return `${text}`.indexOf('MB') >= 0 ? v * 1024 : v;
+}
+
+function model_ram_display(m) {
+    let parts = [];
+    if (parseInt(m.chip) > 0) parts.push(`${format_ram(m.chip)} chip`);
+    if (parseInt(m.slow) > 0) parts.push(`${format_ram(m.slow)} slow`);
+    if (parseInt(m.fast) > 0) parts.push(`${format_ram(m.fast)} fast`);
+    return parts.length > 0 ? parts.join(' + ') : 'no ram';
+}
+
+function model_cpu_display(m) {
+    let cpu = get_hardware_display('OPT_CPU_REVISION', parseInt(m.cpu));
+    let clock = get_hardware_display('OPT_CPU_OVERCLOCKING', parseInt(m.clock));
+    return `${cpu} @ ${clock}`;
+}
+
 function model_display(key) {
-    let preset = amiga_models[key];
-    return preset ? `${preset.name} (${preset.chipset})` : key;
+    let m = amiga_models[key];
+    if (!m) return key;
+    return `${m.name} (${m.chipset}) - ${model_cpu_display(m)} - ${model_ram_display(m)}`;
 }
 
 function get_hardware_display(key, value) {
@@ -3467,7 +3507,7 @@ function get_hardware_display(key, value) {
         return found.length > 0 ? found[0].t : value;
     }
     if (key == 'OPT_CHIP_RAM' || key == 'OPT_SLOW_RAM' || key == 'OPT_FAST_RAM') {
-        return `${value} KB`;
+        return format_ram(value);
     }
     if (key == 'OPT_CPU_REVISION') {
         return value == 4 ? `fake 030 for Settlers map size 8` : (68000 + value * 10);
@@ -3493,19 +3533,59 @@ function update_hardware_button(key, value) {
     $(`#button_${key}`).html(`${name}${name.length > 0 ? '=' : ''}${display}`);
 }
 
+function model_entry_html(key) {
+    return `<a class="dropdown-item" href="#" data-model="${key}">${model_display(key)}</a>`;
+}
+
+function set_custom_model(m) {
+    amiga_models[CUSTOM_MODEL_KEY] = m;
+    let existing = $(`#choose_OPT_AMIGA_MODEL a[data-model="${CUSTOM_MODEL_KEY}"]`);
+    if (existing.length > 0) {
+        existing.replaceWith(model_entry_html(CUSTOM_MODEL_KEY));
+    } else {
+        $('#choose_OPT_AMIGA_MODEL').append(model_entry_html(CUSTOM_MODEL_KEY));
+    }
+}
+
+function remove_custom_model() {
+    delete amiga_models[CUSTOM_MODEL_KEY];
+    $(`#choose_OPT_AMIGA_MODEL a[data-model="${CUSTOM_MODEL_KEY}"]`).remove();
+}
+
+function show_current_model(model_key) {
+    current_model = model_key;
+    $('#button_OPT_AMIGA_MODEL').html(`model=${model_display(model_key)}`);
+    $('#choose_OPT_AMIGA_MODEL a').removeClass('active');
+    $(`#choose_OPT_AMIGA_MODEL a[data-model="${model_key}"]`).addClass('active');
+}
+
 function apply_model(model_key) {
     let preset = amiga_models[model_key];
     if (!preset) return;
 
-    set_hardware('OPT_AGNUS_REVISION', preset.agnus);
-    set_hardware('OPT_DENISE_REVISION', preset.denise);
-    set_hardware('OPT_CHIP_RAM', preset.chip);
-    set_hardware('OPT_SLOW_RAM', preset.slow);
-    set_hardware('OPT_FAST_RAM', preset.fast);
-    set_hardware('OPT_CPU_REVISION', preset.cpu);
-    set_hardware('OPT_CPU_OVERCLOCKING', preset.clock);
+    save_setting('OPT_AGNUS_REVISION', preset.agnus);
+    save_setting('OPT_DENISE_REVISION', preset.denise);
+    save_setting('OPT_CHIP_RAM', preset.chip);
+    save_setting('OPT_SLOW_RAM', preset.slow);
+    save_setting('OPT_FAST_RAM', preset.fast);
+    save_setting('OPT_CPU_REVISION', preset.cpu);
+    save_setting('OPT_CPU_OVERCLOCKING', preset.clock);
 
-    validate_hardware();
+    let config_lines = [
+        `AGNUS_REVISION=${preset.agnus}`,
+        `DENISE_REVISION=${preset.denise}`,
+        `CHIP_RAM=${preset.chip}`,
+        `SLOW_RAM=${preset.slow}`,
+        `FAST_RAM=${preset.fast}`,
+        `CPU_REVISION=${preset.cpu}`,
+        `CPU_OVERCLOCKING=${preset.clock}`
+    ].join('\n');
+
+    let result = wasm_configure_multi(config_lines);
+    if (result.length > 0) {
+        alert(result);
+        return;
+    }
 
     update_hardware_button('OPT_AGNUS_REVISION', preset.agnus);
     update_hardware_button('OPT_DENISE_REVISION', preset.denise);
@@ -3515,11 +3595,8 @@ function apply_model(model_key) {
     update_hardware_button('OPT_CPU_REVISION', preset.cpu);
     update_hardware_button('OPT_CPU_OVERCLOCKING', preset.clock);
 
-    $('#button_OPT_AMIGA_MODEL').html(`model=${model_display(model_key)}`);
-}
-
-function model_cpu_class(cpu) {
-    return String(cpu) === '1' ? '0' : String(cpu);
+    if (model_key !== CUSTOM_MODEL_KEY) remove_custom_model();
+    show_current_model(model_key);
 }
 
 function update_model_from_hardware(preset=null) {
@@ -3529,23 +3606,54 @@ function update_model_from_hardware(preset=null) {
 
     let agnus = agnus_revs[agnus_v] !== undefined ? agnus_revs[agnus_v] : String(agnus_v);
     let denise = denise_revs[denise_v] !== undefined ? denise_revs[denise_v] : String(denise_v);
-    let cpu = model_cpu_class(cpu_v);
+    let cpu = String(cpu_v);
+    let chip_v = String(wasm_get_config_item('CHIP_RAM'));
+    let slow_v = String(wasm_get_config_item('SLOW_RAM'));
+    let fast_v = String(wasm_get_config_item('FAST_RAM'));
+
+    let clock_v = String(wasm_get_config_item('CPU.OVERCLOCKING'));
 
     for (let key in amiga_models) {
+        if (key === CUSTOM_MODEL_KEY) continue;
         let m = amiga_models[key];
-        if (m.agnus === agnus && m.denise === denise && model_cpu_class(m.cpu) === cpu) {
-            current_model = key;
-            $('#button_OPT_AMIGA_MODEL').html(`model=${model_display(key)}`);
+        if (m.agnus === agnus && m.denise === denise &&
+            m.chip === chip_v && m.slow === slow_v && m.fast === fast_v &&
+            String(m.cpu) === cpu && String(m.clock) === clock_v) {
+            remove_custom_model();
+            show_current_model(key);
             return;
         }
     }
+
+    let base = null;
+    for (let key in amiga_models) {
+        if (key === CUSTOM_MODEL_KEY) continue;
+        let m = amiga_models[key];
+        if (m.agnus === agnus && m.denise === denise) {
+            base = m;
+            break;
+        }
+    }
+
+    set_custom_model({
+        name: base ? base.name : 'custom',
+        chipset: base ? base.chipset : agnus,
+        agnus: agnus,
+        denise: denise,
+        chip: chip_v,
+        slow: slow_v,
+        fast: fast_v,
+        cpu: String(cpu_v),
+        clock: clock_v
+    });
+    show_current_model(CUSTOM_MODEL_KEY);
 }
 window.update_model_from_hardware = update_model_from_hardware;
 
-let current_model = 'A500';
+var current_model = 'A500_VANILLA';
 let model_list = '';
 for (let key of Object.keys(amiga_models)) {
-    model_list += `<a class="dropdown-item" href="#" data-model="${key}">${model_display(key)}</a>`;
+    model_list += model_entry_html(key);
 }
 $('#hardware_settings').append(`<div class="mt-4">model settings</div>`);
 $('#hardware_settings').append(`
@@ -3559,13 +3667,13 @@ $('#hardware_settings').append(`
 </div>
 `);
 
-$('#choose_OPT_AMIGA_MODEL a').click(function () {
+$('#choose_OPT_AMIGA_MODEL').on('click', 'a', function () {
     let choice = $(this).attr('data-model');
     apply_model(choice);
     $("#modal_settings").focus();
 });
 
-$('#button_OPT_AMIGA_MODEL').html(`model=${model_display(current_model)}`);
+show_current_model(current_model);
 
 $('#hardware_settings').append(`<div class="mt-4">hardware settings</div><span style="font-size: smaller;">(shuts machine down on agnus model or memory change)</span>`);
 
@@ -3615,9 +3723,9 @@ bind_config_choice("OPT_DENISE_REVISION", "denise revision",['OCS','ECS','AGA'],
     else
         return t;
 },null,()=>update_model_from_hardware());
-bind_config_choice("OPT_CHIP_RAM", "chip ram",['256', '512', '1024', '2048'],'2048', (v)=>`${v} KB`, t=>parseInt(t), null, ()=>update_model_from_hardware());
-bind_config_choice("OPT_SLOW_RAM", "slow ram",['0', '256', '512'],'0', (v)=>`${v} KB`, t=>parseInt(t), null, ()=>update_model_from_hardware());
-bind_config_choice("OPT_FAST_RAM", "fast ram",['0', '256', '512','1024', '2048', '8192'],'2048', (v)=>`${v} KB`, t=>parseInt(t), null, ()=>update_model_from_hardware());
+bind_config_choice("OPT_CHIP_RAM", "chip ram",['256', '512', '1024', '2048'],'2048', (v)=>format_ram(v), t=>parse_ram(t), null, ()=>update_model_from_hardware());
+bind_config_choice("OPT_SLOW_RAM", "slow ram",['0', '256', '512'],'0', (v)=>format_ram(v), t=>parse_ram(t), null, ()=>update_model_from_hardware());
+bind_config_choice("OPT_FAST_RAM", "fast ram",['0', '256', '512','1024', '2048', '8192'],'2048', (v)=>format_ram(v), t=>parse_ram(t), null, ()=>update_model_from_hardware());
 
 $('#hardware_settings').append("<div id='divCPU' style='display:flex;flex-direction:row'></div>");
 bind_config_choice("OPT_CPU_REVISION", "CPU",[0,1,2,4], 0, 

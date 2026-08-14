@@ -3476,7 +3476,7 @@ var amiga_models = {
     "A500_UNEXPANDED": { name: "A500", chipset: "OCS", agnus: "OCS", denise: "OCS", chip: "512", slow: "0", fast: "0", cpu: "0", clock: "0" },
     "A500_VANILLA": { name: "A500", chipset: "OCS", agnus: "OCS", denise: "OCS", chip: "512", slow: "512", fast: "0", cpu: "0", clock: "0" },
     "A500+_STOCK": { name: "A500+", chipset: "ECS", agnus: "ECS_2MB", denise: "ECS", chip: "1024", slow: "0", fast: "0", cpu: "0", clock: "0" },
-    "A500+_BOOST": { name: "A500+", chipset: "ECS", agnus: "ECS_2MB", denise: "ECS", chip: "2048", slow: "0", fast: "8192", cpu: "0", clock: "0" },
+    "A500+_BOOST": { name: "A500+", chipset: "ECS", agnus: "ECS_2MB", denise: "ECS", chip: "2048", slow: "0", fast: "2048", cpu: "0", clock: "0" },
     "A1200_STOCK": { name: "A1200", chipset: "AGA", agnus: "AGA", denise: "AGA", chip: "2048", slow: "0", fast: "0", cpu: "2", clock: "2" },
     "A1200_BOOST": { name: "A1200", chipset: "AGA", agnus: "AGA", denise: "AGA", chip: "2048", slow: "0", fast: "8192", cpu: "2", clock: "4" }
 };

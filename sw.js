@@ -1,6 +1,6 @@
 const url_root_path= self.location.pathname.replace("/sw.js","");
 const core_version  = '4.3.6'; //has to be the same as the version in Emulator/config.h and vAmiga_browser.js
-const ui_version = '2026_08_14'+url_root_path.replace("/","_"); 
+const ui_version = '2026_08_15'+url_root_path.replace("/","_"); 
 const needs_shared_array_buffer=false; //true when vAmiga runs in separat worker thread
 const cache_name = `${core_version}@${ui_version}`;
 const settings_cache = 'settings';
@@ -66,6 +66,16 @@ self.addEventListener('activate', evt => {
       // and reload app
       const tabs = await self.clients.matchAll({type:'window'});
       tabs.forEach((tab)=>{ tab.navigate(tab.url) });
+    }
+    else if(current_version != cache_name)
+    {
+      // active version older than 4.3.6 does not support AGA
+      let core_v = current_version.split('@')[0];
+      if (core_v < "4.3.6") {
+        //when older than 436 non aga release, force potential crashed stuck install to use the new version
+        //which now has implemented some validation checks, to disable AGA which is not supported by these old versions,before switching back
+        await set_settings_cache_value("active_version", cache_name);
+      }
     }
   }
   evt.waitUntil( check_and_update());

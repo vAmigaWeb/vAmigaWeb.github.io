@@ -3772,7 +3772,7 @@ bind_config_choice("OPT_SLOW_RAM", "slow ram",['0', '256', '512'],'0', (v)=>form
 bind_config_choice("OPT_FAST_RAM", "fast ram",['0', '256', '512','1024', '2048', '8192'],'2048', (v)=>format_ram(v), t=>parse_ram(t), null, ()=>update_model_from_hardware());
 
 $('#hardware_settings').append("<div id='divCPU' style='display:flex;flex-direction:row'></div>");
-bind_config_choice("OPT_CPU_REVISION", "CPU",[0,1,2/*,4*/], 0, 
+bind_config_choice("OPT_CPU_REVISION", "CPU",[0,1,2,4], 0, 
 (v)=>{ return  v==4 ?`fake 030 for Settlers map size 8`:(68000+v*10)},
 (t)=>{
     let val = t.toString().replace("fake 030 for Settlers map size 8","68030");
@@ -4987,6 +4987,16 @@ $('.layer').change( function(event) {
             document.getElementById('activate_version').onclick = function() {
                 let cache_name = document.getElementById('version_selector').value; 
                 set_settings_cache_value("active_version",cache_name);
+                let core_v = cache_name.split('@')[0];
+                if (core_v < "4.3.6" && 
+                    (load_setting("OPT_AGNUS_REVISION")==="AGA"
+                    ||
+                    load_setting("OPT_DENISE_REVISION")==="AGA"
+                    ) ) {
+                    save_setting("OPT_AGNUS_REVISION", 'ECS_2MB');
+                    save_setting("OPT_DENISE_REVISION", 'ECS');
+                    alert("downgraded chipset because non AGA vAmigaWeb version can't use AGA chipset");
+                }
                 window.location.reload();
             }
             let activate_or_install_btn = document.getElementById('activate_or_install');

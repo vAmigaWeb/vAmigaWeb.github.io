@@ -25,6 +25,12 @@ const agnus_revs=['OCS_OLD','OCS','ECS_1MB','ECS_2MB','AGA'];
 const denise_revs=['OCS','ECS','AGA'];
 
 let startup_script_executed=false;
+// `running` holds the run state the user selected via the run/pause button,
+// `emulator_currently_runs` mirrors the real state of the core (MSG_RUN /
+// MSG_PAUSE). this counter tracks how many UI reasons (open modal dialogs,
+// slow motion stepping) currently hold the emulation paused on top of that,
+// see ui_suspend_emulation() / ui_resume_emulation().
+let ui_suspend_depth=0;
 let on_ready_to_run=()=>{};
 let on_hdr_step=(drive_number, cylinder)=>{};
 let on_power_led_dim=()=>{};
@@ -523,8 +529,10 @@ function message_handler_queue_worker(msg, data, data2)
         // thread in the wasm build - execution is entirely driven by the
         // JS requestAnimationFrame loop - so make sure that loop is
         // actually running and the UI reflects that, even if the user
-        // didn't click button_run.
-        if(!running)
+        // didn't click button_run. while the UI holds the emulation paused
+        // (ui_suspend_depth > 0) the user's selection must not be touched -
+        // ui_resume_emulation() restores it when the last reason goes away.
+        if(!running && ui_suspend_depth == 0)
         {
             running = true;
             try { audioContext.resume(); } catch(e){ console.error(e); }
@@ -545,8 +553,10 @@ function message_handler_queue_worker(msg, data, data2)
 
         // the core can autonomously pause emulation (e.g. breakpoint,
         // watchpoint or beam trap hit in the RetroShell debugger). reflect
-        // that in the UI even though the user didn't click button_run.
-        if(running)
+        // that in the UI even though the user didn't click button_run. a pause
+        // requested by the UI itself (ui_suspend_depth > 0, e.g. an open modal)
+        // must not clear the user's selection, otherwise it can't be restored.
+        if(running && ui_suspend_depth == 0)
         {
             stop_request_animation_frame = true;
             running = false;
@@ -4402,11 +4412,12 @@ $('.layer').change( function(event) {
          prompt_for_drive(folder=true);
     });
     
-    $('#modal_take_snapshot').on('hidden.bs.modal', function () {
-        if(is_running())
-        {
-            setTimeout(function(){try{wasm_run();} catch(e) {}},200);
-        }
+    // freeze the emulation while the dialog is open so the saved snapshot
+    // matches what the user sees. paired with the resume below.
+    $('#modal_take_snapshot').on('show.bs.modal', function () {
+        ui_suspend_emulation();
+    }).on('hidden.bs.modal', function () {
+        ui_resume_emulation();
     }).keydown(event => {
             if(event.key === "Enter")
             {
@@ -4499,7 +4510,6 @@ $('.layer').change( function(event) {
 
     add_click('button_take_snapshot', function() 
     {       
-        wasm_halt();
         $("#modal_take_snapshot").modal('show');
         $("#input_app_title").val(global_apptitle);
         $("#input_app_title").focus();
@@ -5461,6 +5471,8 @@ $('.layer').change( function(event) {
         });
 
         $('#modal_custom_key').on('show.bs.modal', function () {
+            //freeze the emulation while the action button editor is open
+            ui_suspend_emulation();
             bind_custom_key();
         });
         // Prevent modal from closing when Escape is pressed while the CM6 editor has focus.
@@ -5704,11 +5716,6 @@ $('.layer').change( function(event) {
                 }
                 set_scope_label();
                 $('#check_app_scope').change( set_scope_label ); 
-            }
-
-            if(is_running())
-            {
-                wasm_halt();
             }
 
             //click function
@@ -6162,12 +6169,8 @@ release_key('ControlLeft');`;
                 editor.toTextArea();
             }
             create_new_custom_key=false;
-        
-            if(is_running())
-            {
-                wasm_run();
-            }
 
+            ui_resume_emulation();
         });
 
         $('#input_button_text').keyup( function () {
@@ -6660,7 +6663,38 @@ function setTheme() {
         return running;
         //return $('#button_run').attr('disabled')=='disabled';
     }
-        
+
+    // suspends the emulation on behalf of the UI (modal dialogs, slow motion
+    // stepping) without touching `running`, which represents what the user
+    // selected via the run/pause button. the depth counter stays raised for the
+    // whole lifetime of the reason, so a MSG_PAUSE arriving later (messages are
+    // delivered via queueMicrotask) is recognized as self-inflicted and does
+    // not clear the user's intent. every call must be paired with a call to
+    // ui_resume_emulation().
+    function ui_suspend_emulation()
+    {
+        if(ui_suspend_depth++ > 0) return; //already suspended by another reason
+        if(!running) return; //user paused it anyway -> nothing to suspend
+        wasm_halt();
+        try { audioContext.suspend(); } catch(e){ console.error(e); }
+    }
+
+    // releases one suspend reason. once the last one is gone the emulation goes
+    // back to whatever the user had selected: it resumes if the user intent is
+    // "run" and stays paused otherwise. pass restore=false to only release the
+    // reason and let the caller decide about the run state - releasing must
+    // happen in any case, otherwise the counter leaks and nothing can resume
+    // the emulation anymore.
+    function ui_resume_emulation(restore=true)
+    {
+        if(ui_suspend_depth == 0) return; //unbalanced call -> ignore
+        if(--ui_suspend_depth > 0) return; //still suspended by another reason
+        if(!restore) return; //caller handles the run state itself
+        if(!running) return; //user intent is "paused" -> stay paused
+        try { wasm_run(); } catch(e) { console.error(e); }
+        try { connect_audio_processor(); } catch(e){ console.error(e); }
+    }
+
     
 
 async function emit_string_autotype(keys_to_emit_array, type_first_key_time=0, release_delay_in_ms=100)

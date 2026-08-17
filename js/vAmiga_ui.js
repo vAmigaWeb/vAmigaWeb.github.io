@@ -573,6 +573,15 @@ function message_handler_queue_worker(msg, data, data2)
         document.body.setAttribute('warpstate', is_warping);
         window.parent.postMessage({ msg: 'render_run_state', value: is_running(), is_warping:  is_warping },"*");
     }
+    else if(msg == "MSG_BREAKPOINT_REACHED" || msg == "MSG_WATCHPOINT_REACHED" ||
+            msg == "MSG_CATCHPOINT_REACHED" || msg == "MSG_SWTRAP_REACHED" ||
+            msg == "MSG_BEAMTRAP_REACHED" || msg == "MSG_COPPERBP_REACHED" ||
+            msg == "MSG_COPPERWP_REACHED")
+    {
+        // the core stopped in the middle of a frame. it does not report this in
+        // any visible way on its own, so tell the user what caused the stop.
+        if(typeof show_debug_stop_toast === 'function') show_debug_stop_toast(msg, data);
+    }
      else if(msg == "MSG_RSH_UPDATE" || msg == "MSG_RSH_SWITCH")
     {
         if(typeof update_retro_shell === 'function') update_retro_shell();
@@ -4827,11 +4836,40 @@ $('.layer').change( function(event) {
     $("#div_toast").hide();
     show_new_version_toast= ()=>{
         $("#div_toast").show();
-        $(".toast").toast({autohide: false});
-        $('.toast').toast('show');
+        //scoped to #div_toast on purpose: a plain '.toast' would also trigger
+        //the debugger toast further down
+        $("#div_toast .toast").toast({autohide: false});
+        $('#div_toast .toast').toast('show');
     }
-    $('.toast').on('hidden.bs.toast', function () {
+    $('#div_toast .toast').on('hidden.bs.toast', function () {
         $("#div_toast").hide();
+    });
+
+    //the core reports why it stopped (see the MSG_*_REACHED handlers). the
+    //emulation is already paused at this point, this only tells the user what
+    //caused it.
+    const debug_stop_reasons = {
+        MSG_BREAKPOINT_REACHED: "breakpoint",
+        MSG_WATCHPOINT_REACHED: "watchpoint",
+        MSG_CATCHPOINT_REACHED: "catchpoint",
+        MSG_SWTRAP_REACHED:     "software trap",
+        MSG_BEAMTRAP_REACHED:   "beamtrap",
+        MSG_COPPERBP_REACHED:   "copper breakpoint",
+        MSG_COPPERWP_REACHED:   "copper watchpoint"
+    };
+    $("#div_toast_debug").hide();
+    show_debug_stop_toast = (msg, addr)=>{
+        let reason = debug_stop_reasons[msg];
+        if(reason === undefined) return;
+        //beamtraps report no address (CpuMsg{0,0}), all others carry the hit address
+        let at = (typeof addr === 'number' && addr > 0) ?
+            ` at $${(addr>>>0).toString(16).padStart(6,'0')}` : '';
+        $("#toast_debug_text").text(`${reason}${at} reached, emulation paused`);
+        $("#div_toast_debug").show();
+        $("#div_toast_debug .toast").toast({autohide: true, delay: 5000}).toast('show');
+    }
+    $('#div_toast_debug .toast').on('hidden.bs.toast', function () {
+        $("#div_toast_debug").hide();
     });
 
     has_installed_version=async function (cache_name){

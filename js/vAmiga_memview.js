@@ -536,13 +536,15 @@ function memview_step_frame() {
     memview_advance_one_frame();
 }
 
-// computes and renders exactly one frame without changing the run state
+// computes and renders exactly one frame without changing the run state.
+// returns true if the core hit a breakpoint, watchpoint or beam trap.
 function memview_advance_one_frame() {
     // compute exactly one frame synchronously. _wasm_execute() must not be used
     // here: it refuses to compute anything while the core is paused - which is
     // exactly the state single stepping and slomo operate in.
+    let trapped = false;
     if (typeof Module !== "undefined" && typeof Module._wasm_execute_one_frame === "function") {
-        Module._wasm_execute_one_frame();
+        trapped = Module._wasm_execute_one_frame() != 0;
     }
     // draw the new frame to the amiga canvas
     let now = (typeof performance !== "undefined") ? performance.now() : 0;
@@ -559,6 +561,7 @@ function memview_advance_one_frame() {
     memview_refresh_bitplanes(true);
     // the activity monitor interval skips paused frames, so update it here too
     if (typeof update_activity_monitors === "function") update_activity_monitors();
+    return trapped;
 }
 
 // --- slomo: slow-motion single stepping -----------------------------------
@@ -568,7 +571,18 @@ var MEMVIEW_SLOMO_INTERVAL_MS = 500;     // one single-step every 500ms; user-ad
 var memview_slomo_timer = null;
 
 function memview_slomo_step() {
-    memview_advance_one_frame();
+    if (!memview_advance_one_frame()) return;
+
+    // the core hit a breakpoint, watchpoint or beam trap. stop stepping and
+    // turn the suspend into a real pause so the toolbar shows the same state as
+    // when a trap is hit at normal speed. the run/pause click below is safe:
+    // button_run_click() calls memview_slomo_stop() again, which returns right
+    // away because the timer has already been cleared.
+    memview_slomo_stop(false);
+    if (is_running_safe() && typeof app !== "undefined" &&
+        typeof app.button_run_click === "function") {
+        app.button_run_click();
+    }
 }
 
 function memview_slomo_toggle() {

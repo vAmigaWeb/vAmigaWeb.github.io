@@ -23,6 +23,59 @@ let patch_kickemu_rom=null;
 
 const agnus_revs=['OCS_OLD','OCS','ECS_1MB','ECS_2MB','AGA'];
 const denise_revs=['OCS','ECS','AGA'];
+const blitter_accuracy_labels = {
+    '0': 'fast (no bus timing)',
+    '1': 'fast (with bus timing)',
+    '2': 'cycle-accurate'
+};
+
+function blitter_accuracy_text(value) {
+    return blitter_accuracy_labels[String(value)] ?? String(value);
+}
+
+function blitter_accuracy_value(text) {
+    for (const [value, label] of Object.entries(blitter_accuracy_labels)) {
+        if (label === text) return value;
+    }
+    return String(text);
+}
+
+function update_blitter_accuracy_button(value, cause='') {
+    const numericValue = String(value);
+    $(`#button_OPT_BLITTER_ACCURACY`).text(
+        `blitter accuracy=${blitter_accuracy_text(numericValue)} ${cause}`.trim()
+    );
+    $(`#choose_OPT_BLITTER_ACCURACY a`).removeClass('active');
+    $(`#choose_OPT_BLITTER_ACCURACY a[data-choice="${numericValue}"]`).addClass('active');
+}
+
+const floppy_drive_speed_labels = {
+    '-1': 'turbo (maximum speed)',
+    '1': 'original amiga speed',
+    '2': '2× original speed',
+    '4': '4× original speed',
+    '8': '8× original speed'
+};
+
+function floppy_drive_speed_text(value) {
+    return floppy_drive_speed_labels[String(value)] ?? String(value);
+}
+
+function floppy_drive_speed_value(text) {
+    for (const [value, label] of Object.entries(floppy_drive_speed_labels)) {
+        if (label === text) return value;
+    }
+    return String(text);
+}
+
+function update_floppy_drive_speed_button(value, cause='') {
+    const numericValue = String(value);
+    $(`#button_OPT_DRIVE_SPEED`).text(
+        `floppy drive speed=${floppy_drive_speed_text(numericValue)} ${cause}`.trim()
+    );
+    $(`#choose_OPT_DRIVE_SPEED a`).removeClass('active');
+    $(`#choose_OPT_DRIVE_SPEED a[data-choice="${numericValue}"]`).addClass('active');
+}
 
 let startup_script_executed=false;
 // `running` holds the run state the user selected via the run/pause button,
@@ -658,10 +711,10 @@ function message_handler_queue_worker(msg, data, data2)
         wasm_set_warp( warp_switch.prop('checked') ? 1 : 0)
 
         let v=wasm_get_config_item("BLITTER.ACCURACY");
-        $(`#button_OPT_BLITTER_ACCURACY`).text(`blitter accuracy=${v} ${cause}`);
+        update_blitter_accuracy_button(v, cause);
         
         v=wasm_get_config_item("DC.SPEED");
-        $(`#button_OPT_DRIVE_SPEED`).text(`drive speed=${v} ${cause}`);
+        update_floppy_drive_speed_button(v, cause);
 
         v=wasm_get_config_item("CPU.REVISION");
         if(v<=2)
@@ -3632,7 +3685,14 @@ function bind_config_choice(key, name, values, default_value, value2text=null, t
 }
 
 
-bind_config_choice("OPT_BLITTER_ACCURACY", "blitter accuracy",['0','1','2'],'2');
+bind_config_choice(
+    "OPT_BLITTER_ACCURACY",
+    "blitter accuracy",
+    ['0','1','2'],
+    '2',
+    blitter_accuracy_text,
+    blitter_accuracy_value
+);
 
 show_drive_config = (c)=>{
     $('#div_drives').html(`
@@ -3659,7 +3719,14 @@ $("#cb_df0_poll_sound").change( function() {
     save_setting('df0_poll_sound', this.checked);
 });
 
-bind_config_choice("OPT_DRIVE_SPEED", "floppy drive speed",['-1', '1', '2', '4', '8'],'1');
+bind_config_choice(
+    "OPT_DRIVE_SPEED",
+    "floppy drive speed",
+    ['-1', '1', '2', '4', '8'],
+    '1',
+    floppy_drive_speed_text,
+    floppy_drive_speed_value
+);
 
 const CUSTOM_MODEL_KEY = 'CUSTOM';
 

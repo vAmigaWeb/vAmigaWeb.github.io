@@ -23,6 +23,7 @@ let patch_kickemu_rom=null;
 
 const agnus_revs=['OCS_OLD','OCS','ECS_1MB','ECS_2MB','AGA'];
 const denise_revs=['OCS','ECS','AGA'];
+const bank_map_names=['A500','A1000','A2000A','A2000B','A1200'];
 const blitter_accuracy_labels = {
     '0': 'fast (no bus timing)',
     '1': 'fast (with bus timing)',
@@ -3618,6 +3619,13 @@ function validate_hardware()
 
 validate_hardware();
 wasm_configure("MEM_BUS_WIDTH", load_setting("OPT_MEM_BUS_WIDTH", "16"));
+wasm_configure(
+    "MEM_BANKMAP",
+    load_setting(
+        'OPT_MEM_BANKMAP',
+        load_setting('OPT_AGNUS_REVISION', 'ECS_1MB') === 'AGA' ? 'A1200' : 'A500'
+    )
+);
 
 function bind_config_choice(key, name, values, default_value, value2text=null, text2value=null, targetElement=null, updated_func=null){
     value2text = value2text == null ? (t)=>t: value2text;
@@ -3731,13 +3739,13 @@ bind_config_choice(
 const CUSTOM_MODEL_KEY = 'CUSTOM';
 
 var amiga_models = {
-    "A1000": { name: "A1000", chipset: "OCS <span style='font-size: x-small; display: inline-block; line-height: 1.1; vertical-align: top'>early<br>rev.</span>", agnus: "OCS_OLD", denise: "OCS", chip: "512", slow: "0", fast: "0", cpu: "0", clock: "0", busWidth: "16" },
-    "A500_UNEXPANDED": { name: "A500", chipset: "OCS", agnus: "OCS", denise: "OCS", chip: "512", slow: "0", fast: "0", cpu: "0", clock: "0", busWidth: "16" },
-    "A500_VANILLA": { name: "A500", chipset: "OCS", agnus: "OCS", denise: "OCS", chip: "512", slow: "512", fast: "0", cpu: "0", clock: "0", busWidth: "16" },
-    "A500+_STOCK": { name: "A500+", chipset: "ECS", agnus: "ECS_2MB", denise: "ECS", chip: "1024", slow: "0", fast: "0", cpu: "0", clock: "0", busWidth: "16" },
-    "A500+_BOOST": { name: "A500+", chipset: "ECS", agnus: "ECS_2MB", denise: "ECS", chip: "2048", slow: "0", fast: "2048", cpu: "0", clock: "0", busWidth: "16" },
-    "A1200_STOCK": { name: "A1200", chipset: "AGA", agnus: "AGA", denise: "AGA", chip: "2048", slow: "0", fast: "0", cpu: "2", clock: "2", busWidth: "32" },
-    "A1200_BOOST": { name: "A1200", chipset: "AGA", agnus: "AGA", denise: "AGA", chip: "2048", slow: "0", fast: "8192", cpu: "2", clock: "4", busWidth: "32" }
+    "A1000": { name: "A1000", chipset: "OCS <span style='font-size: x-small; display: inline-block; line-height: 1.1; vertical-align: top'>early<br>rev.</span>", agnus: "OCS_OLD", denise: "OCS", chip: "512", slow: "0", fast: "0", cpu: "0", clock: "0", busWidth: "16", bankMap: "A1000" },
+    "A500_UNEXPANDED": { name: "A500", chipset: "OCS", agnus: "OCS", denise: "OCS", chip: "512", slow: "0", fast: "0", cpu: "0", clock: "0", busWidth: "16", bankMap: "A500" },
+    "A500_VANILLA": { name: "A500", chipset: "OCS", agnus: "OCS", denise: "OCS", chip: "512", slow: "512", fast: "0", cpu: "0", clock: "0", busWidth: "16", bankMap: "A500" },
+    "A500+_STOCK": { name: "A500+", chipset: "ECS", agnus: "ECS_2MB", denise: "ECS", chip: "1024", slow: "0", fast: "0", cpu: "0", clock: "0", busWidth: "16", bankMap: "A500" },
+    "A500+_BOOST": { name: "A500+", chipset: "ECS", agnus: "ECS_2MB", denise: "ECS", chip: "2048", slow: "0", fast: "2048", cpu: "0", clock: "0", busWidth: "16", bankMap: "A500" },
+    "A1200_STOCK": { name: "A1200", chipset: "AGA", agnus: "AGA", denise: "AGA", chip: "2048", slow: "0", fast: "0", cpu: "2", clock: "2", busWidth: "32", bankMap: "A1200" },
+    "A1200_BOOST": { name: "A1200", chipset: "AGA", agnus: "AGA", denise: "AGA", chip: "2048", slow: "0", fast: "8192", cpu: "2", clock: "4", busWidth: "32", bankMap: "A1200" }
 };
 
 function format_ram(kb) {
@@ -3898,7 +3906,8 @@ function apply_model(model_key) {
         `FAST_RAM=${preset.fast}`,
         `CPU_REVISION=${preset.cpu}`,
         `CPU_OVERCLOCKING=${preset.clock}`,
-        `MEM_BUS_WIDTH=${preset.busWidth}`
+        `MEM_BUS_WIDTH=${preset.busWidth}`,
+        `MEM_BANKMAP=${preset.bankMap}`
     ].join('\n');
 
     let result = wasm_configure_multi(config_lines);
@@ -3910,7 +3919,7 @@ function apply_model(model_key) {
     for(let key of [
         'OPT_AGNUS_REVISION', 'OPT_DENISE_REVISION', 'OPT_CHIP_RAM',
         'OPT_SLOW_RAM', 'OPT_FAST_RAM', 'OPT_CPU_REVISION',
-        'OPT_CPU_OVERCLOCKING', 'OPT_MEM_BUS_WIDTH'
+        'OPT_CPU_OVERCLOCKING', 'OPT_MEM_BUS_WIDTH', 'OPT_MEM_BANKMAP'
     ]) {
         delete settings_value_causes[key];
     }
@@ -3923,6 +3932,7 @@ function apply_model(model_key) {
     save_setting('OPT_CPU_REVISION', preset.cpu);
     save_setting('OPT_CPU_OVERCLOCKING', preset.clock);
     save_setting('OPT_MEM_BUS_WIDTH', preset.busWidth);
+    save_setting('OPT_MEM_BANKMAP', preset.bankMap);
 
     update_hardware_button('OPT_AGNUS_REVISION', preset.agnus);
     update_hardware_button('OPT_DENISE_REVISION', preset.denise);
@@ -3949,6 +3959,7 @@ function update_model_from_hardware(preset=null) {
     let fast_v = String(wasm_get_config_item('FAST_RAM'));
 
     let clock_v = String(wasm_get_config_item('CPU.OVERCLOCKING'));
+    let bankMap_v = bank_map_names[wasm_get_config_item('MEM.BANKMAP')] || 'A500';
 
     // Keep the dedicated FAST RAM UI in sync with the core. In case it was altered by the Core due to AROS which needs 1MB
     // The stored setting is never touched here: during startup this runs before the
@@ -3965,7 +3976,8 @@ function update_model_from_hardware(preset=null) {
         if (m.agnus === agnus && m.denise === denise &&
             m.chip === chip_v && m.slow === slow_v && m.fast === fast_v &&
             String(m.cpu) === cpu && String(m.clock) === clock_v &&
-            m.busWidth === String(wasm_get_config_item('MEM.BUS_WIDTH'))) {
+            m.busWidth === String(wasm_get_config_item('MEM.BUS_WIDTH')) &&
+            m.bankMap === bankMap_v) {
             remove_custom_model();
             show_current_model(key);
             return;
@@ -3996,7 +4008,8 @@ function update_model_from_hardware(preset=null) {
         slow: slow_v,
         fast: fast_v,
         cpu: String(cpu_v),
-        clock: clock_v
+        clock: clock_v,
+        bankMap: bankMap_v
     });
     show_current_model(CUSTOM_MODEL_KEY);
 }
